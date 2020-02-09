@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">GimEole</string>
+    <string name="mode_prod">Mode : Production</string>
+    <string name="boutonVitesseDeRotation">Vitesse de rotation (tr/min) :</string>
+    <string name="boutonTensionEnEntree">Tension en entrée du convertisseur (V) :</string>
+    <string name="boutonCourantEnEntree">Courant en entée du convertisseur (A) :</string>
+    <string name="boutonPuissanceFournie">Puissance fournie par l\'éolienne (W) :</string>
+    <string name="boutonEnergieProduite">Energie produite par l\'éolienne (J) :</string>
+    <string name="boutonTemperatureAlternateur">Température de l\'alternateur (°C) :</string>
+    <string name="boutonTemperatureFrein">Temperature du frein (°C) :</string>
+    <string name="remiseAZero">RAZ</string>
+</resources>
