@@ -9,4 +9,18 @@
     <string name="boutonTemperatureAlternateur">Température de l\'alternateur (°C) :</string>
     <string name="boutonTemperatureFrein">Temperature du frein (°C) :</string>
     <string name="remiseAZero">RAZ</string>
+    <string name="nomJaugeVitesseDeRotation">Vitesse de rotation</string>
+    <string name="nomJaugeTensionEnEntree">Tension en entrée du convertisseur</string>
+    <string name="nomJaugeCourantEnEntree">Courant en entrée du convertisseur</string>
+    <string name="nomJaugePuissanceFournie">Puissance fournie par l\'éolienne</string>
+    <string name="nomJaugeEnergieProduite">Energie produite par l\'éolienne</string>
+    <string name="nomJaugeTemperatureAlternateur">Température de l\'alternateur</string>
+    <string name="nomJaugeTemperatureFrein">Temperature du frein</string>
+    <string name="uniteJaugeKMH">km/h</string>
+    <string name="uniteJaugeVolt">V</string>
+    <string name="uniteJaugeAmpere">A</string>
+    <string name="uniteJaugeWatt">W</string>
+    <string name="uniteJaugeJoule">J</string>
+    <string name="uniteJaugeDegre">°C</string>
+    <string name="valeurNulle">0</string>
 </resources>
