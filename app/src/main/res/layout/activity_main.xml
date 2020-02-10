@@ -297,6 +297,16 @@
         app:sccShowLabels="true"
         app:sccText="@string/uniteJaugeKMH" />
 
+    <com.biansemao.widget.ThermometerView
+        android:layout_width="100dp"
+        android:layout_height="250dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/barreSeparationVerticale"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/barreSeparationHorizontale" />
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

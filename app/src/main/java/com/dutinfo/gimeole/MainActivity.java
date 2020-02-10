@@ -3,6 +3,8 @@ package com.dutinfo.gimeole;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.biansemao.widget.ThermometerView;
+
 
 public class MainActivity extends AppCompatActivity {
 
