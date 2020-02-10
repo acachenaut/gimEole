@@ -298,6 +298,7 @@
         app:sccText="@string/uniteJaugeKMH" />
 
     <com.biansemao.widget.ThermometerView
+        android:id="@+id/thermometre"
         android:layout_width="100dp"
         android:layout_height="250dp"
         android:visibility="invisible"
