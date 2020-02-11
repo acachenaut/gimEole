@@ -44,11 +44,10 @@
         android:text="@string/boutonVitesseDeRotation"
         android:textAllCaps="false"
         android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/boutonTensionEnEntree"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/barreSeparationVerticale"
+        app:layout_constraintStart_toEndOf="@+id/barreSeparationVerticale"
         app:layout_constraintTop_toBottomOf="@+id/barreSeparationHorizontale"
-        app:layout_constraintVertical_bias="0.0"
         tools:visibility="visible" />
 
     <Button
@@ -60,12 +59,10 @@
         android:text="@string/boutonTensionEnEntree"
         android:textAllCaps="false"
         android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/boutonCourantEnEntree"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.523"
-        app:layout_constraintStart_toStartOf="@+id/barreSeparationVerticale"
+        app:layout_constraintStart_toEndOf="@+id/barreSeparationVerticale"
         app:layout_constraintTop_toBottomOf="@+id/boutonVitesseDeRotation"
-        app:layout_constraintVertical_bias="0.0"
         tools:visibility="visible" />
 
     <Button
@@ -77,12 +74,10 @@
         android:text="@string/boutonCourantEnEntree"
         android:textAllCaps="false"
         android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/boutonPuissanceFournie"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.523"
-        app:layout_constraintStart_toStartOf="@+id/barreSeparationVerticale"
+        app:layout_constraintStart_toEndOf="@+id/barreSeparationVerticale"
         app:layout_constraintTop_toBottomOf="@+id/boutonTensionEnEntree"
-        app:layout_constraintVertical_bias="0.0"
         tools:visibility="visible" />
 
     <Button
@@ -94,13 +89,12 @@
         android:text="@string/boutonPuissanceFournie"
         android:textAllCaps="false"
         android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/boutonEnergieProduite"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.523"
-        app:layout_constraintStart_toStartOf="@+id/barreSeparationVerticale"
+        app:layout_constraintStart_toEndOf="@+id/barreSeparationVerticale"
         app:layout_constraintTop_toBottomOf="@+id/boutonCourantEnEntree"
-        app:layout_constraintVertical_bias="0.0"
         tools:visibility="visible" />
+
     <Button
         android:id="@+id/boutonEnergieProduite"
         android:layout_width="wrap_content"
@@ -108,14 +102,13 @@
         android:background="@null"
         android:fontFamily="sans-serif-light"
         android:text="@string/boutonEnergieProduite"
+
         android:textAllCaps="false"
         android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/boutonTemperatureAlternateur"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.523"
-        app:layout_constraintStart_toStartOf="@+id/barreSeparationVerticale"
+        app:layout_constraintStart_toEndOf="@+id/barreSeparationVerticale"
         app:layout_constraintTop_toBottomOf="@+id/boutonPuissanceFournie"
-        app:layout_constraintVertical_bias="0.0"
         tools:visibility="visible" />
 
     <Button
@@ -125,14 +118,13 @@
         android:background="@null"
         android:fontFamily="sans-serif-light"
         android:text="@string/boutonTemperatureAlternateur"
+
         android:textAllCaps="false"
         android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/boutonTemperatureFrein"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.523"
-        app:layout_constraintStart_toStartOf="@+id/barreSeparationVerticale"
+        app:layout_constraintStart_toEndOf="@+id/barreSeparationVerticale"
         app:layout_constraintTop_toBottomOf="@+id/boutonEnergieProduite"
-        app:layout_constraintVertical_bias="0.0"
         tools:visibility="visible" />
 
     <Button
@@ -143,10 +135,11 @@
         android:fontFamily="sans-serif-light"
         android:text="@string/boutonTemperatureFrein"
         android:textAllCaps="false"
+
         android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.523"
-        app:layout_constraintStart_toStartOf="@+id/barreSeparationVerticale"
+        app:layout_constraintStart_toEndOf="@+id/barreSeparationVerticale"
         app:layout_constraintTop_toBottomOf="@+id/boutonTemperatureAlternateur"
         tools:visibility="visible" />
 
@@ -260,7 +253,6 @@
         android:id="@+id/temperatureFrein"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="3dp"
         android:fontFamily="sans-serif-light"
         android:text="@string/valeurNulle"
         android:textSize="15sp"
@@ -281,7 +273,7 @@
 
 
     <com.sccomponents.gauges.gr008.GR008
-        android:id="@+id/JaugeCirculaire"
+        android:id="@+id/jaugeVitesseRotation"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:visibility="visible"
@@ -297,8 +289,72 @@
         app:sccShowLabels="true"
         app:sccText="@string/uniteJaugeKMH" />
 
+    <com.sccomponents.gauges.gr008.GR008
+        android:id="@+id/jaugeTensionEnEntree"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/barreSeparationVerticale"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/barreSeparationHorizontale"
+        app:sccMajorTicks="5"
+        app:sccMaxValue="50"
+        app:sccMinValue="0"
+        app:sccMinorTicks="1"
+        app:sccShowContour="true"
+        app:sccShowLabels="true"
+        app:sccText="@string/uniteJaugeVolt" />
+
+    <com.sccomponents.gauges.gr008.GR008
+        android:id="@+id/jaugeCourantEnEntree"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/barreSeparationVerticale"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/barreSeparationHorizontale"
+        app:sccMajorTicks="5"
+        app:sccMaxValue="50"
+        app:sccMinValue="0"
+        app:sccMinorTicks="1"
+        app:sccShowContour="true"
+        app:sccShowLabels="true"
+        app:sccText="@string/uniteJaugeAmpere" />
+
+    <com.sccomponents.gauges.gr008.GR008
+        android:id="@+id/jaugePuissanceFournie"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/barreSeparationVerticale"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/barreSeparationHorizontale"
+        app:sccMajorTicks="5"
+        app:sccMaxValue="50"
+        app:sccMinValue="0"
+        app:sccMinorTicks="1"
+        app:sccShowContour="true"
+        app:sccShowLabels="true"
+        app:sccText="@string/uniteJaugeWatt" />
+
+
+
+
     <com.biansemao.widget.ThermometerView
-        android:id="@+id/thermometre"
+        android:id="@+id/thermometreAlternateur"
+        android:layout_width="100dp"
+        android:layout_height="250dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/barreSeparationVerticale"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/barreSeparationHorizontale" />
+
+    <com.biansemao.widget.ThermometerView
+        android:id="@+id/thermometreFrein"
         android:layout_width="100dp"
         android:layout_height="250dp"
         android:visibility="invisible"

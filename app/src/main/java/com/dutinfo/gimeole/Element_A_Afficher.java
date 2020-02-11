@@ -9,7 +9,7 @@ public class Element_A_Afficher {
     private int nbVal;
     private double sommeVal;
 
-    public Element_A_Afficher(double valMinJauge,, double valMaxJauge){
+    public Element_A_Afficher(double valMinJauge, double valMaxJauge){
         this.valMinJauge = valMinJauge;
         this.valMaxJauge = valMaxJauge;
         this.valCourante = 0;

@@ -1,7 +1,7 @@
 package com.dutinfo.gimeole;
 
 public class ModeProduction {
-    public enum UnEtat {jaugeVitesseRotation, jaugeTensionEnEntree, jaugeCourantEnEntree, jaugePuissanceFournie, jaugeEnergieProduite, jaugeTemperatureAlternateur, jeugeTemperatureFrein}
+    public enum UnEtat {jaugeVitesseRotation, jaugeTensionEnEntree, jaugeCourantEnEntree, jaugePuissanceFournie, jaugeEnergieProduite, jaugeTemperatureAlternateur, jaugeTemperatureFrein}
     private UnEtat etatModeProduction;
     private Element_A_Afficher vitesseRotation;
     private Element_A_Afficher tensionEnEntree;
