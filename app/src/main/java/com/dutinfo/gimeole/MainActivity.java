@@ -20,14 +20,15 @@ public class MainActivity extends AppCompatActivity {
 
         final GR008 jauge = findViewById(R.id.JaugeCirculaire);
 
+        //Lien entre les boutons de l'interface et l'activité
         Button boutonTemperatureAlternateur = findViewById(R.id.boutonTemperatureAlternateur);
         Button boutonVitesseRotation = findViewById(R.id.boutonVitesseDeRotation);
 
         boutonTemperatureAlternateur.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
-                jauge.setVisibility(-1);
-                thermometre.setVisibility(1);
+                jauge.setVisibility(View.INVISIBLE);
+                thermometre.setVisibility(View.VISIBLE);
 
             }
         });
@@ -35,8 +36,8 @@ public class MainActivity extends AppCompatActivity {
         boutonVitesseRotation.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
-                thermometre.setVisibility(-1);
-                jauge.setVisibility(1);
+                thermometre.setVisibility(View.INVISIBLE);
+                jauge.setVisibility(View.VISIBLE);
 
             }
         });
