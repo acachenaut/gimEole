@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
 import com.biansemao.widget.ThermometerView;
 import com.sccomponents.gauges.gr008.GR008;
 
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         final GR008 jaugeTensionEnEntree = findViewById(R.id.jaugeTensionEnEntree);
         final GR008 jaugeCourantEnEntree = findViewById(R.id.jaugeCourantEnEntree);
         final GR008 jaugePuissanceFournie = findViewById(R.id.jaugePuissanceFournie);
-        //A compléter
+        final RoundCornerProgressBar jaugeEnergieProduite = findViewById(R.id.jaugeEnergieProduite);
         final ThermometerView thermometreAlternateur =findViewById(R.id.thermometreAlternateur);
         final ThermometerView thermometreFrein =findViewById(R.id.thermometreFrein);
 
@@ -69,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
                         jaugeCourantEnEntree.setVisibility(View.INVISIBLE);
                         break;
                     case jaugeEnergieProduite:
-                        //A compléter
+                        jaugeEnergieProduite.setVisibility(View.INVISIBLE);
                         break;
                     case jaugeTemperatureAlternateur:
                         thermometreAlternateur.setVisibility(View.INVISIBLE);
@@ -101,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
                         jaugeCourantEnEntree.setVisibility(View.INVISIBLE);
                         break;
                     case jaugeEnergieProduite:
-                        //A compléter
+                        jaugeEnergieProduite.setVisibility(View.INVISIBLE);
                         break;
                     case jaugeTemperatureAlternateur:
                         thermometreAlternateur.setVisibility(View.INVISIBLE);
@@ -136,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
                         jaugePuissanceFournie.setVisibility(View.INVISIBLE);
                         break;
                     case jaugeEnergieProduite:
-                        //A compléter
+                        jaugeEnergieProduite.setVisibility(View.INVISIBLE);
                         break;
                     case jaugeTemperatureAlternateur:
                         thermometreAlternateur.setVisibility(View.INVISIBLE);
@@ -170,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
                         jaugeCourantEnEntree.setVisibility(View.INVISIBLE);
                         break;
                     case jaugeEnergieProduite:
-                        //A compléter
+                        jaugeEnergieProduite.setVisibility(View.INVISIBLE);
                         break;
                     case jaugeTemperatureAlternateur:
                         thermometreAlternateur.setVisibility(View.INVISIBLE);
@@ -214,7 +215,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                 }
                 modeProd.setEtatModeProduction(ModeProduction.UnEtat.jaugeEnergieProduite);
-                //A compléter
+                jaugeEnergieProduite.setVisibility(View.VISIBLE);
                 nomJaugeCourante.setText(nomJaugeEnergieProduite);
 
 
@@ -235,7 +236,7 @@ public class MainActivity extends AppCompatActivity {
                         jaugeCourantEnEntree.setVisibility(View.INVISIBLE);
                         break;
                     case jaugeEnergieProduite:
-                        //A compléter
+                        jaugeEnergieProduite.setVisibility(View.INVISIBLE);
                         break;
                     case jaugePuissanceFournie:
                         jaugePuissanceFournie.setVisibility(View.INVISIBLE);
@@ -267,7 +268,7 @@ public class MainActivity extends AppCompatActivity {
                         jaugeCourantEnEntree.setVisibility(View.INVISIBLE);
                         break;
                     case jaugeEnergieProduite:
-                        //A compléter
+                        jaugeEnergieProduite.setVisibility(View.INVISIBLE);
                         break;
                     case jaugePuissanceFournie:
                         jaugePuissanceFournie.setVisibility(View.INVISIBLE);

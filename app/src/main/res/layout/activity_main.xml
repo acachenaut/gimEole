@@ -274,8 +274,8 @@
 
     <com.sccomponents.gauges.gr008.GR008
         android:id="@+id/jaugeVitesseRotation"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="230dp"
+        android:layout_height="230dp"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/barreSeparationVerticale"
@@ -291,8 +291,8 @@
 
     <com.sccomponents.gauges.gr008.GR008
         android:id="@+id/jaugeTensionEnEntree"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="230dp"
+        android:layout_height="230dp"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/barreSeparationVerticale"
@@ -308,8 +308,8 @@
 
     <com.sccomponents.gauges.gr008.GR008
         android:id="@+id/jaugeCourantEnEntree"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="230dp"
+        android:layout_height="230dp"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/barreSeparationVerticale"
@@ -325,8 +325,8 @@
 
     <com.sccomponents.gauges.gr008.GR008
         android:id="@+id/jaugePuissanceFournie"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="230dp"
+        android:layout_height="230dp"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/barreSeparationVerticale"
@@ -340,7 +340,21 @@
         app:sccShowLabels="true"
         app:sccText="@string/uniteJaugeWatt" />
 
-
+    <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
+        android:id="@+id/jaugeEnergieProduite"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/barreSeparationVerticale"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/barreSeparationHorizontale"
+        android:visibility="invisible"
+        app:rcBackgroundColor="@color/gris"
+        app:rcMax="35"
+        app:rcProgressColor="@color/colorPrimary"
+        app:rcRadius="10dp"
+        app:rcReverse="true"
+        app:rcSecondaryProgressColor="@color/colorAccent" />
 
 
     <com.biansemao.widget.ThermometerView
