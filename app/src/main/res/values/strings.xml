@@ -23,4 +23,8 @@
     <string name="uniteJaugeJoule">J</string>
     <string name="uniteJaugeDegre">°C</string>
     <string name="valeurNulle">0</string>
+    <string name="titreRglage">Paramétrage des valeurs minimales et maximales</string>
+    <string name="consigneDesReglage">Saisissez vos valeurs minimales et maximales :</string>
+    <string name="valeurMin">valeur minimale :</string>
+    <string name="valMax">valeur maximale :</string>
 </resources>

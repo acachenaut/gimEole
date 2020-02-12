@@ -26,7 +26,7 @@
         app:layout_constraintTop_toTopOf="@+id/barreSeparationHorizontale" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/titreModeProd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/mode_prod"
@@ -350,16 +350,16 @@
         app:layout_constraintTop_toBottomOf="@+id/barreSeparationHorizontale"
         android:visibility="invisible"
         app:rcBackgroundColor="@color/gris"
-        app:rcMax="35"
+        app:rcMax="100"
         app:rcProgressColor="@color/colorPrimary"
         app:rcRadius="10dp"
-        app:rcReverse="true"
+        app:rcReverse="false"
         app:rcSecondaryProgressColor="@color/colorAccent" />
 
 
     <com.biansemao.widget.ThermometerView
         android:id="@+id/thermometreAlternateur"
-        android:layout_width="100dp"
+        android:layout_width="180dp"
         android:layout_height="250dp"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -369,14 +369,13 @@
 
     <com.biansemao.widget.ThermometerView
         android:id="@+id/thermometreFrein"
-        android:layout_width="100dp"
+        android:layout_width="180dp"
         android:layout_height="250dp"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/barreSeparationVerticale"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/barreSeparationHorizontale" />
-
 
 
 

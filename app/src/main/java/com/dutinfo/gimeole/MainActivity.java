@@ -15,10 +15,18 @@ import com.sccomponents.gauges.gr008.GR008;
 
 public class MainActivity extends AppCompatActivity {
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        /*C'est un test
+        //ThermometerView.ThermometerBuilder essaie = new ThermometerView.ThermometerBuilder(this.getApplicationContext());
+        //essaie.setMinScaleValue(26);
+        //essaie.builder();
+        */
+
 
         //Nom des jauges
         final String nomJaugeTensionEnEntree = getResources().getString(R.string.nomJaugeTensionEnEntree);
@@ -33,14 +41,16 @@ public class MainActivity extends AppCompatActivity {
         //Création du modeProduction
         final ModeProduction modeProd = new ModeProduction();
 
+
         //Lien entre les jauges de l'interface et de l'activté
         final GR008 jaugeVitesseRotation = findViewById(R.id.jaugeVitesseRotation);
         final GR008 jaugeTensionEnEntree = findViewById(R.id.jaugeTensionEnEntree);
         final GR008 jaugeCourantEnEntree = findViewById(R.id.jaugeCourantEnEntree);
         final GR008 jaugePuissanceFournie = findViewById(R.id.jaugePuissanceFournie);
         final RoundCornerProgressBar jaugeEnergieProduite = findViewById(R.id.jaugeEnergieProduite);
-        final ThermometerView thermometreAlternateur =findViewById(R.id.thermometreAlternateur);
-        final ThermometerView thermometreFrein =findViewById(R.id.thermometreFrein);
+        final ThermometerView thermometreAlternateur = findViewById(R.id.thermometreAlternateur);
+        final ThermometerView thermometreFrein = findViewById(R.id.thermometreFrein);
+
 
         //Lien entre les boutons de l'interface et l'activité
         Button boutonVitesseRotation = findViewById(R.id.boutonVitesseDeRotation);
@@ -51,9 +61,8 @@ public class MainActivity extends AppCompatActivity {
         Button boutonTemperatureAlternateur = findViewById(R.id.boutonTemperatureAlternateur);
         Button boutonTemperatureFrein = findViewById(R.id.boutonTemperatureFrein);
 
-        //Lien
+        //Lien entre le nom de la jauge courante de l'interface et l'activité
         final TextView nomJaugeCourante = findViewById(R.id.nomJaugeCourante);
-
 
 
         boutonVitesseRotation.setOnClickListener(new View.OnClickListener() {
