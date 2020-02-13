@@ -1,5 +1,6 @@
 package com.dutinfo.gimeole;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -60,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
         Button boutonEnergieProduite = findViewById(R.id.boutonEnergieProduite);
         Button boutonTemperatureAlternateur = findViewById(R.id.boutonTemperatureAlternateur);
         Button boutonTemperatureFrein = findViewById(R.id.boutonTemperatureFrein);
+        Button boutonReglageJauges = findViewById(R.id.boutonReglage);
 
         //Lien entre le nom de la jauge courante de l'interface et l'activité
         final TextView nomJaugeCourante = findViewById(R.id.nomJaugeCourante);
@@ -291,6 +293,16 @@ public class MainActivity extends AppCompatActivity {
                 modeProd.setEtatModeProduction(ModeProduction.UnEtat.jaugeTemperatureFrein);
                 thermometreFrein.setVisibility(View.VISIBLE);
                 nomJaugeCourante.setText(nomJaugeTemperatureFrein);
+
+            }
+        });
+
+        boutonReglageJauges.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Code here executes on main thread after user presses button
+                Intent reglageActivity = new Intent(MainActivity.this, ReglageJauge.class);
+                startActivity(reglageActivity);
+                finish();
 
             }
         });
