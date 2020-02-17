@@ -30,8 +30,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         //Nom des jauges
-        final String nomJaugeTensionEnEntree = getResources().getString(R.string.nomJaugeTensionEnEntree);
         final String nomJaugeVitesseRotation = getResources().getString(R.string.nomJaugeVitesseDeRotation);
+        final String nomJaugeTensionEnEntree = getResources().getString(R.string.nomJaugeTensionEnEntree);
         final String nomJaugeCourantEnEntree = getResources().getString(R.string.nomJaugeCourantEnEntree);
         final String nomJaugeEnergieProduite = getResources().getString(R.string.nomJaugeEnergieProduite);
         final String nomJaugePuissanceFournie = getResources().getString(R.string.nomJaugePuissanceFournie);
@@ -301,6 +301,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
                 Intent reglageActivity = new Intent(MainActivity.this, ReglageJauge.class);
+                reglageActivity.putExtra("tabMinMax", modeProd.getMinMaxDesJauges());
                 startActivity(reglageActivity);
                 finish();
 
