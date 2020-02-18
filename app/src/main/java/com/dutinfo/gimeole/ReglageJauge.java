@@ -14,6 +14,7 @@ public class ReglageJauge extends AppCompatActivity {
     public void onBackPressed() {
         //Permet de bloquer la flêche retour de l'appareil
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,9 +99,9 @@ public class ReglageJauge extends AppCompatActivity {
 
                     if(tableauCorrect(tabMinMax))
                     {
-                        Intent modeProdActivity = new Intent(ReglageJauge.this, MainActivity.class);
+                        Intent modeProdActivity = new Intent();
                         modeProdActivity.putExtra("tabMinMax", tabMinMax);
-                        startActivity(modeProdActivity);
+                        setResult(1,modeProdActivity);
                         finish();
                     }
                     else

@@ -15,6 +15,17 @@ import com.sccomponents.gauges.gr008.GR008;
 
 
 public class MainActivity extends AppCompatActivity {
+    //Création du modeProduction
+    final ModeProduction modeProd = new ModeProduction();
+
+    //Lien entre les jauges de l'interface et de l'activté
+     GR008 jaugeVitesseRotation;
+     GR008 jaugeTensionEnEntree;
+     GR008 jaugeCourantEnEntree;
+     GR008 jaugePuissanceFournie;
+     RoundCornerProgressBar jaugeEnergieProduite;
+     ThermometerView thermometreAlternateur;
+     ThermometerView thermometreFrein;
 
 
     @Override
@@ -22,12 +33,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /*C'est un test
-        //ThermometerView.ThermometerBuilder essaie = new ThermometerView.ThermometerBuilder(this.getApplicationContext());
-        //essaie.setMinScaleValue(26);
-        //essaie.builder();
-        */
-
+        //Lien entre les jauges de l'interface et de l'activté
+        jaugeVitesseRotation = findViewById(R.id.jaugeVitesseRotation);
+        jaugeTensionEnEntree = findViewById(R.id.jaugeTensionEnEntree);
+        jaugeCourantEnEntree = findViewById(R.id.jaugeCourantEnEntree);
+        jaugePuissanceFournie = findViewById(R.id.jaugePuissanceFournie);
+        jaugeEnergieProduite = findViewById(R.id.jaugeEnergieProduite);
+        thermometreAlternateur = findViewById(R.id.thermometreAlternateur);
+        thermometreFrein = findViewById(R.id.thermometreFrein);
 
         //Nom des jauges
         final String nomJaugeVitesseRotation = getResources().getString(R.string.nomJaugeVitesseDeRotation);
@@ -37,20 +50,6 @@ public class MainActivity extends AppCompatActivity {
         final String nomJaugePuissanceFournie = getResources().getString(R.string.nomJaugePuissanceFournie);
         final String nomJaugeTemperatureAlternateur = getResources().getString(R.string.nomJaugeTemperatureAlternateur);
         final String nomJaugeTemperatureFrein = getResources().getString(R.string.nomJaugeTemperatureFrein);
-
-
-        //Création du modeProduction
-        final ModeProduction modeProd = new ModeProduction();
-
-
-        //Lien entre les jauges de l'interface et de l'activté
-        final GR008 jaugeVitesseRotation = findViewById(R.id.jaugeVitesseRotation);
-        final GR008 jaugeTensionEnEntree = findViewById(R.id.jaugeTensionEnEntree);
-        final GR008 jaugeCourantEnEntree = findViewById(R.id.jaugeCourantEnEntree);
-        final GR008 jaugePuissanceFournie = findViewById(R.id.jaugePuissanceFournie);
-        final RoundCornerProgressBar jaugeEnergieProduite = findViewById(R.id.jaugeEnergieProduite);
-        final ThermometerView thermometreAlternateur = findViewById(R.id.thermometreAlternateur);
-        final ThermometerView thermometreFrein = findViewById(R.id.thermometreFrein);
 
 
         //Lien entre les boutons de l'interface et l'activité
@@ -65,6 +64,18 @@ public class MainActivity extends AppCompatActivity {
 
         //Lien entre le nom de la jauge courante de l'interface et l'activité
         final TextView nomJaugeCourante = findViewById(R.id.nomJaugeCourante);
+
+        /*C'est un test
+        //ThermometerView.ThermometerBuilder essaie = new ThermometerView.ThermometerBuilder(this.getApplicationContext());
+        //essaie.setMinScaleValue(26);
+        //essaie.builder();
+        */
+
+        jaugeVitesseRotation.setMinValue(modeProd.getVitesseRotation().getValMinJauge());
+        jaugeVitesseRotation.setMaxValue(modeProd.getVitesseRotation().getValMaxJauge());
+
+
+
 
 
         boutonVitesseRotation.setOnClickListener(new View.OnClickListener() {
@@ -95,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
                 modeProd.setEtatModeProduction(ModeProduction.UnEtat.jaugeVitesseRotation);
                 jaugeVitesseRotation.setVisibility(View.VISIBLE);
                 nomJaugeCourante.setText(nomJaugeVitesseRotation);
+
 
             }
         });
@@ -302,8 +314,7 @@ public class MainActivity extends AppCompatActivity {
                 // Code here executes on main thread after user presses button
                 Intent reglageActivity = new Intent(MainActivity.this, ReglageJauge.class);
                 reglageActivity.putExtra("tabMinMax", modeProd.getMinMaxDesJauges());
-                startActivity(reglageActivity);
-                finish();
+                startActivityForResult(reglageActivity, 1);
 
             }
         });
@@ -311,4 +322,23 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==1)
+        {
+            modeProd.setMinMaxDesJauges(data.getDoubleArrayExtra("tabMinMax"));
+            jaugeVitesseRotation.setMinValue(modeProd.getVitesseRotation().getValMinJauge());
+            jaugeVitesseRotation.setMaxValue(modeProd.getVitesseRotation().getValMaxJauge());
+            jaugeTensionEnEntree.setMinValue(modeProd.getTensionEnEntree().getValMinJauge());
+            jaugeTensionEnEntree.setMaxValue(modeProd.getTensionEnEntree().getValMaxJauge());
+            jaugeCourantEnEntree.setMinValue(modeProd.getCourantEnEntree().getValMinJauge());
+            jaugeCourantEnEntree.setMaxValue(modeProd.getCourantEnEntree().getValMaxJauge());
+            jaugePuissanceFournie.setMinValue(modeProd.getPuissanceFournie().getValMinJauge());
+            jaugePuissanceFournie.setMaxValue(modeProd.getPuissanceFournie().getValMaxJauge());
+        }
+    }
+
 }
