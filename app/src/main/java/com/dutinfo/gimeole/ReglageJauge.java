@@ -37,7 +37,7 @@ public class ReglageJauge extends AppCompatActivity {
         final EditText maxEnergieProduite = findViewById(R.id.maxEnergieProduite);
         final EditText minTemperatureAlternateur = findViewById(R.id.minTemperatureAlternateur);
         final EditText maxTemperatureAlternateur = findViewById(R.id.maxTemperatureAlternateur);
-        EditText minTemperatureFrein = findViewById(R.id.minTemperatureFrein);
+        final EditText minTemperatureFrein = findViewById(R.id.minTemperatureFrein);
         final EditText maxTemperatureFrein = findViewById(R.id.maxTemperatureFrein);
 
         //Affichage des valeurs prédéfinis du min max du modeProd actuel
@@ -76,7 +76,7 @@ public class ReglageJauge extends AppCompatActivity {
                 maxEnergieProduiteSaisie=maxEnergieProduite.getText().toString();
                 minTemperatureAlternateurSaisie=minTemperatureAlternateur.getText().toString();
                 maxTemperatureAlternateurSaisie=maxTemperatureAlternateur.getText().toString();
-                minTemperatureFreinSaisie=maxTemperatureFrein.getText().toString();
+                minTemperatureFreinSaisie=minTemperatureFrein.getText().toString();
                 maxTemperatureFreinSaisie=maxTemperatureFrein.getText().toString();
 
                 if (!(minVitesseRotationSaisie.matches("") || maxVitesseRotationSaisie.matches("") || minTensionEnEntreeSaisie.matches("") || maxTensionEnEntreeSaisie.matches("") || minCourantEnEntreeSasie.matches("") || maxCourantEnEntreeSaisie.matches("") || minPuissanceFournieSaisie.matches("") || maxPuissanceFournieSaisie.matches("") || minEnergieProduiteSaisie.matches("") || maxEnergieProduiteSaisie.matches("") || minTemperatureAlternateurSaisie.matches("")|| maxTemperatureAlternateurSaisie.matches("")|| minTemperatureFreinSaisie.matches("")|| maxTemperatureFreinSaisie.matches("")))
