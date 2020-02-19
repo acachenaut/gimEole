@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
 import com.biansemao.widget.ThermometerView;
@@ -26,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
      RoundCornerProgressBar jaugeEnergieProduite;
      ThermometerView thermometreAlternateur;
      ThermometerView thermometreFrein;
+     ThermometerView.ThermometerBuilder thermometreAlternateurType;
+     ThermometerView.ThermometerBuilder thermometreFreinType;
 
 
     @Override
@@ -39,8 +43,8 @@ public class MainActivity extends AppCompatActivity {
         jaugeCourantEnEntree = findViewById(R.id.jaugeCourantEnEntree);
         jaugePuissanceFournie = findViewById(R.id.jaugePuissanceFournie);
         jaugeEnergieProduite = findViewById(R.id.jaugeEnergieProduite);
-        thermometreAlternateur = findViewById(R.id.thermometreAlternateur);
-        thermometreFrein = findViewById(R.id.thermometreFrein);
+        parametrerEtAfficherThermometreAlternateur();
+        parametrerEtAfficherThermometreFrein();
 
         //Nom des jauges
         final String nomJaugeVitesseRotation = getResources().getString(R.string.nomJaugeVitesseDeRotation);
@@ -64,16 +68,6 @@ public class MainActivity extends AppCompatActivity {
 
         //Lien entre le nom de la jauge courante de l'interface et l'activité
         final TextView nomJaugeCourante = findViewById(R.id.nomJaugeCourante);
-
-        /*C'est un test
-        //ThermometerView.ThermometerBuilder essaie = new ThermometerView.ThermometerBuilder(this.getApplicationContext());
-        //essaie.setMinScaleValue(26);
-        //essaie.builder();
-        */
-
-        jaugeVitesseRotation.setMinValue(modeProd.getVitesseRotation().getValMinJauge());
-        jaugeVitesseRotation.setMaxValue(modeProd.getVitesseRotation().getValMaxJauge());
-
 
 
 
@@ -338,7 +332,41 @@ public class MainActivity extends AppCompatActivity {
             jaugeCourantEnEntree.setMaxValue(modeProd.getCourantEnEntree().getValMaxJauge());
             jaugePuissanceFournie.setMinValue(modeProd.getPuissanceFournie().getValMinJauge());
             jaugePuissanceFournie.setMaxValue(modeProd.getPuissanceFournie().getValMaxJauge());
+            parametrerEtAfficherThermometreAlternateur();
+            parametrerEtAfficherThermometreFrein();
         }
+    }
+
+    public void parametrerEtAfficherThermometreAlternateur(){
+        thermometreAlternateurType = new ThermometerView.ThermometerBuilder(this.getApplicationContext());
+        thermometreAlternateurType.setMinScaleValue((float)modeProd.getTemperatureAlternateur().getValMinJauge());
+        thermometreAlternateurType.setMaxScaleValue((float)modeProd.getTemperatureAlternateur().getValMaxJauge());
+        ConstraintLayout layoutOfDynamicContent = findViewById(R.id.thermometreAlternateur);
+        layoutOfDynamicContent.removeAllViewsInLayout();
+        thermometreAlternateur=thermometreAlternateurType.builder();
+        thermometreAlternateur.setCurValue((float)modeProd.getTemperatureAlternateur().getValMinJauge());
+        if(modeProd.getEtatModeProduction()!= ModeProduction.UnEtat.jaugeTemperatureAlternateur)
+        {
+            thermometreAlternateur.setVisibility(View.INVISIBLE);
+        }
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams. WRAP_CONTENT , LinearLayout.LayoutParams. WRAP_CONTENT );
+        layoutOfDynamicContent.addView(thermometreAlternateur, params);
+    }
+
+    public void parametrerEtAfficherThermometreFrein(){
+        thermometreFreinType = new ThermometerView.ThermometerBuilder(this.getApplicationContext());
+        thermometreFreinType.setMinScaleValue((float)modeProd.getTemperatureFrein().getValMinJauge());
+        thermometreFreinType.setMaxScaleValue((float)modeProd.getTemperatureFrein().getValMaxJauge());
+        ConstraintLayout layoutOfDynamicContent = findViewById(R.id.thermometreFrein);
+        layoutOfDynamicContent.removeAllViewsInLayout();
+        thermometreFrein=thermometreFreinType.builder();
+        thermometreFrein.setCurValue((float)modeProd.getTemperatureFrein().getValMinJauge());
+        if(modeProd.getEtatModeProduction()!= ModeProduction.UnEtat.jaugeTemperatureFrein)
+        {
+            thermometreFrein.setVisibility(View.INVISIBLE);
+        }
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams. WRAP_CONTENT , LinearLayout.LayoutParams. WRAP_CONTENT );
+        layoutOfDynamicContent.addView(thermometreFrein, params);
     }
 
 }
