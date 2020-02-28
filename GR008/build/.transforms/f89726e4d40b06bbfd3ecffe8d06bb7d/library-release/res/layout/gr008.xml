@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Background -->
+    <ImageView
+        android:id="@+id/gr008_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@null"
+        android:src="@drawable/gr008_white_oval" />
+
+    <!-- Main gauge -->
+    <com.sccomponents.gauges.gr008.ScGauges.ScArcGauge
+        android:id="@+id/gr008_mainGauge"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- Texts -->
+    <com.sccomponents.gauges.gr008.TextView.AutoSizeTextView
+        android:id="@+id/gr008_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:maxLines="1"
+        android:textColor="#FAFAFA"
+        android:textAlignment="center" />
+
+    <!-- Indicators -->
+    <ImageView
+        android:id="@+id/gr008_indicator"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@null"
+        android:scaleType="fitCenter"
+        android:src="@drawable/gr008_indicator" />
+
+    <!-- Contour -->
+    <ImageView
+        android:id="@+id/gr008_contour"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@null"
+        android:scaleType="fitCenter"
+        android:src="@drawable/gr008_metal_ring" />
+
+</FrameLayout>

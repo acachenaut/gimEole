@@ -12,7 +12,7 @@ public class ModeProduction {
     private Element_A_Afficher temperatureFrein;
 
     public ModeProduction (){
-         vitesseRotation = new Element_A_Afficher(0,50);
+         vitesseRotation = new Element_A_Afficher(1000,3000);
          tensionEnEntree = new Element_A_Afficher(0,50);
          courantEnEntree = new Element_A_Afficher(0,50);
          puissanceFournie = new Element_A_Afficher(0,50);

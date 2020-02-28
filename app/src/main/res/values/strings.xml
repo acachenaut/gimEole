@@ -16,7 +16,7 @@
     <string name="nomJaugeEnergieProduite">Energie produite par l\'éolienne</string>
     <string name="nomJaugeTemperatureAlternateur">Température de l\'alternateur</string>
     <string name="nomJaugeTemperatureFrein">Temperature du frein</string>
-    <string name="uniteJaugeKMH">km/h</string>
+    <string name="uniteJaugeKMH">tr/min</string>
     <string name="uniteJaugeVolt">V</string>
     <string name="uniteJaugeAmpere">A</string>
     <string name="uniteJaugeWatt">W</string>

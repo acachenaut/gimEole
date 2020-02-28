@@ -1,13 +1,14 @@
 package com.dutinfo.gimeole;
 
-import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -16,6 +17,8 @@ import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
 import com.biansemao.widget.ThermometerView;
 import com.sccomponents.gauges.gr008.GR008;
 
+import me.aflak.bluetooth.Bluetooth;
+import me.aflak.bluetooth.interfaces.DeviceCallback;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -23,21 +26,44 @@ public class MainActivity extends AppCompatActivity {
     final ModeProduction modeProd = new ModeProduction();
 
     //Lien entre les jauges de l'interface et de l'activté
-     GR008 jaugeVitesseRotation;
-     GR008 jaugeTensionEnEntree;
-     GR008 jaugeCourantEnEntree;
-     GR008 jaugePuissanceFournie;
-     RoundCornerProgressBar jaugeEnergieProduite;
-     ThermometerView thermometreAlternateur;
-     ThermometerView thermometreFrein;
-     ThermometerView.ThermometerBuilder thermometreAlternateurType;
-     ThermometerView.ThermometerBuilder thermometreFreinType;
+    GR008 jaugeVitesseRotation;
+    GR008 jaugeTensionEnEntree;
+    GR008 jaugeCourantEnEntree;
+    GR008 jaugePuissanceFournie;
+    RoundCornerProgressBar jaugeEnergieProduite;
+    ThermometerView thermometreAlternateur;
+    ThermometerView thermometreFrein;
+    ThermometerView.ThermometerBuilder thermometreAlternateurType;
+    ThermometerView.ThermometerBuilder thermometreFreinType;
+
+    TextView vitesseRotation;
+    TextView tensionEnEntree;
+    TextView courantEnEntree;
+    TextView puissanceFournie;
+    TextView energieProduite;
+    TextView temperatureAlternateur;
+    TextView temperatureFrein;
+
+     ImageView logoBluetooth;
+
+    private Bluetooth bluetooth;
+    private BluetoothDevice device;
+
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        device = getIntent().getParcelableExtra("device");
+        bluetooth = new Bluetooth(this);
+        bluetooth.setCallbackOnUI(this);
+        bluetooth.setDeviceCallback(deviceCallback);
+
+        bluetooth.onStart();
+        bluetooth.connectToDevice(device);
 
         //Lien entre les jauges de l'interface et de l'activté
         jaugeVitesseRotation = findViewById(R.id.jaugeVitesseRotation);
@@ -71,13 +97,15 @@ public class MainActivity extends AppCompatActivity {
         //Lien entre le nom de la jauge courante de l'interface et l'activité
         final TextView nomJaugeCourante = findViewById(R.id.nomJaugeCourante);
 
-        BluetoothAdapter blueAdapter = BluetoothAdapter.getDefaultAdapter();
-        if (blueAdapter == null) {
-            Toast.makeText(getApplicationContext(), "Le terminal ne possède pas le Bluetooth", Toast.LENGTH_SHORT).show();
-        }
-        if (!blueAdapter.isEnabled()) {
-            blueAdapter.enable();
-        }
+        vitesseRotation = findViewById(R.id.vitesseRotation);
+        tensionEnEntree = findViewById(R.id.tensionEnEntree);
+        courantEnEntree = findViewById(R.id.courantEnEntree);
+        puissanceFournie = findViewById(R.id.puissanceFournie);
+        energieProduite = findViewById(R.id.energieProduite);
+        temperatureAlternateur = findViewById(R.id.temperatureAlternateur);
+        temperatureFrein = findViewById(R.id.temperatureFrein);
+
+        logoBluetooth = findViewById(R.id.logoBluetooth);
 
 
 
@@ -319,13 +347,13 @@ public class MainActivity extends AppCompatActivity {
                 Intent reglageActivity = new Intent(MainActivity.this, ReglageJauge.class);
                 reglageActivity.putExtra("tabMinMax", modeProd.getMinMaxDesJauges());
                 startActivityForResult(reglageActivity, 1);
-
             }
         });
 
 
 
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
@@ -344,8 +372,11 @@ public class MainActivity extends AppCompatActivity {
             jaugePuissanceFournie.setMaxValue(modeProd.getPuissanceFournie().getValMaxJauge());
             parametrerEtAfficherThermometreAlternateur();
             parametrerEtAfficherThermometreFrein();
+            bluetooth.connectToDevice(device);
         }
     }
+
+
 
     public void parametrerEtAfficherThermometreAlternateur(){
         thermometreAlternateurType = new ThermometerView.ThermometerBuilder(this.getApplicationContext());
@@ -353,7 +384,7 @@ public class MainActivity extends AppCompatActivity {
         thermometreAlternateurType.setMaxScaleValue((float)modeProd.getTemperatureAlternateur().getValMaxJauge());
         ConstraintLayout layoutOfDynamicContent = findViewById(R.id.thermometreAlternateur);
         layoutOfDynamicContent.removeAllViewsInLayout();
-        thermometreAlternateur=thermometreAlternateurType.builder();
+        thermometreAlternateur =thermometreAlternateurType.builder();
         thermometreAlternateur.setCurValue((float)modeProd.getTemperatureAlternateur().getValMinJauge());
         if(modeProd.getEtatModeProduction()!= ModeProduction.UnEtat.jaugeTemperatureAlternateur)
         {
@@ -369,7 +400,7 @@ public class MainActivity extends AppCompatActivity {
         thermometreFreinType.setMaxScaleValue((float)modeProd.getTemperatureFrein().getValMaxJauge());
         ConstraintLayout layoutOfDynamicContent = findViewById(R.id.thermometreFrein);
         layoutOfDynamicContent.removeAllViewsInLayout();
-        thermometreFrein=thermometreFreinType.builder();
+        thermometreFrein =thermometreFreinType.builder();
         thermometreFrein.setCurValue((float)modeProd.getTemperatureFrein().getValMinJauge());
         if(modeProd.getEtatModeProduction()!= ModeProduction.UnEtat.jaugeTemperatureFrein)
         {
@@ -378,5 +409,94 @@ public class MainActivity extends AppCompatActivity {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams. WRAP_CONTENT , LinearLayout.LayoutParams. WRAP_CONTENT );
         layoutOfDynamicContent.addView(thermometreFrein, params);
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        bluetooth.disconnect();
+        bluetooth.onStop();
+    }
+
+
+    private DeviceCallback deviceCallback = new DeviceCallback() {
+        @Override
+        public void onDeviceConnected(BluetoothDevice device) {
+            logoBluetooth.setImageResource(R.drawable.logobluetoohconnecte);
+        }
+
+        @Override
+        public void onDeviceDisconnected(final BluetoothDevice device, String message) {
+            logoBluetooth.setImageResource(R.drawable.logobluetoohdeconnecte);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    bluetooth.connectToDevice(device);
+                }
+            }, 3000);
+        }
+
+        @Override
+        public void onMessage(byte[] message) {
+            String str = new String(message);
+            String premierCaractere = (str.substring(0,1));
+            String valeurCourante = (str.substring(1,str.length()-1));
+            switch (premierCaractere){
+                case "$" :
+                    jaugeVitesseRotation.setValue(Double.parseDouble(valeurCourante));
+                    vitesseRotation.setText(valeurCourante);
+                    break;
+                case ":" :
+                    jaugeTensionEnEntree.setValue(Double.parseDouble(valeurCourante));
+                    tensionEnEntree.setText(valeurCourante);
+                    break;
+                case ";" :
+                    jaugeCourantEnEntree.setValue(Double.parseDouble(valeurCourante));
+                    courantEnEntree.setText(valeurCourante);
+                    break;
+                case "%" :
+                    jaugePuissanceFournie.setValue(Double.parseDouble(valeurCourante));
+                    puissanceFournie.setText(valeurCourante);
+                    break;
+                case "!" :
+                    jaugeEnergieProduite.setProgress(Float.parseFloat(valeurCourante));
+                    int pos = valeurCourante.indexOf(".");
+                    //Code à modifier pour afficher les valeurs correctements
+                    if(pos >= 8){
+                        energieProduite.setText(valeurCourante.substring(1,pos-6)+"M");
+                    }
+                    else if (pos>=5){
+                        energieProduite.setText(valeurCourante.substring(1,pos-3)+"K"+valeurCourante.substring(pos-4,pos));
+                    }
+                    break;
+                case "(" :
+                    thermometreAlternateur.setValueAndStartAnim(Float.parseFloat(valeurCourante));
+                    temperatureAlternateur.setText(valeurCourante);
+                    break;
+                case ")" :
+                    thermometreFrein.setValueAndStartAnim(Float.parseFloat(valeurCourante));
+                    temperatureFrein.setText(valeurCourante);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        @Override
+        public void onError(int errorCode) {
+
+        }
+
+        @Override
+        public void onConnectError(final BluetoothDevice device, String message) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    bluetooth.connectToDevice(device);
+                }
+            }, 3000);
+        }
+    };
+
+
 
 }
