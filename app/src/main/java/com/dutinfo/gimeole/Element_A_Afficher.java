@@ -37,6 +37,9 @@ public class Element_A_Afficher {
     public void setValCourante(double valCourante) {
         setSommeVal(valCourante);
         setNbVal(1);
+        if (this.valMaxCourante<valCourante){
+            setValMaxCourante(valCourante);
+        }
         this.valCourante = valCourante;
     }
 
@@ -69,7 +72,11 @@ public class Element_A_Afficher {
     }
 
     public double getValMoyenne(){
-        return this.getSommeVal()/this.getNbVal();
+        double valMoyenne = this.getSommeVal()/this.getNbVal();
+        valMoyenne = valMoyenne*100;
+        valMoyenne = Math.round(valMoyenne);
+        valMoyenne = valMoyenne/100;
+        return valMoyenne;
     }
 
 

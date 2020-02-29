@@ -378,6 +378,42 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/barreSeparationHorizontale"></androidx.constraintlayout.widget.ConstraintLayout>
 
+    <TextView
+        android:id="@+id/valeurMoyenne"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/valeurVitesseMoyenne"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/valeurMax"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/jaugeVitesseRotation" />
+
+    <TextView
+        android:id="@+id/valeurMax"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/valeurVitesseMax"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/barreSeparationVerticale"
+        app:layout_constraintStart_toEndOf="@+id/valeurMoyenne"
+        app:layout_constraintTop_toBottomOf="@+id/jaugeVitesseRotation" />
+
+    <TextView
+        android:id="@+id/valeurEnergieProduite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/valeurEnergieProduite"
+        android:visibility="invisible"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/barreSeparationVerticale"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/jaugeVitesseRotation" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

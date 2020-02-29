@@ -25,31 +25,24 @@ public class MainActivity extends AppCompatActivity {
     //Création du modeProduction
     final ModeProduction modeProd = new ModeProduction();
 
-    //Lien entre les jauges de l'interface et de l'activté
-    GR008 jaugeVitesseRotation;
-    GR008 jaugeTensionEnEntree;
-    GR008 jaugeCourantEnEntree;
-    GR008 jaugePuissanceFournie;
+    //Création des jauges
+    GR008 jaugeVitesseRotation, jaugeTensionEnEntree, jaugeCourantEnEntree, jaugePuissanceFournie;
     RoundCornerProgressBar jaugeEnergieProduite;
-    ThermometerView thermometreAlternateur;
-    ThermometerView thermometreFrein;
-    ThermometerView.ThermometerBuilder thermometreAlternateurType;
-    ThermometerView.ThermometerBuilder thermometreFreinType;
+    ThermometerView thermometreAlternateur, thermometreFrein;
+    ThermometerView.ThermometerBuilder thermometreAlternateurType, thermometreFreinType;
 
-    TextView vitesseRotation;
-    TextView tensionEnEntree;
-    TextView courantEnEntree;
-    TextView puissanceFournie;
-    TextView energieProduite;
-    TextView temperatureAlternateur;
-    TextView temperatureFrein;
+    //Création valeurs à afficher
+    TextView vitesseRotation, tensionEnEntree, courantEnEntree, puissanceFournie, energieProduite, temperatureAlternateur,temperatureFrein;
 
-     ImageView logoBluetooth;
+    //Création des valeurs moyennes et max à afficher
+    TextView valeurMoyenne, valeurMax, valeurEnergie;
 
+    //Création de l'indicateur Bluetooth
+    ImageView logoBluetooth;
+
+    //Nécessaire à la connexion Bluetooth
     private Bluetooth bluetooth;
     private BluetoothDevice device;
-
-
 
 
     @Override
@@ -57,11 +50,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Initialisation de la connexion Bluetooth
         device = getIntent().getParcelableExtra("device");
         bluetooth = new Bluetooth(this);
         bluetooth.setCallbackOnUI(this);
         bluetooth.setDeviceCallback(deviceCallback);
-
         bluetooth.onStart();
         bluetooth.connectToDevice(device);
 
@@ -84,6 +77,13 @@ public class MainActivity extends AppCompatActivity {
         final String nomJaugeTemperatureFrein = getResources().getString(R.string.nomJaugeTemperatureFrein);
 
 
+
+        //Lien entre les valeurs moyennes/max de l'interface et l'activité
+        valeurMoyenne = findViewById(R.id.valeurMoyenne);
+        valeurMax = findViewById(R.id.valeurMax);
+        valeurEnergie = findViewById(R.id.valeurEnergieProduite);
+
+
         //Lien entre les boutons de l'interface et l'activité
         Button boutonVitesseRotation = findViewById(R.id.boutonVitesseDeRotation);
         Button boutonTensionEnEntree = findViewById(R.id.boutonTensionEnEntree);
@@ -97,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
         //Lien entre le nom de la jauge courante de l'interface et l'activité
         final TextView nomJaugeCourante = findViewById(R.id.nomJaugeCourante);
 
+        //Lien entre les valeurs courante de l'interface et l'activité
         vitesseRotation = findViewById(R.id.vitesseRotation);
         tensionEnEntree = findViewById(R.id.tensionEnEntree);
         courantEnEntree = findViewById(R.id.courantEnEntree);
@@ -105,9 +106,8 @@ public class MainActivity extends AppCompatActivity {
         temperatureAlternateur = findViewById(R.id.temperatureAlternateur);
         temperatureFrein = findViewById(R.id.temperatureFrein);
 
+        //Lien entre l'indicateur Bluetooth de l'interface et l'activité
         logoBluetooth = findViewById(R.id.logoBluetooth);
-
-
 
 
         boutonVitesseRotation.setOnClickListener(new View.OnClickListener() {
@@ -125,6 +125,9 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case jaugeEnergieProduite:
                         jaugeEnergieProduite.setVisibility(View.INVISIBLE);
+                        valeurEnergie.setVisibility(View.INVISIBLE);
+                        valeurMoyenne.setVisibility(View.VISIBLE);
+                        valeurMax.setVisibility(View.VISIBLE);
                         break;
                     case jaugeTemperatureAlternateur:
                         thermometreAlternateur.setVisibility(View.INVISIBLE);
@@ -158,6 +161,9 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case jaugeEnergieProduite:
                         jaugeEnergieProduite.setVisibility(View.INVISIBLE);
+                        valeurEnergie.setVisibility(View.INVISIBLE);
+                        valeurMoyenne.setVisibility(View.VISIBLE);
+                        valeurMax.setVisibility(View.VISIBLE);
                         break;
                     case jaugeTemperatureAlternateur:
                         thermometreAlternateur.setVisibility(View.INVISIBLE);
@@ -172,8 +178,6 @@ public class MainActivity extends AppCompatActivity {
                 jaugeTensionEnEntree.setVisibility(View.VISIBLE);
                 nomJaugeCourante.setText(nomJaugeTensionEnEntree);
 
-
-                //A compléter
 
             }
         });
@@ -193,6 +197,9 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case jaugeEnergieProduite:
                         jaugeEnergieProduite.setVisibility(View.INVISIBLE);
+                        valeurEnergie.setVisibility(View.INVISIBLE);
+                        valeurMoyenne.setVisibility(View.VISIBLE);
+                        valeurMax.setVisibility(View.VISIBLE);
                         break;
                     case jaugeTemperatureAlternateur:
                         thermometreAlternateur.setVisibility(View.INVISIBLE);
@@ -206,8 +213,6 @@ public class MainActivity extends AppCompatActivity {
                 modeProd.setEtatModeProduction(ModeProduction.UnEtat.jaugeCourantEnEntree);
                 jaugeCourantEnEntree.setVisibility(View.VISIBLE);
                 nomJaugeCourante.setText(nomJaugeCourantEnEntree);
-
-                //A compléter
 
             }
         });
@@ -227,6 +232,9 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case jaugeEnergieProduite:
                         jaugeEnergieProduite.setVisibility(View.INVISIBLE);
+                        valeurEnergie.setVisibility(View.INVISIBLE);
+                        valeurMoyenne.setVisibility(View.VISIBLE);
+                        valeurMax.setVisibility(View.VISIBLE);
                         break;
                     case jaugeTemperatureAlternateur:
                         thermometreAlternateur.setVisibility(View.INVISIBLE);
@@ -270,6 +278,9 @@ public class MainActivity extends AppCompatActivity {
                         break;
                 }
                 modeProd.setEtatModeProduction(ModeProduction.UnEtat.jaugeEnergieProduite);
+                valeurMoyenne.setVisibility(View.INVISIBLE);
+                valeurMax.setVisibility(View.INVISIBLE);
+                valeurEnergie.setVisibility(View.VISIBLE);
                 jaugeEnergieProduite.setVisibility(View.VISIBLE);
                 nomJaugeCourante.setText(nomJaugeEnergieProduite);
 
@@ -292,6 +303,9 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case jaugeEnergieProduite:
                         jaugeEnergieProduite.setVisibility(View.INVISIBLE);
+                        valeurEnergie.setVisibility(View.INVISIBLE);
+                        valeurMoyenne.setVisibility(View.VISIBLE);
+                        valeurMax.setVisibility(View.VISIBLE);
                         break;
                     case jaugePuissanceFournie:
                         jaugePuissanceFournie.setVisibility(View.INVISIBLE);
@@ -324,6 +338,9 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case jaugeEnergieProduite:
                         jaugeEnergieProduite.setVisibility(View.INVISIBLE);
+                        valeurEnergie.setVisibility(View.INVISIBLE);
+                        valeurMoyenne.setVisibility(View.VISIBLE);
+                        valeurMax.setVisibility(View.VISIBLE);
                         break;
                     case jaugePuissanceFournie:
                         jaugePuissanceFournie.setVisibility(View.INVISIBLE);
@@ -372,7 +389,6 @@ public class MainActivity extends AppCompatActivity {
             jaugePuissanceFournie.setMaxValue(modeProd.getPuissanceFournie().getValMaxJauge());
             parametrerEtAfficherThermometreAlternateur();
             parametrerEtAfficherThermometreFrein();
-            bluetooth.connectToDevice(device);
         }
     }
 
@@ -438,47 +454,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onMessage(byte[] message) {
             String str = new String(message);
-            String premierCaractere = (str.substring(0,1));
-            String valeurCourante = (str.substring(1,str.length()-1));
-            switch (premierCaractere){
-                case "$" :
-                    jaugeVitesseRotation.setValue(Double.parseDouble(valeurCourante));
-                    vitesseRotation.setText(valeurCourante);
-                    break;
-                case ":" :
-                    jaugeTensionEnEntree.setValue(Double.parseDouble(valeurCourante));
-                    tensionEnEntree.setText(valeurCourante);
-                    break;
-                case ";" :
-                    jaugeCourantEnEntree.setValue(Double.parseDouble(valeurCourante));
-                    courantEnEntree.setText(valeurCourante);
-                    break;
-                case "%" :
-                    jaugePuissanceFournie.setValue(Double.parseDouble(valeurCourante));
-                    puissanceFournie.setText(valeurCourante);
-                    break;
-                case "!" :
-                    jaugeEnergieProduite.setProgress(Float.parseFloat(valeurCourante));
-                    int pos = valeurCourante.indexOf(".");
-                    //Code à modifier pour afficher les valeurs correctements
-                    if(pos >= 8){
-                        energieProduite.setText(valeurCourante.substring(1,pos-6)+"M");
-                    }
-                    else if (pos>=5){
-                        energieProduite.setText(valeurCourante.substring(1,pos-3)+"K"+valeurCourante.substring(pos-4,pos));
-                    }
-                    break;
-                case "(" :
-                    thermometreAlternateur.setValueAndStartAnim(Float.parseFloat(valeurCourante));
-                    temperatureAlternateur.setText(valeurCourante);
-                    break;
-                case ")" :
-                    thermometreFrein.setValueAndStartAnim(Float.parseFloat(valeurCourante));
-                    temperatureFrein.setText(valeurCourante);
-                    break;
-                default:
-                    break;
-            }
+            afficherValeur(str);
         }
 
         @Override
@@ -496,6 +472,105 @@ public class MainActivity extends AppCompatActivity {
             }, 3000);
         }
     };
+
+    public void afficherValeur (String str){
+        String premierCaractere = (str.substring(0,1));
+        String valeurCourante = (str.substring(1));
+        switch (premierCaractere){
+            case "$" :
+                modeProd.getVitesseRotation().setValCourante(Double.parseDouble(valeurCourante));
+                jaugeVitesseRotation.setValue(Double.parseDouble(valeurCourante));
+                vitesseRotation.setText(valeurCourante);
+
+                break;
+            case ":" :
+                modeProd.getTensionEnEntree().setValCourante(Double.parseDouble(valeurCourante));
+                jaugeTensionEnEntree.setValue(Double.parseDouble(valeurCourante));
+                tensionEnEntree.setText(valeurCourante);
+
+                break;
+            case ";" :
+                modeProd.getCourantEnEntree().setValCourante(Double.parseDouble(valeurCourante));
+                jaugeCourantEnEntree.setValue(Double.parseDouble(valeurCourante));
+                courantEnEntree.setText(valeurCourante);
+
+                break;
+            case "%" :
+                modeProd.getPuissanceFournie().setValCourante(Double.parseDouble(valeurCourante));
+                jaugePuissanceFournie.setValue(Double.parseDouble(valeurCourante));
+                puissanceFournie.setText(valeurCourante);
+
+                break;
+            case "!" :
+                modeProd.getEnergieProduite().setValCourante(Double.parseDouble(valeurCourante));
+                jaugeEnergieProduite.setProgress(Float.parseFloat(valeurCourante));
+                int pos = valeurCourante.indexOf(".");
+                //Code à modifier pour afficher les valeurs correctements
+                if(pos >= 8){
+                    energieProduite.setText(valeurCourante.substring(0,pos-6)+"M");
+                }
+                else if (pos>=5){
+                    energieProduite.setText(valeurCourante.substring(0,pos-3)+"K"+valeurCourante.substring(pos-4,pos));
+                }
+
+                break;
+            case "(" :
+                modeProd.getTemperatureAlternateur().setValCourante(Double.parseDouble(valeurCourante));
+                thermometreAlternateur.setValueAndStartAnim(Float.parseFloat(valeurCourante));
+                temperatureAlternateur.setText(valeurCourante);
+
+                break;
+            case ")" :
+                modeProd.getTemperatureFrein().setValCourante(Double.parseDouble(valeurCourante));
+                thermometreFrein.setValueAndStartAnim(Float.parseFloat(valeurCourante));
+                temperatureFrein.setText(valeurCourante);
+
+                break;
+            default:
+                break;
+        }
+
+        switch (modeProd.getEtatModeProduction()) {
+            case jaugeVitesseRotation:
+                valeurMoyenne.setText(getResources().getString(R.string.valeurVitesseMoyenne)+modeProd.getVitesseRotation().getValMoyenne());
+                valeurMax.setText(getResources().getString(R.string.valeurVitesseMax)+modeProd.getVitesseRotation().getValMaxCourante());
+                break;
+            case jaugeTensionEnEntree:
+                valeurMoyenne.setText(getResources().getString(R.string.valeurTensionMoyenne)+modeProd.getTensionEnEntree().getValMoyenne());
+                valeurMax.setText(getResources().getString(R.string.valeurTensionMax)+modeProd.getTensionEnEntree().getValMaxCourante());
+                break;
+            case jaugePuissanceFournie:
+                valeurMoyenne.setText(getResources().getString(R.string.valeurCourantMoyen)+modeProd.getCourantEnEntree().getValMoyenne());
+                valeurMax.setText(getResources().getString(R.string.valeurCourantMax)+modeProd.getCourantEnEntree().getValMaxCourante());
+                break;
+            case jaugeCourantEnEntree:
+                valeurMoyenne.setText(getResources().getString(R.string.valeurPuissanceMoyenne)+modeProd.getPuissanceFournie().getValMoyenne());
+                valeurMax.setText(getResources().getString(R.string.valeurPuissanceMax)+modeProd.getPuissanceFournie().getValMaxCourante());
+                break;
+            case jaugeEnergieProduite:
+                valeurEnergie.setText(getResources().getString(R.string.valeurEnergieProduite)+modeProd.getEnergieProduite().getValCourante());
+                break;
+            case jaugeTemperatureAlternateur:
+                valeurMoyenne.setText(getResources().getString(R.string.valeurTemperatureMoyenne)+modeProd.getTemperatureAlternateur().getValMoyenne());
+                valeurMax.setText(getResources().getString(R.string.valeurTemperatureMax)+modeProd.getTemperatureAlternateur().getValMaxCourante());
+                break;
+            case jaugeTemperatureFrein:
+                valeurMoyenne.setText(getResources().getString(R.string.valeurTemperatureMoyenne)+modeProd.getTemperatureFrein().getValMoyenne());
+                valeurMax.setText(getResources().getString(R.string.valeurTemperatureMax)+modeProd.getTemperatureFrein().getValMaxCourante());
+                break;
+            default:
+                break;
+        }
+
+
+
+
+
+
+
+
+
+    }
 
 
 

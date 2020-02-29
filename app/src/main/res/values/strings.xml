@@ -24,7 +24,19 @@
     <string name="uniteJaugeDegre">°C</string>
     <string name="valeurNulle">0</string>
     <string name="titreRglage">Paramétrage des valeurs minimales et maximales</string>
-    <string name="consigneDesReglage">Saisissez vos valeurs minimales et maximales :</string>
+    <string name="consigneDesReglage">Saisissez vos valeurs minimales et maximales : </string>
     <string name="valeurMin">valeur minimale :</string>
     <string name="valeurMax">valeur maximale :</string>
+    <string name="valeurVitesseMoyenne">Vitesse moyenne : </string>
+    <string name="valeurTensionMoyenne">Tension moyenne : </string>
+    <string name="valeurCourantMoyen">Courant moyen : </string>
+    <string name="valeurPuissanceMoyenne">Puissance moyenne : </string>
+    <string name="valeurTemperatureMoyenne">Température moyenne : </string>
+    <string name="valeurVitesseMax">Vitesse max : </string>
+    <string name="valeurTensionMax">Tension max : </string>
+    <string name="valeurCourantMax">Courant max : </string>
+    <string name="valeurPuissanceMax">Puissance max : </string>
+    <string name="valeurTemperatureMax">Température max : </string>
+    <string name="valeurEnergieProduite">L\'éolienne a produit : </string>
+
 </resources>
