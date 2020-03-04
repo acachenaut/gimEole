@@ -39,4 +39,17 @@
     <string name="valeurTemperatureMax">Température max : </string>
     <string name="valeurEnergieProduite">L\'éolienne a produit : </string>
 
+    <!--mode test-->
+
+    <string name="description">logo bt</string>
+    <string name="boutonMode_prod">Production</string>
+    <string name="mode_test">Mode : Test</string>
+    <string name="boutonFreinage">Freinage</string>
+    <string name="boutonEnregistrer">Enregistrer les données</string>
+    <string name="boutonGenerer">Générer l\'équation</string>
+    <string name="ValeurFreinage">0 A</string>
+    <string name="valeurPoint">0 A</string>
+    <string name="valeurPointPrecis">0.0 A</string>
+
+
 </resources>
