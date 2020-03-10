@@ -22,6 +22,12 @@ import me.aflak.bluetooth.interfaces.DeviceCallback;
 
 
 public class MainActivity extends AppCompatActivity {
+
+    @Override
+    public void onBackPressed() {
+        //Permet de bloquer la flêche retour de l'appareil
+    }
+
     //Création du modeProduction
     final ModeProduction modeProd = new ModeProduction();
 
@@ -429,8 +435,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        bluetooth.disconnect();
-        bluetooth.onStop();
     }
 
 
