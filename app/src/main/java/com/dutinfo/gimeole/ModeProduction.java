@@ -15,7 +15,7 @@ public class ModeProduction {
          vitesseRotation = new Element_A_Afficher(1000,3000);
          tensionEnEntree = new Element_A_Afficher(0,50);
          courantEnEntree = new Element_A_Afficher(0,50);
-         puissanceFournie = new Element_A_Afficher(0,50);
+         puissanceFournie = new Element_A_Afficher(1000,2000);
          energieProduite = new Element_Energie_Produite(0,1000000000);
          temperatureAlternateur = new Element_A_Afficher(25,40);
          temperatureFrein = new Element_A_Afficher(25,40);
