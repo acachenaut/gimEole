@@ -7,7 +7,7 @@ public class ModeProduction {
     private Element_A_Afficher tensionEnEntree;
     private Element_A_Afficher courantEnEntree;
     private Element_A_Afficher puissanceFournie;
-    private Element_A_Afficher energieProduite;
+    private Element_Energie_Produite energieProduite;
     private Element_A_Afficher temperatureAlternateur;
     private Element_A_Afficher temperatureFrein;
 
@@ -16,7 +16,7 @@ public class ModeProduction {
          tensionEnEntree = new Element_A_Afficher(0,50);
          courantEnEntree = new Element_A_Afficher(0,50);
          puissanceFournie = new Element_A_Afficher(0,50);
-         energieProduite = new Element_A_Afficher(0,50);
+         energieProduite = new Element_Energie_Produite(0,1000000000);
          temperatureAlternateur = new Element_A_Afficher(25,40);
          temperatureFrein = new Element_A_Afficher(25,40);
          this.etatModeProduction=UnEtat.jaugeVitesseRotation;
@@ -35,7 +35,7 @@ public class ModeProduction {
         return courantEnEntree;
     }
 
-    public Element_A_Afficher getEnergieProduite() {
+    public Element_Energie_Produite getEnergieProduite() {
         return energieProduite;
     }
 

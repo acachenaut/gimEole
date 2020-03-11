@@ -99,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
         Button boutonTemperatureAlternateur = findViewById(R.id.boutonTemperatureAlternateur);
         Button boutonTemperatureFrein = findViewById(R.id.boutonTemperatureFrein);
         Button boutonReglageJauges = findViewById(R.id.boutonReglage);
+        Button boutonRAZenergie = findViewById(R.id.boutonRAZenergie);
 
         //Lien entre le nom de la jauge courante de l'interface et l'activité
         final TextView nomJaugeCourante = findViewById(R.id.nomJaugeCourante);
@@ -114,6 +115,8 @@ public class MainActivity extends AppCompatActivity {
 
         //Lien entre l'indicateur Bluetooth de l'interface et l'activité
         logoBluetooth = findViewById(R.id.logoBluetooth);
+
+        jaugeEnergieProduite.setMax((float) modeProd.getEnergieProduite().getValMaxJauge());
 
 
         boutonVitesseRotation.setOnClickListener(new View.OnClickListener() {
@@ -373,6 +376,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        boutonRAZenergie.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Code here executes on main thread after user presses button
+                modeProd.getEnergieProduite().setValRAZ(modeProd.getEnergieProduite().getValCourante());
+                jaugeEnergieProduite.setProgress(0);
+            }
+        });
+
 
 
     }
@@ -393,6 +404,7 @@ public class MainActivity extends AppCompatActivity {
             jaugeCourantEnEntree.setMaxValue(modeProd.getCourantEnEntree().getValMaxJauge());
             jaugePuissanceFournie.setMinValue(modeProd.getPuissanceFournie().getValMinJauge());
             jaugePuissanceFournie.setMaxValue(modeProd.getPuissanceFournie().getValMaxJauge());
+            jaugeEnergieProduite.setMax((float) modeProd.getEnergieProduite().getValMaxJauge());
             parametrerEtAfficherThermometreAlternateur();
             parametrerEtAfficherThermometreFrein();
         }
@@ -507,15 +519,16 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case "!" :
                 modeProd.getEnergieProduite().setValCourante(Double.parseDouble(valeurCourante));
-                jaugeEnergieProduite.setProgress(Float.parseFloat(valeurCourante));
-                int pos = valeurCourante.indexOf(".");
+                jaugeEnergieProduite.setProgress((float) modeProd.getEnergieProduite().getValCourante());
+                /*int pos = valeurCourante.indexOf(".");
                 //Code à modifier pour afficher les valeurs correctements
                 if(pos >= 8){
                     energieProduite.setText(valeurCourante.substring(0,pos-6)+"M");
                 }
                 else if (pos>=5){
                     energieProduite.setText(valeurCourante.substring(0,pos-3)+"K"+valeurCourante.substring(pos-4,pos));
-                }
+                }*/
+                energieProduite.setText(Double.toString(modeProd.getEnergieProduite().getValCourante()));
 
                 break;
             case "(" :

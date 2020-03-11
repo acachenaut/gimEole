@@ -2,7 +2,7 @@ package com.dutinfo.gimeole;
 
 public class Element_A_Afficher {
 
-    private double valCourante;
+    public double valCourante;
     private double valMaxCourante;
     private double valMinJauge;
     private double valMaxJauge;
