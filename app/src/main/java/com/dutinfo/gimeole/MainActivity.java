@@ -302,26 +302,26 @@ public class MainActivity extends AppCompatActivity {
         switch (premierCaractere){
             case "$" :
                 modeProd.getVitesseRotation().setValCourante(Double.parseDouble(valeurCourante));
-                jaugeVitesseRotation.setValue(Double.parseDouble(valeurCourante));
-                vitesseRotation.setText(valeurCourante);
+                jaugeVitesseRotation.setValue(modeProd.getVitesseRotation().getValCourante());
+                vitesseRotation.setText(Double.toString(modeProd.getVitesseRotation().getValCourante()));
 
                 break;
             case ":" :
                 modeProd.getTensionEnEntree().setValCourante(Double.parseDouble(valeurCourante));
-                jaugeTensionEnEntree.setValue(Double.parseDouble(valeurCourante));
-                tensionEnEntree.setText(valeurCourante);
+                jaugeTensionEnEntree.setValue(modeProd.getTensionEnEntree().getValCourante());
+                tensionEnEntree.setText(Double.toString(modeProd.getTensionEnEntree().getValCourante()));
 
                 break;
             case ";" :
                 modeProd.getCourantEnEntree().setValCourante(Double.parseDouble(valeurCourante));
-                jaugeCourantEnEntree.setValue(Double.parseDouble(valeurCourante));
-                courantEnEntree.setText(valeurCourante);
+                jaugeCourantEnEntree.setValue(modeProd.getCourantEnEntree().getValCourante());
+                courantEnEntree.setText(Double.toString(modeProd.getCourantEnEntree().getValCourante()));
 
                 break;
             case "%" :
                 modeProd.getPuissanceFournie().setValCourante(Double.parseDouble(valeurCourante));
-                jaugePuissanceFournie.setValue(Double.parseDouble(valeurCourante));
-                puissanceFournie.setText(valeurCourante);
+                jaugePuissanceFournie.setValue(modeProd.getPuissanceFournie().getValCourante());
+                puissanceFournie.setText(Double.toString(modeProd.getPuissanceFournie().getValCourante()));
 
                 break;
             case "!" :
@@ -340,14 +340,14 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case "(" :
                 modeProd.getTemperatureAlternateur().setValCourante(Double.parseDouble(valeurCourante));
-                thermometreAlternateur.setValueAndStartAnim(Float.parseFloat(valeurCourante));
-                temperatureAlternateur.setText(valeurCourante);
+                thermometreAlternateur.setValueAndStartAnim((float) modeProd.getTemperatureAlternateur().getValCourante());
+                temperatureAlternateur.setText(Double.toString(modeProd.getTemperatureAlternateur().getValCourante()));
 
                 break;
             case ")" :
                 modeProd.getTemperatureFrein().setValCourante(Double.parseDouble(valeurCourante));
-                thermometreFrein.setValueAndStartAnim(Float.parseFloat(valeurCourante));
-                temperatureFrein.setText(valeurCourante);
+                thermometreFrein.setValueAndStartAnim((float) modeProd.getTemperatureFrein().getValCourante());
+                temperatureFrein.setText(Double.toString(modeProd.getTemperatureFrein().getValCourante()));
 
                 break;
             default:
@@ -492,7 +492,7 @@ public class MainActivity extends AppCompatActivity {
         jaugeCourantEnEntree.setMajorTicks((modeProd.getCourantEnEntree().getValMaxJauge()-modeProd.getCourantEnEntree().getValMinJauge())/10);
         jaugeCourantEnEntree.setMinorTicks((modeProd.getCourantEnEntree().getValMaxJauge()-modeProd.getCourantEnEntree().getValMinJauge())/10/4);
         jaugePuissanceFournie.setMajorTicks((modeProd.getPuissanceFournie().getValMaxJauge()-modeProd.getPuissanceFournie().getValMinJauge())/10);
-        jaugePuissanceFournie.setMinorTicks((modeProd.getPuissanceFournie().getValMaxJauge()-modeProd.getPuissanceFournie ().getValMinJauge())/10/4);
+        jaugePuissanceFournie.setMinorTicks((modeProd.getPuissanceFournie().getValMaxJauge()-modeProd.getPuissanceFournie  ().getValMinJauge())/10/4);
     }
 
     @Override
