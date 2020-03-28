@@ -17,8 +17,8 @@ public class ModeProduction {
          courantEnEntree = new Element_A_Afficher(0,20);
          puissanceFournie = new Element_A_Afficher(1000,2000);
          energieProduite = new Element_Energie_Produite(0,1000000000);
-         temperatureAlternateur = new Element_A_Afficher(25,40);
-         temperatureFrein = new Element_A_Afficher(25,40);
+         temperatureAlternateur = new Element_A_Afficher(15,30);
+         temperatureFrein = new Element_A_Afficher(15,30);
          this.etatModeProduction=UnEtat.jaugeVitesseRotation;
 
     }

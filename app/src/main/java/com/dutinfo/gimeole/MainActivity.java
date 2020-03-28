@@ -340,12 +340,14 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case "(" :
                 modeProd.getTemperatureAlternateur().setValCourante(Double.parseDouble(valeurCourante));
+                changerMinMaxDuThermometreAlternateurCarValeurCouranteTropBasseOuTropElevee();
                 thermometreAlternateur.setValueAndStartAnim((float) modeProd.getTemperatureAlternateur().getValCourante());
                 temperatureAlternateur.setText(Double.toString(modeProd.getTemperatureAlternateur().getValCourante()));
 
                 break;
             case ")" :
                 modeProd.getTemperatureFrein().setValCourante(Double.parseDouble(valeurCourante));
+                changerMinMaxDuThermometreFreinCarValeurCouranteTropBasseOuTropElevee();
                 thermometreFrein.setValueAndStartAnim((float) modeProd.getTemperatureFrein().getValCourante());
                 temperatureFrein.setText(Double.toString(modeProd.getTemperatureFrein().getValCourante()));
 
@@ -493,6 +495,42 @@ public class MainActivity extends AppCompatActivity {
         jaugeCourantEnEntree.setMinorTicks((modeProd.getCourantEnEntree().getValMaxJauge()-modeProd.getCourantEnEntree().getValMinJauge())/10/4);
         jaugePuissanceFournie.setMajorTicks((modeProd.getPuissanceFournie().getValMaxJauge()-modeProd.getPuissanceFournie().getValMinJauge())/10);
         jaugePuissanceFournie.setMinorTicks((modeProd.getPuissanceFournie().getValMaxJauge()-modeProd.getPuissanceFournie  ().getValMinJauge())/10/4);
+    }
+
+    public void changerMinMaxDuThermometreAlternateurCarValeurCouranteTropBasseOuTropElevee(){
+        if(modeProd.getTemperatureAlternateur().getValCourante()-modeProd.getTemperatureAlternateur().getValMinJauge()<5){
+            do {
+                modeProd.getTemperatureAlternateur().setValMinJauge(modeProd.getTemperatureAlternateur().getValMinJauge()-5);
+                modeProd.getTemperatureAlternateur().setValMaxJauge(modeProd.getTemperatureAlternateur().getValMaxJauge()-5);
+
+            }while(modeProd.getTemperatureAlternateur().getValCourante()-modeProd.getTemperatureAlternateur().getValMinJauge()<5);
+            parametrerEtAfficherThermometreAlternateur();
+        }
+        else if(modeProd.getTemperatureAlternateur().getValMaxJauge()-modeProd.getTemperatureAlternateur().getValCourante()<5){
+            do {
+                modeProd.getTemperatureAlternateur().setValMinJauge(modeProd.getTemperatureAlternateur().getValMinJauge()+5);
+                modeProd.getTemperatureAlternateur().setValMaxJauge(modeProd.getTemperatureAlternateur().getValMaxJauge()+5);
+            }while(modeProd.getTemperatureAlternateur().getValMaxJauge()-modeProd.getTemperatureAlternateur().getValCourante()<5);
+            parametrerEtAfficherThermometreAlternateur();
+        }
+    }
+
+    public void changerMinMaxDuThermometreFreinCarValeurCouranteTropBasseOuTropElevee(){
+        if(modeProd.getTemperatureFrein().getValCourante()-modeProd.getTemperatureFrein().getValMinJauge()<5){
+            do {
+                modeProd.getTemperatureFrein().setValMinJauge(modeProd.getTemperatureFrein().getValMinJauge()-5);
+                modeProd.getTemperatureFrein().setValMaxJauge(modeProd.getTemperatureFrein().getValMaxJauge()-5);
+
+            }while(modeProd.getTemperatureFrein().getValCourante()-modeProd.getTemperatureFrein().getValMinJauge()<5);
+            parametrerEtAfficherThermometreFrein();
+        }
+        else if(modeProd.getTemperatureFrein().getValMaxJauge()-modeProd.getTemperatureFrein().getValCourante()<5){
+            do {
+                modeProd.getTemperatureFrein().setValMinJauge(modeProd.getTemperatureFrein().getValMinJauge()+5);
+                modeProd.getTemperatureFrein().setValMaxJauge(modeProd.getTemperatureFrein().getValMaxJauge()+5);
+            }while(modeProd.getTemperatureFrein().getValMaxJauge()-modeProd.getTemperatureFrein().getValCourante()<5);
+            parametrerEtAfficherThermometreFrein();
+        }
     }
 
     @Override
