@@ -432,18 +432,26 @@ public class MainActivity extends AppCompatActivity {
             case jaugeVitesseRotation:
                 jaugeVitesseRotation.setVisibility(View.VISIBLE);
                 nomJaugeCourante.setText(nomJaugeVitesseRotation);
+                valeurMoyenne.setText(getResources().getString(R.string.valeurVitesseMoyenne));
+                valeurMax.setText(getResources().getString(R.string.valeurVitesseMax));
                 break;
             case jaugeTensionEnEntree:
                 jaugeTensionEnEntree.setVisibility(View.VISIBLE);
                 nomJaugeCourante.setText(nomJaugeTensionEnEntree);
+                valeurMoyenne.setText(getResources().getString(R.string.valeurTensionMoyenne));
+                valeurMax.setText(getResources().getString(R.string.valeurTensionMax));
                 break;
             case jaugePuissanceFournie:
                 jaugePuissanceFournie.setVisibility(View.VISIBLE);
                 nomJaugeCourante.setText(nomJaugePuissanceFournie);
+                valeurMoyenne.setText(getResources().getString(R.string.valeurPuissanceMoyenne));
+                valeurMax.setText(getResources().getString(R.string.valeurPuissanceMoyenne));
                 break;
             case jaugeCourantEnEntree:
                 jaugeCourantEnEntree.setVisibility(View.VISIBLE);
                 nomJaugeCourante.setText(nomJaugeCourantEnEntree);
+                valeurMoyenne.setText(getResources().getString(R.string.valeurCourantMoyen));
+                valeurMax.setText(getResources().getString(R.string.valeurCourantMax));
                 break;
             case jaugeEnergieProduite:
                 valeurMoyenne.setVisibility(View.INVISIBLE);
@@ -455,10 +463,14 @@ public class MainActivity extends AppCompatActivity {
             case jaugeTemperatureAlternateur:
                 thermometreAlternateur.setVisibility(View.VISIBLE);
                 nomJaugeCourante.setText(nomJaugeTemperatureAlternateur);
+                valeurMoyenne.setText(getResources().getString(R.string.valeurTemperatureMoyenne));
+                valeurMax.setText(getResources().getString(R.string.valeurTemperatureMax));
                 break;
             case jaugeTemperatureFrein:
                 thermometreFrein.setVisibility(View.VISIBLE);
                 nomJaugeCourante.setText(nomJaugeTemperatureFrein);
+                valeurMoyenne.setText(getResources().getString(R.string.valeurTemperatureMoyenne));
+                valeurMax.setText(getResources().getString(R.string.valeurTemperatureMax));
                 break;
             default:
                 break;
