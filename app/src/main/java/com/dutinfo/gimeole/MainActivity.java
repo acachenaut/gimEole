@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
         //Lien entre l'indicateur Bluetooth de l'interface et l'activité
         logoBluetooth = findViewById(R.id.logoBluetooth);
 
-        jaugeEnergieProduite.setMax((float) modeProd.getEnergieProduite().getValMaxJauge());
+        changerMinMaxDesJauges();
 
 
         boutonVitesseRotation.setOnClickListener(new View.OnClickListener() {
@@ -205,6 +205,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
@@ -212,17 +213,7 @@ public class MainActivity extends AppCompatActivity {
         if(requestCode==1)
         {
             modeProd.setMinMaxDesJauges(data.getDoubleArrayExtra("tabMinMax"));
-            jaugeVitesseRotation.setMinValue(modeProd.getVitesseRotation().getValMinJauge());
-            jaugeVitesseRotation.setMaxValue(modeProd.getVitesseRotation().getValMaxJauge());
-            jaugeTensionEnEntree.setMinValue(modeProd.getTensionEnEntree().getValMinJauge());
-            jaugeTensionEnEntree.setMaxValue(modeProd.getTensionEnEntree().getValMaxJauge());
-            jaugeCourantEnEntree.setMinValue(modeProd.getCourantEnEntree().getValMinJauge());
-            jaugeCourantEnEntree.setMaxValue(modeProd.getCourantEnEntree().getValMaxJauge());
-            jaugePuissanceFournie.setMinValue(modeProd.getPuissanceFournie().getValMinJauge());
-            jaugePuissanceFournie.setMaxValue(modeProd.getPuissanceFournie().getValMaxJauge());
-            jaugeEnergieProduite.setMax((float) modeProd.getEnergieProduite().getValMaxJauge());
-            parametrerEtAfficherThermometreAlternateur();
-            parametrerEtAfficherThermometreFrein();
+            changerMinMaxDesJauges();
         }
     }
 
@@ -476,6 +467,20 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
 
+    }
+
+    private void changerMinMaxDesJauges() {
+        jaugeVitesseRotation.setMinValue(modeProd.getVitesseRotation().getValMinJauge());
+        jaugeVitesseRotation.setMaxValue(modeProd.getVitesseRotation().getValMaxJauge());
+        jaugeTensionEnEntree.setMinValue(modeProd.getTensionEnEntree().getValMinJauge());
+        jaugeTensionEnEntree.setMaxValue(modeProd.getTensionEnEntree().getValMaxJauge());
+        jaugeCourantEnEntree.setMinValue(modeProd.getCourantEnEntree().getValMinJauge());
+        jaugeCourantEnEntree.setMaxValue(modeProd.getCourantEnEntree().getValMaxJauge());
+        jaugePuissanceFournie.setMinValue(modeProd.getPuissanceFournie().getValMinJauge());
+        jaugePuissanceFournie.setMaxValue(modeProd.getPuissanceFournie().getValMaxJauge());
+        jaugeEnergieProduite.setMax((float) modeProd.getEnergieProduite().getValMaxJauge());
+        parametrerEtAfficherThermometreAlternateur();
+        parametrerEtAfficherThermometreFrein();
     }
 
     @Override

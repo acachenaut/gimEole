@@ -231,6 +231,7 @@
         android:layout_width="85dp"
         android:layout_height="wrap_content"
         android:ems="4"
+        android:enabled="false"
         android:inputType="numberDecimal"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView7"
         app:layout_constraintEnd_toStartOf="@+id/textView11"
