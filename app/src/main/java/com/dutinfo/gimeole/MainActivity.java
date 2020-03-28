@@ -23,11 +23,6 @@ import me.aflak.bluetooth.interfaces.DeviceCallback;
 
 public class MainActivity extends AppCompatActivity {
 
-    @Override
-    public void onBackPressed() {
-        //Permet de bloquer la flêche retour de l'appareil
-    }
-
     //Création du modeProduction
     final ModeProduction modeProd = new ModeProduction();
 
@@ -38,13 +33,19 @@ public class MainActivity extends AppCompatActivity {
     ThermometerView.ThermometerBuilder thermometreAlternateurType, thermometreFreinType;
 
     //Création valeurs à afficher
-    TextView vitesseRotation, tensionEnEntree, courantEnEntree, puissanceFournie, energieProduite, temperatureAlternateur,temperatureFrein;
+    TextView vitesseRotation, tensionEnEntree, courantEnEntree, puissanceFournie, energieProduite, temperatureAlternateur,temperatureFrein, nomJaugeCourante;
 
     //Création des valeurs moyennes et max à afficher
     TextView valeurMoyenne, valeurMax, valeurEnergie;
 
+    //Création des noms des jauges à afficher
+    String nomJaugeVitesseRotation,nomJaugeTensionEnEntree,nomJaugeCourantEnEntree,nomJaugeEnergieProduite,nomJaugePuissanceFournie,nomJaugeTemperatureAlternateur,nomJaugeTemperatureFrein;
+
     //Création de l'indicateur Bluetooth
     ImageView logoBluetooth;
+
+    //Création des bouttons permettant de changer la jauge affiché
+    Button boutonVitesseRotation,boutonTensionEnEntree,boutonCourantEnEntree,boutonPuissanceFournie,boutonEnergieProduite,boutonTemperatureAlternateur,boutonTemperatureFrein,boutonReglageJauges,boutonRAZenergie;
 
     //Nécessaire à la connexion Bluetooth
     private Bluetooth bluetooth;
@@ -74,13 +75,13 @@ public class MainActivity extends AppCompatActivity {
         parametrerEtAfficherThermometreFrein();
 
         //Nom des jauges
-        final String nomJaugeVitesseRotation = getResources().getString(R.string.nomJaugeVitesseDeRotation);
-        final String nomJaugeTensionEnEntree = getResources().getString(R.string.nomJaugeTensionEnEntree);
-        final String nomJaugeCourantEnEntree = getResources().getString(R.string.nomJaugeCourantEnEntree);
-        final String nomJaugeEnergieProduite = getResources().getString(R.string.nomJaugeEnergieProduite);
-        final String nomJaugePuissanceFournie = getResources().getString(R.string.nomJaugePuissanceFournie);
-        final String nomJaugeTemperatureAlternateur = getResources().getString(R.string.nomJaugeTemperatureAlternateur);
-        final String nomJaugeTemperatureFrein = getResources().getString(R.string.nomJaugeTemperatureFrein);
+        nomJaugeVitesseRotation = getResources().getString(R.string.nomJaugeVitesseDeRotation);
+        nomJaugeTensionEnEntree = getResources().getString(R.string.nomJaugeTensionEnEntree);
+        nomJaugeCourantEnEntree = getResources().getString(R.string.nomJaugeCourantEnEntree);
+        nomJaugeEnergieProduite = getResources().getString(R.string.nomJaugeEnergieProduite);
+        nomJaugePuissanceFournie = getResources().getString(R.string.nomJaugePuissanceFournie);
+        nomJaugeTemperatureAlternateur = getResources().getString(R.string.nomJaugeTemperatureAlternateur);
+        nomJaugeTemperatureFrein = getResources().getString(R.string.nomJaugeTemperatureFrein);
 
 
 
@@ -91,18 +92,18 @@ public class MainActivity extends AppCompatActivity {
 
 
         //Lien entre les boutons de l'interface et l'activité
-        Button boutonVitesseRotation = findViewById(R.id.boutonVitesseDeRotation);
-        Button boutonTensionEnEntree = findViewById(R.id.boutonTensionEnEntree);
-        Button boutonCourantEnEntree = findViewById(R.id.boutonCourantEnEntree);
-        Button boutonPuissanceFournie = findViewById(R.id.boutonPuissanceFournie);
-        Button boutonEnergieProduite = findViewById(R.id.boutonEnergieProduite);
-        Button boutonTemperatureAlternateur = findViewById(R.id.boutonTemperatureAlternateur);
-        Button boutonTemperatureFrein = findViewById(R.id.boutonTemperatureFrein);
-        Button boutonReglageJauges = findViewById(R.id.boutonReglage);
-        Button boutonRAZenergie = findViewById(R.id.boutonRAZenergie);
+        boutonVitesseRotation = findViewById(R.id.boutonVitesseDeRotation);
+        boutonTensionEnEntree = findViewById(R.id.boutonTensionEnEntree);
+        boutonCourantEnEntree = findViewById(R.id.boutonCourantEnEntree);
+        boutonPuissanceFournie = findViewById(R.id.boutonPuissanceFournie);
+        boutonEnergieProduite = findViewById(R.id.boutonEnergieProduite);
+        boutonTemperatureAlternateur = findViewById(R.id.boutonTemperatureAlternateur);
+        boutonTemperatureFrein = findViewById(R.id.boutonTemperatureFrein);
+        boutonReglageJauges = findViewById(R.id.boutonReglage);
+        boutonRAZenergie = findViewById(R.id.boutonRAZenergie);
 
         //Lien entre le nom de la jauge courante de l'interface et l'activité
-        final TextView nomJaugeCourante = findViewById(R.id.nomJaugeCourante);
+        nomJaugeCourante = findViewById(R.id.nomJaugeCourante);
 
         //Lien entre les valeurs courante de l'interface et l'activité
         vitesseRotation = findViewById(R.id.vitesseRotation);
@@ -122,248 +123,63 @@ public class MainActivity extends AppCompatActivity {
         boutonVitesseRotation.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
-                switch (modeProd.getEtatModeProduction()){
-                    case jaugeTensionEnEntree:
-                        jaugeTensionEnEntree.setVisibility(View.INVISIBLE);
-                        break;
-                    case jaugePuissanceFournie:
-                        jaugePuissanceFournie.setVisibility(View.INVISIBLE);
-                        break;
-                    case jaugeCourantEnEntree:
-                        jaugeCourantEnEntree.setVisibility(View.INVISIBLE);
-                        break;
-                    case jaugeEnergieProduite:
-                        jaugeEnergieProduite.setVisibility(View.INVISIBLE);
-                        valeurEnergie.setVisibility(View.INVISIBLE);
-                        valeurMoyenne.setVisibility(View.VISIBLE);
-                        valeurMax.setVisibility(View.VISIBLE);
-                        break;
-                    case jaugeTemperatureAlternateur:
-                        thermometreAlternateur.setVisibility(View.INVISIBLE);
-                        break;
-                    case jaugeTemperatureFrein:
-                        thermometreFrein.setVisibility(View.INVISIBLE);
-                        break;
-                    default:
-                        break;
-                }
+                supprimerJaugeAfficheeActuellement();
                 modeProd.setEtatModeProduction(ModeProduction.UnEtat.jaugeVitesseRotation);
-                jaugeVitesseRotation.setVisibility(View.VISIBLE);
-                nomJaugeCourante.setText(nomJaugeVitesseRotation);
-
-
+                afficherNouvelleJauge();
             }
         });
 
         boutonTensionEnEntree.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
-                switch (modeProd.getEtatModeProduction()){
-                    case jaugeVitesseRotation:
-                        jaugeVitesseRotation.setVisibility(View.INVISIBLE);
-                        break;
-                    case jaugePuissanceFournie:
-                        jaugePuissanceFournie.setVisibility(View.INVISIBLE);
-                        break;
-                    case jaugeCourantEnEntree:
-                        jaugeCourantEnEntree.setVisibility(View.INVISIBLE);
-                        break;
-                    case jaugeEnergieProduite:
-                        jaugeEnergieProduite.setVisibility(View.INVISIBLE);
-                        valeurEnergie.setVisibility(View.INVISIBLE);
-                        valeurMoyenne.setVisibility(View.VISIBLE);
-                        valeurMax.setVisibility(View.VISIBLE);
-                        break;
-                    case jaugeTemperatureAlternateur:
-                        thermometreAlternateur.setVisibility(View.INVISIBLE);
-                        break;
-                    case jaugeTemperatureFrein:
-                        thermometreFrein.setVisibility(View.INVISIBLE);
-                        break;
-                    default:
-                        break;
-                }
+                supprimerJaugeAfficheeActuellement();
                 modeProd.setEtatModeProduction(ModeProduction.UnEtat.jaugeTensionEnEntree);
-                jaugeTensionEnEntree.setVisibility(View.VISIBLE);
-                nomJaugeCourante.setText(nomJaugeTensionEnEntree);
-
-
+                afficherNouvelleJauge();
             }
         });
 
         boutonCourantEnEntree.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
-                switch (modeProd.getEtatModeProduction()){
-                    case jaugeVitesseRotation:
-                        jaugeVitesseRotation.setVisibility(View.INVISIBLE);
-                        break;
-                    case jaugeTensionEnEntree:
-                        jaugeTensionEnEntree.setVisibility(View.INVISIBLE);
-                        break;
-                    case jaugePuissanceFournie:
-                        jaugePuissanceFournie.setVisibility(View.INVISIBLE);
-                        break;
-                    case jaugeEnergieProduite:
-                        jaugeEnergieProduite.setVisibility(View.INVISIBLE);
-                        valeurEnergie.setVisibility(View.INVISIBLE);
-                        valeurMoyenne.setVisibility(View.VISIBLE);
-                        valeurMax.setVisibility(View.VISIBLE);
-                        break;
-                    case jaugeTemperatureAlternateur:
-                        thermometreAlternateur.setVisibility(View.INVISIBLE);
-                        break;
-                    case jaugeTemperatureFrein:
-                        thermometreFrein.setVisibility(View.INVISIBLE);
-                        break;
-                    default:
-                        break;
-                }
+                supprimerJaugeAfficheeActuellement();
                 modeProd.setEtatModeProduction(ModeProduction.UnEtat.jaugeCourantEnEntree);
-                jaugeCourantEnEntree.setVisibility(View.VISIBLE);
-                nomJaugeCourante.setText(nomJaugeCourantEnEntree);
-
+                afficherNouvelleJauge();
             }
         });
 
         boutonPuissanceFournie.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
-                switch (modeProd.getEtatModeProduction()){
-                    case jaugeVitesseRotation:
-                        jaugeVitesseRotation.setVisibility(View.INVISIBLE);
-                        break;
-                    case jaugeTensionEnEntree:
-                        jaugeTensionEnEntree.setVisibility(View.INVISIBLE);
-                        break;
-                    case jaugeCourantEnEntree:
-                        jaugeCourantEnEntree.setVisibility(View.INVISIBLE);
-                        break;
-                    case jaugeEnergieProduite:
-                        jaugeEnergieProduite.setVisibility(View.INVISIBLE);
-                        valeurEnergie.setVisibility(View.INVISIBLE);
-                        valeurMoyenne.setVisibility(View.VISIBLE);
-                        valeurMax.setVisibility(View.VISIBLE);
-                        break;
-                    case jaugeTemperatureAlternateur:
-                        thermometreAlternateur.setVisibility(View.INVISIBLE);
-                        break;
-                    case jaugeTemperatureFrein:
-                        thermometreFrein.setVisibility(View.INVISIBLE);
-                        break;
-                    default:
-                        break;
-                }
+                supprimerJaugeAfficheeActuellement();
                 modeProd.setEtatModeProduction(ModeProduction.UnEtat.jaugePuissanceFournie);
-                jaugePuissanceFournie.setVisibility(View.VISIBLE);
-                nomJaugeCourante.setText(nomJaugePuissanceFournie);
-
+                afficherNouvelleJauge();
             }
         });
 
         boutonEnergieProduite.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
-                switch (modeProd.getEtatModeProduction()){
-                    case jaugeVitesseRotation:
-                        jaugeVitesseRotation.setVisibility(View.INVISIBLE);
-                        break;
-                    case jaugeTensionEnEntree:
-                        jaugeTensionEnEntree.setVisibility(View.INVISIBLE);
-                        break;
-                    case jaugeCourantEnEntree:
-                        jaugeCourantEnEntree.setVisibility(View.INVISIBLE);
-                        break;
-                    case jaugePuissanceFournie:
-                        jaugePuissanceFournie.setVisibility(View.INVISIBLE);
-                        break;
-                    case jaugeTemperatureAlternateur:
-                        thermometreAlternateur.setVisibility(View.INVISIBLE);
-                        break;
-                    case jaugeTemperatureFrein:
-                        thermometreFrein.setVisibility(View.INVISIBLE);
-                        break;
-                    default:
-                        break;
-                }
+                supprimerJaugeAfficheeActuellement();
                 modeProd.setEtatModeProduction(ModeProduction.UnEtat.jaugeEnergieProduite);
-                valeurMoyenne.setVisibility(View.INVISIBLE);
-                valeurMax.setVisibility(View.INVISIBLE);
-                valeurEnergie.setVisibility(View.VISIBLE);
-                jaugeEnergieProduite.setVisibility(View.VISIBLE);
-                nomJaugeCourante.setText(nomJaugeEnergieProduite);
-
-
+                afficherNouvelleJauge();
             }
         });
 
         boutonTemperatureAlternateur.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
-                switch (modeProd.getEtatModeProduction()){
-                    case jaugeVitesseRotation:
-                        jaugeVitesseRotation.setVisibility(View.INVISIBLE);
-                        break;
-                    case jaugeTensionEnEntree:
-                        jaugeTensionEnEntree.setVisibility(View.INVISIBLE);
-                        break;
-                    case jaugeCourantEnEntree:
-                        jaugeCourantEnEntree.setVisibility(View.INVISIBLE);
-                        break;
-                    case jaugeEnergieProduite:
-                        jaugeEnergieProduite.setVisibility(View.INVISIBLE);
-                        valeurEnergie.setVisibility(View.INVISIBLE);
-                        valeurMoyenne.setVisibility(View.VISIBLE);
-                        valeurMax.setVisibility(View.VISIBLE);
-                        break;
-                    case jaugePuissanceFournie:
-                        jaugePuissanceFournie.setVisibility(View.INVISIBLE);
-                        break;
-                    case jaugeTemperatureFrein:
-                        thermometreFrein.setVisibility(View.INVISIBLE);
-                        break;
-                    default:
-                        break;
-                }
+                supprimerJaugeAfficheeActuellement();
                 modeProd.setEtatModeProduction(ModeProduction.UnEtat.jaugeTemperatureAlternateur);
-                thermometreAlternateur.setVisibility(View.VISIBLE);
-                nomJaugeCourante.setText(nomJaugeTemperatureAlternateur);
-
+                afficherNouvelleJauge();
             }
         });
 
         boutonTemperatureFrein.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
-                switch (modeProd.getEtatModeProduction()){
-                    case jaugeVitesseRotation:
-                        jaugeVitesseRotation.setVisibility(View.INVISIBLE);
-                        break;
-                    case jaugeTensionEnEntree:
-                        jaugeTensionEnEntree.setVisibility(View.INVISIBLE);
-                        break;
-                    case jaugeCourantEnEntree:
-                        jaugeCourantEnEntree.setVisibility(View.INVISIBLE);
-                        break;
-                    case jaugeEnergieProduite:
-                        jaugeEnergieProduite.setVisibility(View.INVISIBLE);
-                        valeurEnergie.setVisibility(View.INVISIBLE);
-                        valeurMoyenne.setVisibility(View.VISIBLE);
-                        valeurMax.setVisibility(View.VISIBLE);
-                        break;
-                    case jaugePuissanceFournie:
-                        jaugePuissanceFournie.setVisibility(View.INVISIBLE);
-                        break;
-                    case jaugeTemperatureAlternateur:
-                        thermometreAlternateur.setVisibility(View.INVISIBLE);
-                        break;
-                    default:
-                        break;
-                }
+                supprimerJaugeAfficheeActuellement();
                 modeProd.setEtatModeProduction(ModeProduction.UnEtat.jaugeTemperatureFrein);
-                thermometreFrein.setVisibility(View.VISIBLE);
-                nomJaugeCourante.setText(nomJaugeTemperatureFrein);
-
+                afficherNouvelleJauge();
             }
         });
 
@@ -578,17 +394,81 @@ public class MainActivity extends AppCompatActivity {
             default:
                 break;
         }
+    }
 
+    public void supprimerJaugeAfficheeActuellement(){
+        switch (modeProd.getEtatModeProduction()){
+            case jaugeVitesseRotation:
+                jaugeVitesseRotation.setVisibility(View.INVISIBLE);
+                break;
+            case jaugeTensionEnEntree:
+                jaugeTensionEnEntree.setVisibility(View.INVISIBLE);
+                break;
+            case jaugePuissanceFournie:
+                jaugePuissanceFournie.setVisibility(View.INVISIBLE);
+                break;
+            case jaugeCourantEnEntree:
+                jaugeCourantEnEntree.setVisibility(View.INVISIBLE);
+                break;
+            case jaugeEnergieProduite:
+                jaugeEnergieProduite.setVisibility(View.INVISIBLE);
+                valeurEnergie.setVisibility(View.INVISIBLE);
+                valeurMoyenne.setVisibility(View.VISIBLE);
+                valeurMax.setVisibility(View.VISIBLE);
+                break;
+            case jaugeTemperatureAlternateur:
+                thermometreAlternateur.setVisibility(View.INVISIBLE);
+                break;
+            case jaugeTemperatureFrein:
+                thermometreFrein.setVisibility(View.INVISIBLE);
+                break;
+            default:
+                break;
+        }
+    }
 
-
-
-
-
-
-
+    public void afficherNouvelleJauge(){
+        switch (modeProd.getEtatModeProduction()){
+            case jaugeVitesseRotation:
+                jaugeVitesseRotation.setVisibility(View.VISIBLE);
+                nomJaugeCourante.setText(nomJaugeVitesseRotation);
+                break;
+            case jaugeTensionEnEntree:
+                jaugeTensionEnEntree.setVisibility(View.VISIBLE);
+                nomJaugeCourante.setText(nomJaugeTensionEnEntree);
+                break;
+            case jaugePuissanceFournie:
+                jaugePuissanceFournie.setVisibility(View.VISIBLE);
+                nomJaugeCourante.setText(nomJaugePuissanceFournie);
+                break;
+            case jaugeCourantEnEntree:
+                jaugeCourantEnEntree.setVisibility(View.VISIBLE);
+                nomJaugeCourante.setText(nomJaugeCourantEnEntree);
+                break;
+            case jaugeEnergieProduite:
+                valeurMoyenne.setVisibility(View.INVISIBLE);
+                valeurMax.setVisibility(View.INVISIBLE);
+                valeurEnergie.setVisibility(View.VISIBLE);
+                jaugeEnergieProduite.setVisibility(View.VISIBLE);
+                nomJaugeCourante.setText(nomJaugeEnergieProduite);
+                break;
+            case jaugeTemperatureAlternateur:
+                thermometreAlternateur.setVisibility(View.VISIBLE);
+                nomJaugeCourante.setText(nomJaugeTemperatureAlternateur);
+                break;
+            case jaugeTemperatureFrein:
+                thermometreFrein.setVisibility(View.VISIBLE);
+                nomJaugeCourante.setText(nomJaugeTemperatureFrein);
+                break;
+            default:
+                break;
+        }
 
     }
 
-
+    @Override
+    public void onBackPressed() {
+        //Permet de bloquer la flêche retour de l'appareil
+    }
 
 }
