@@ -281,8 +281,6 @@
         app:layout_constraintEnd_toStartOf="@+id/barreSeparationVerticale"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/barreSeparationHorizontale"
-        app:sccMajorTicks="200"
-        app:sccMinorTicks="50"
         app:sccShowContour="true"
         app:sccShowLabels="true"
         app:sccText="@string/uniteJaugeKMH" />
@@ -296,8 +294,6 @@
         app:layout_constraintEnd_toStartOf="@+id/barreSeparationVerticale"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/barreSeparationHorizontale"
-        app:sccMajorTicks="5"
-        app:sccMinorTicks="1"
         app:sccShowContour="true"
         app:sccShowLabels="true"
         app:sccText="@string/uniteJaugeVolt" />
@@ -311,8 +307,6 @@
         app:layout_constraintEnd_toStartOf="@+id/barreSeparationVerticale"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/barreSeparationHorizontale"
-        app:sccMajorTicks="5"
-        app:sccMinorTicks="1"
         app:sccShowContour="true"
         app:sccShowLabels="true"
         app:sccText="@string/uniteJaugeAmpere" />
@@ -326,8 +320,6 @@
         app:layout_constraintEnd_toStartOf="@+id/barreSeparationVerticale"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/barreSeparationHorizontale"
-        app:sccMajorTicks="200"
-        app:sccMinorTicks="50"
         app:sccShowContour="true"
         app:sccShowLabels="true"
         app:sccText="@string/uniteJaugeWatt" />

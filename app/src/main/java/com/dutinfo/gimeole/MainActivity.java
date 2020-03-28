@@ -469,7 +469,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void changerMinMaxDesJauges() {
+    public void changerMinMaxDesJauges() {
         jaugeVitesseRotation.setMinValue(modeProd.getVitesseRotation().getValMinJauge());
         jaugeVitesseRotation.setMaxValue(modeProd.getVitesseRotation().getValMaxJauge());
         jaugeTensionEnEntree.setMinValue(modeProd.getTensionEnEntree().getValMinJauge());
@@ -481,6 +481,18 @@ public class MainActivity extends AppCompatActivity {
         jaugeEnergieProduite.setMax((float) modeProd.getEnergieProduite().getValMaxJauge());
         parametrerEtAfficherThermometreAlternateur();
         parametrerEtAfficherThermometreFrein();
+        changerEcartsEntreValeursDesJaugesCirculaires();
+    }
+
+    public void changerEcartsEntreValeursDesJaugesCirculaires(){
+        jaugeVitesseRotation.setMajorTicks((modeProd.getVitesseRotation().getValMaxJauge()-modeProd.getVitesseRotation().getValMinJauge())/10);
+        jaugeVitesseRotation.setMinorTicks((modeProd.getVitesseRotation().getValMaxJauge()-modeProd.getVitesseRotation().getValMinJauge())/10/4);
+        jaugeTensionEnEntree.setMajorTicks((modeProd.getTensionEnEntree().getValMaxJauge()-modeProd.getTensionEnEntree().getValMinJauge())/10);
+        jaugeTensionEnEntree.setMinorTicks((modeProd.getTensionEnEntree().getValMaxJauge()-modeProd.getTensionEnEntree().getValMinJauge())/10/4);
+        jaugeCourantEnEntree.setMajorTicks((modeProd.getCourantEnEntree().getValMaxJauge()-modeProd.getCourantEnEntree().getValMinJauge())/10);
+        jaugeCourantEnEntree.setMinorTicks((modeProd.getCourantEnEntree().getValMaxJauge()-modeProd.getCourantEnEntree().getValMinJauge())/10/4);
+        jaugePuissanceFournie.setMajorTicks((modeProd.getPuissanceFournie().getValMaxJauge()-modeProd.getPuissanceFournie().getValMinJauge())/10);
+        jaugePuissanceFournie.setMinorTicks((modeProd.getPuissanceFournie().getValMaxJauge()-modeProd.getPuissanceFournie ().getValMinJauge())/10/4);
     }
 
     @Override
