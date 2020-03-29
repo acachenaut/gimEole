@@ -17,7 +17,7 @@ public class BoiteAOutils {
             for (int i = 0 ; i<nombreDeChiffreSignificatif;i++){
                 nbDeChiffreSignificatif+="0";
             }
-            DecimalFormat df = new DecimalFormat("0"+nbDeChiffreSignificatif);
+            DecimalFormat df = new DecimalFormat("0."+nbDeChiffreSignificatif);
             chiffreAAfficher=df.format(chiffreATransfromer);
             chiffreAAfficher+="E"+puissanceDe10;
         }
