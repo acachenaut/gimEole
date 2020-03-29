@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -19,6 +20,8 @@ import com.sccomponents.gauges.gr008.GR008;
 
 import me.aflak.bluetooth.Bluetooth;
 import me.aflak.bluetooth.interfaces.DeviceCallback;
+
+import java.text.DecimalFormat;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -327,15 +330,7 @@ public class MainActivity extends AppCompatActivity {
             case "!" :
                 modeProd.getEnergieProduite().setValCourante(Double.parseDouble(valeurCourante));
                 jaugeEnergieProduite.setProgress((float) modeProd.getEnergieProduite().getValCourante());
-                /*int pos = valeurCourante.indexOf(".");
-                //Code à modifier pour afficher les valeurs correctements
-                if(pos >= 8){
-                    energieProduite.setText(valeurCourante.substring(0,pos-6)+"M");
-                }
-                else if (pos>=5){
-                    energieProduite.setText(valeurCourante.substring(0,pos-3)+"K"+valeurCourante.substring(pos-4,pos));
-                }*/
-                energieProduite.setText(Double.toString(modeProd.getEnergieProduite().getValCourante()));
+                energieProduite.setText(obtenirEcritureScientifiqueAvecTroisChiffresSignificatifs(modeProd.getEnergieProduite().getValCourante()));
 
                 break;
             case "(" :
@@ -374,7 +369,7 @@ public class MainActivity extends AppCompatActivity {
                 valeurMax.setText(getResources().getString(R.string.valeurPuissanceMax)+modeProd.getPuissanceFournie().getValMaxCourante());
                 break;
             case jaugeEnergieProduite:
-                valeurEnergie.setText(getResources().getString(R.string.valeurEnergieProduite)+modeProd.getEnergieProduite().getValCourante());
+                valeurEnergie.setText(getResources().getString(R.string.valeurEnergieProduite)+obtenirEcritureScientifiqueAvecTroisChiffresSignificatifs(modeProd.getEnergieProduite().getValCourante()));
                 break;
             case jaugeTemperatureAlternateur:
                 valeurMoyenne.setText(getResources().getString(R.string.valeurTemperatureMoyenne)+modeProd.getTemperatureAlternateur().getValMoyenne());
@@ -531,6 +526,12 @@ public class MainActivity extends AppCompatActivity {
             }while(modeProd.getTemperatureFrein().getValMaxJauge()-modeProd.getTemperatureFrein().getValCourante()<5);
             parametrerEtAfficherThermometreFrein();
         }
+    }
+
+    public String obtenirEcritureScientifiqueAvecTroisChiffresSignificatifs(Double chiffreATransfromer){
+        String chiffreAAfficher=Double.toString(chiffreATransfromer) ;
+        chiffreAAfficher=chiffreAAfficher.substring(0,4)+chiffreAAfficher.substring(chiffreAAfficher.length()-3);
+        return chiffreAAfficher;
     }
 
     @Override
