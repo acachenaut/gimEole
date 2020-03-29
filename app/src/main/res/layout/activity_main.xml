@@ -324,21 +324,8 @@
         app:sccShowLabels="true"
         app:sccText="@string/uniteJaugeWatt" />
 
-    <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
-        android:id="@+id/jaugeEnergieProduite"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/barreSeparationVerticale"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/barreSeparationHorizontale"
-        android:visibility="invisible"
-        app:rcBackgroundColor="@color/gris"
-        app:rcMax="100"
-        app:rcProgressColor="@color/colorPrimary"
-        app:rcRadius="10dp"
-        app:rcReverse="false"
-        app:rcSecondaryProgressColor="@color/colorAccent" />
+
+
 
 
 
@@ -398,6 +385,45 @@
         app:layout_constraintEnd_toStartOf="@+id/barreSeparationVerticale"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/jaugeVitesseRotation" />
+
+    <com.jjoe64.graphview.GraphView
+        android:id="@+id/echelleLogarithmiqueEnergieProduite"
+        android:layout_width="325dp"
+        android:layout_height="110dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/barreSeparationVerticale"
+        app:layout_constraintHorizontal_bias="0.35"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/barreSeparationHorizontale" />
+
+    <FrameLayout
+        android:id="@+id/cacheDuGrapheDeLeEchelleLogarithmique"
+        android:layout_width="350dp"
+        android:layout_height="90dp"
+        android:background="#FAFAFA"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/barreSeparationVerticale"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"></FrameLayout>
+
+    <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
+        android:id="@+id/jaugeEnergieProduite"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/barreSeparationVerticale"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/barreSeparationHorizontale"
+        android:visibility="invisible"
+        app:rcBackgroundColor="@color/gris"
+        app:rcMax="100"
+        app:rcProgressColor="@color/colorPrimary"
+        app:rcRadius="0dp"
+        app:rcReverse="false"
+        app:rcSecondaryProgressColor="@color/colorAccent" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

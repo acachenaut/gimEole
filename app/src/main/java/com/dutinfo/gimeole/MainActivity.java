@@ -4,8 +4,10 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -16,6 +18,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
 import com.biansemao.widget.ThermometerView;
 import com.dutinfo.gimeole.ClassesUtiles.ModeProduction;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.sccomponents.gauges.gr008.GR008;
 
 import java.text.DecimalFormat;
@@ -32,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
     //Création des jauges
     GR008 jaugeVitesseRotation, jaugeTensionEnEntree, jaugeCourantEnEntree, jaugePuissanceFournie;
     RoundCornerProgressBar jaugeEnergieProduite;
+    GraphView echelleLogarithmique;
+    FrameLayout cacheDuGrapheDeLeEchelleLogarithmique;
     ThermometerView thermometreAlternateur, thermometreFrein;
     ThermometerView.ThermometerBuilder thermometreAlternateurType, thermometreFreinType;
 
@@ -74,6 +80,8 @@ public class MainActivity extends AppCompatActivity {
         jaugeCourantEnEntree = findViewById(R.id.jaugeCourantEnEntree);
         jaugePuissanceFournie = findViewById(R.id.jaugePuissanceFournie);
         jaugeEnergieProduite = findViewById(R.id.jaugeEnergieProduite);
+        echelleLogarithmique = findViewById(R.id.echelleLogarithmiqueEnergieProduite);
+        cacheDuGrapheDeLeEchelleLogarithmique = findViewById(R.id.cacheDuGrapheDeLeEchelleLogarithmique);
         parametrerEtAfficherThermometreAlternateur();
         parametrerEtAfficherThermometreFrein();
 
@@ -119,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Lien entre l'indicateur Bluetooth de l'interface et l'activité
         logoBluetooth = findViewById(R.id.logoBluetooth);
+
 
         changerMinMaxDesJauges();
 
@@ -329,7 +338,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case "!" :
                 modeProd.getEnergieProduite().setValCourante(Double.parseDouble(valeurCourante));
-                jaugeEnergieProduite.setProgress((float) modeProd.getEnergieProduite().getValCourante());
+                jaugeEnergieProduite.setProgress((float) modeProd.getEnergieProduite().pourcentageRempliDeLaJauge());
                 energieProduite.setText(obtenirEcritureScientifiqueAvecTroisChiffresSignificatifs(modeProd.getEnergieProduite().getValCourante()));
 
                 break;
@@ -400,6 +409,8 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case jaugeEnergieProduite:
                 jaugeEnergieProduite.setVisibility(View.INVISIBLE);
+                echelleLogarithmique.setVisibility(View.INVISIBLE);
+                cacheDuGrapheDeLeEchelleLogarithmique.setVisibility(View.INVISIBLE);
                 valeurEnergie.setVisibility(View.INVISIBLE);
                 valeurMoyenne.setVisibility(View.VISIBLE);
                 valeurMax.setVisibility(View.VISIBLE);
@@ -446,6 +457,8 @@ public class MainActivity extends AppCompatActivity {
                 valeurMax.setVisibility(View.INVISIBLE);
                 valeurEnergie.setVisibility(View.VISIBLE);
                 jaugeEnergieProduite.setVisibility(View.VISIBLE);
+                echelleLogarithmique.setVisibility(View.VISIBLE);
+                cacheDuGrapheDeLeEchelleLogarithmique.setVisibility(View.VISIBLE);
                 nomJaugeCourante.setText(nomJaugeEnergieProduite);
                 break;
             case jaugeTemperatureAlternateur:
@@ -475,7 +488,11 @@ public class MainActivity extends AppCompatActivity {
         jaugeCourantEnEntree.setMaxValue(modeProd.getCourantEnEntree().getValMaxJauge());
         jaugePuissanceFournie.setMinValue(modeProd.getPuissanceFournie().getValMinJauge());
         jaugePuissanceFournie.setMaxValue(modeProd.getPuissanceFournie().getValMaxJauge());
-        jaugeEnergieProduite.setMax((float) modeProd.getEnergieProduite().getValMaxJauge());
+        jaugeEnergieProduite.setMax(100);
+        StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(echelleLogarithmique);
+        staticLabelsFormatter.setHorizontalLabels(modeProd.getEnergieProduite().echelleLogarithmique());
+        staticLabelsFormatter.setVerticalLabels(new String[] {"1",""});
+        echelleLogarithmique.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
         parametrerEtAfficherThermometreAlternateur();
         parametrerEtAfficherThermometreFrein();
         changerEcartsEntreValeursDesJaugesCirculaires();
