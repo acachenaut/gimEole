@@ -1,4 +1,4 @@
-package com.dutinfo.gimeole;
+package com.dutinfo.gimeole.ClassesUtiles;
 
 public class Element_A_Afficher {
 

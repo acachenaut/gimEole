@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".ModeTestActivity"></activity>
         <activity
-            android:name=".SplashScreen"
+            android:name=".DemandeDesAutorisationsActivity"
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,12 +23,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ScanActivity"></activity>
+        <activity android:name=".ScanDesPeripheriquesBluetoothActivity"></activity>
         <activity
             android:name=".MainActivity"
             android:screenOrientation="landscape"></activity>
         <activity
-            android:name=".ReglageJauge"
+            android:name=".ReglageJaugeActivity"
             android:screenOrientation="landscape" />
 
         <meta-data

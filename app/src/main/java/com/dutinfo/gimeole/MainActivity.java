@@ -4,7 +4,6 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -16,12 +15,11 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
 import com.biansemao.widget.ThermometerView;
+import com.dutinfo.gimeole.ClassesUtiles.ModeProduction;
 import com.sccomponents.gauges.gr008.GR008;
 
 import me.aflak.bluetooth.Bluetooth;
 import me.aflak.bluetooth.interfaces.DeviceCallback;
-
-import java.text.DecimalFormat;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -189,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
         boutonReglageJauges.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
-                Intent reglageActivity = new Intent(MainActivity.this, ReglageJauge.class);
+                Intent reglageActivity = new Intent(MainActivity.this, ReglageJaugeActivity.class);
                 reglageActivity.putExtra("tabMinMax", modeProd.getMinMaxDesJauges());
                 startActivityForResult(reglageActivity, 1);
             }

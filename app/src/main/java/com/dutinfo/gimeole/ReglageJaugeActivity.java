@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class ReglageJauge extends AppCompatActivity {
+public class ReglageJaugeActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         //Permet de bloquer la flêche retour de l'appareil

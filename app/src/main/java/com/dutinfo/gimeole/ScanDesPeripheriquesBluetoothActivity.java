@@ -22,7 +22,7 @@ import me.aflak.bluetooth.Bluetooth;
 import me.aflak.bluetooth.interfaces.BluetoothCallback;
 import me.aflak.bluetooth.interfaces.DiscoveryCallback;
 
-public class ScanActivity extends AppCompatActivity {
+public class ScanDesPeripheriquesBluetoothActivity extends AppCompatActivity {
     ListView pairedDeviceList;
     ListView deviceList;
     TextView state;
@@ -118,7 +118,7 @@ public class ScanActivity extends AppCompatActivity {
             displayPairedDevices();
             scanButton.setEnabled(true);
         } else {
-            bluetooth.showEnableDialog(ScanActivity.this);
+            bluetooth.showEnableDialog(ScanDesPeripheriquesBluetoothActivity.this);
         }
     }
 
@@ -156,7 +156,7 @@ public class ScanActivity extends AppCompatActivity {
 
         @Override
         public void onUserDeniedActivation() {
-            Toast.makeText(ScanActivity.this, "Il faut activer le Bluetooth...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ScanDesPeripheriquesBluetoothActivity.this, "Il faut activer le Bluetooth...", Toast.LENGTH_SHORT).show();
         }
     };
 
@@ -182,7 +182,7 @@ public class ScanActivity extends AppCompatActivity {
 
         @Override
         public void onDevicePaired(BluetoothDevice device) {
-            Toast.makeText(ScanActivity.this, "Appairé !", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ScanDesPeripheriquesBluetoothActivity.this, "Appairé !", Toast.LENGTH_SHORT).show();
             startChatActivity(device);
         }
 

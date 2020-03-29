@@ -16,7 +16,7 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
 import java.util.List;
 
-public class SplashScreen extends AppCompatActivity {
+public class DemandeDesAutorisationsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,12 +33,12 @@ public class SplashScreen extends AppCompatActivity {
                 @Override
                 public void onPermissionsChecked(MultiplePermissionsReport report) {
                     if(report.areAllPermissionsGranted()){
-                        Intent intent = new Intent(SplashScreen.this, ScanActivity.class);
+                        Intent intent = new Intent(DemandeDesAutorisationsActivity.this, ScanDesPeripheriquesBluetoothActivity.class);
                         startActivity(intent);
                         finish();
                     }
                     else{
-                        Toast.makeText(SplashScreen.this, "Il faut accepter les permissions...", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(DemandeDesAutorisationsActivity.this, "Il faut accepter les permissions...", Toast.LENGTH_SHORT).show();
                         askPermissions();
                     }
                 }

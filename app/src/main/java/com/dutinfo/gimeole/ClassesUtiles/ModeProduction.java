@@ -1,4 +1,4 @@
-package com.dutinfo.gimeole;
+package com.dutinfo.gimeole.ClassesUtiles;
 
 public class ModeProduction {
     public enum UnEtat {jaugeVitesseRotation, jaugeTensionEnEntree, jaugeCourantEnEntree, jaugePuissanceFournie, jaugeEnergieProduite, jaugeTemperatureAlternateur, jaugeTemperatureFrein}
