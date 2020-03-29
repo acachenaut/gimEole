@@ -17,12 +17,11 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
 import com.biansemao.widget.ThermometerView;
+import com.dutinfo.gimeole.ClassesUtiles.BoiteAOutils;
 import com.dutinfo.gimeole.ClassesUtiles.ModeProduction;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.sccomponents.gauges.gr008.GR008;
-
-import java.text.DecimalFormat;
 
 import me.aflak.bluetooth.Bluetooth;
 import me.aflak.bluetooth.interfaces.DeviceCallback;
@@ -339,7 +338,7 @@ public class MainActivity extends AppCompatActivity {
             case "!" :
                 modeProd.getEnergieProduite().setValCourante(Double.parseDouble(valeurCourante));
                 jaugeEnergieProduite.setProgress((float) modeProd.getEnergieProduite().pourcentageRempliDeLaJauge());
-                energieProduite.setText(obtenirEcritureScientifiqueAvecTroisChiffresSignificatifs(modeProd.getEnergieProduite().getValCourante()));
+                energieProduite.setText(BoiteAOutils.obtenirEcritureScientifiqueAvecChiffresSignificatifs(3,modeProd.getEnergieProduite().getValCourante()));
 
                 break;
             case "(" :
@@ -378,7 +377,7 @@ public class MainActivity extends AppCompatActivity {
                 valeurMax.setText(getResources().getString(R.string.valeurPuissanceMax)+modeProd.getPuissanceFournie().getValMaxCourante());
                 break;
             case jaugeEnergieProduite:
-                valeurEnergie.setText(getResources().getString(R.string.valeurEnergieProduite)+obtenirEcritureScientifiqueAvecTroisChiffresSignificatifs(modeProd.getEnergieProduite().getValCourante()));
+                valeurEnergie.setText(getResources().getString(R.string.valeurEnergieProduite)+BoiteAOutils.obtenirEcritureScientifiqueAvecChiffresSignificatifs(3,modeProd.getEnergieProduite().getValCourante()));
                 break;
             case jaugeTemperatureAlternateur:
                 valeurMoyenne.setText(getResources().getString(R.string.valeurTemperatureMoyenne)+modeProd.getTemperatureAlternateur().getValMoyenne());
@@ -543,26 +542,6 @@ public class MainActivity extends AppCompatActivity {
             }while(modeProd.getTemperatureFrein().getValMaxJauge()-modeProd.getTemperatureFrein().getValCourante()<5);
             parametrerEtAfficherThermometreFrein();
         }
-    }
-
-    public String obtenirEcritureScientifiqueAvecTroisChiffresSignificatifs(Double chiffreATransfromer){
-        String chiffreAAfficher=Double.toString(chiffreATransfromer) ;
-        int puissanceDe10 = 0;
-        if (chiffreATransfromer<10000000){
-            while (chiffreAAfficher.indexOf(".")>1){
-                chiffreATransfromer=chiffreATransfromer/10;
-                puissanceDe10++;
-                chiffreAAfficher=Double.toString(chiffreATransfromer);
-            }
-            DecimalFormat df = new DecimalFormat("0.000");
-            chiffreAAfficher=df.format(chiffreATransfromer);
-            chiffreAAfficher+="E"+puissanceDe10;
-        }
-        else{
-            chiffreAAfficher=chiffreAAfficher.substring(0,4)+chiffreAAfficher.substring(chiffreAAfficher.length()-3);
-        }
-
-        return chiffreAAfficher;
     }
 
     @Override
