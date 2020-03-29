@@ -18,6 +18,8 @@ import com.biansemao.widget.ThermometerView;
 import com.dutinfo.gimeole.ClassesUtiles.ModeProduction;
 import com.sccomponents.gauges.gr008.GR008;
 
+import java.text.DecimalFormat;
+
 import me.aflak.bluetooth.Bluetooth;
 import me.aflak.bluetooth.interfaces.DeviceCallback;
 
@@ -528,7 +530,21 @@ public class MainActivity extends AppCompatActivity {
 
     public String obtenirEcritureScientifiqueAvecTroisChiffresSignificatifs(Double chiffreATransfromer){
         String chiffreAAfficher=Double.toString(chiffreATransfromer) ;
-        chiffreAAfficher=chiffreAAfficher.substring(0,4)+chiffreAAfficher.substring(chiffreAAfficher.length()-3);
+        int puissanceDe10 = 0;
+        if (chiffreATransfromer<10000000){
+            while (chiffreAAfficher.indexOf(".")>1){
+                chiffreATransfromer=chiffreATransfromer/10;
+                puissanceDe10++;
+                chiffreAAfficher=Double.toString(chiffreATransfromer);
+            }
+            DecimalFormat df = new DecimalFormat("0.000");
+            chiffreAAfficher=df.format(chiffreATransfromer);
+            chiffreAAfficher+="E"+puissanceDe10;
+        }
+        else{
+            chiffreAAfficher=chiffreAAfficher.substring(0,4)+chiffreAAfficher.substring(chiffreAAfficher.length()-3);
+        }
+
         return chiffreAAfficher;
     }
 
