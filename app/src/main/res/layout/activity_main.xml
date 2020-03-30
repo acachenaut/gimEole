@@ -168,6 +168,17 @@
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/logobluetoohdeconnecte" />
 
+    <TextView
+        android:id="@+id/nomPeripheriqueBluetooth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:textSize="15sp"
+        android:text="@string/connecteA"
+        app:layout_constraintBottom_toTopOf="@+id/barreSeparationHorizontale"
+        app:layout_constraintStart_toEndOf="@+id/logoBluetooth"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <Button
         android:id="@+id/boutonReglage"
         android:layout_width="44dp"

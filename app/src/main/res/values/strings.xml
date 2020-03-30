@@ -38,6 +38,7 @@
     <string name="valeurPuissanceMax">Puissance max : </string>
     <string name="valeurTemperatureMax">Température max : </string>
     <string name="valeurEnergieProduite">L\'éolienne a produit : </string>
+    <string name="connecteA">Connecté à : </string>
 
     <!--mode test-->
 

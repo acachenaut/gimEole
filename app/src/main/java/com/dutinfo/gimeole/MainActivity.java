@@ -4,7 +4,6 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -49,8 +48,9 @@ public class MainActivity extends AppCompatActivity {
     //Création des noms des jauges à afficher
     String nomJaugeVitesseRotation,nomJaugeTensionEnEntree,nomJaugeCourantEnEntree,nomJaugeEnergieProduite,nomJaugePuissanceFournie,nomJaugeTemperatureAlternateur,nomJaugeTemperatureFrein;
 
-    //Création de l'indicateur Bluetooth
+    //Création de l'indicateur Bluetooth et de du nom du périphérique connecté
     ImageView logoBluetooth;
+    TextView nomPeripheriqueBluetooth;
 
     //Création des bouttons permettant de changer la jauge affiché
     Button boutonVitesseRotation,boutonTensionEnEntree,boutonCourantEnEntree,boutonPuissanceFournie,boutonEnergieProduite,boutonTemperatureAlternateur,boutonTemperatureFrein,boutonReglageJauges,boutonRAZenergie;
@@ -124,8 +124,10 @@ public class MainActivity extends AppCompatActivity {
         temperatureAlternateur = findViewById(R.id.temperatureAlternateur);
         temperatureFrein = findViewById(R.id.temperatureFrein);
 
-        //Lien entre l'indicateur Bluetooth de l'interface et l'activité
+        //Lien entre l'indicateur Bluetooth/nom du périphérique de l'interface et l'activité
         logoBluetooth = findViewById(R.id.logoBluetooth);
+        nomPeripheriqueBluetooth = findViewById(R.id.nomPeripheriqueBluetooth);
+        nomPeripheriqueBluetooth.setText(getResources().getString(R.string.connecteA));
 
 
         changerMinMaxDesJauges();
@@ -262,54 +264,10 @@ public class MainActivity extends AppCompatActivity {
         layoutOfDynamicContent.addView(thermometreFrein, params);
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
 
-
-    private DeviceCallback deviceCallback = new DeviceCallback() {
-        @Override
-        public void onDeviceConnected(BluetoothDevice device) {
-            logoBluetooth.setImageResource(R.drawable.logobluetoohconnecte);
-        }
-
-        @Override
-        public void onDeviceDisconnected(final BluetoothDevice device, String message) {
-            logoBluetooth.setImageResource(R.drawable.logobluetoohdeconnecte);
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    bluetooth.connectToDevice(device);
-                }
-            }, 3000);
-        }
-
-        @Override
-        public void onMessage(byte[] message) {
-            String str = new String(message);
-            afficherValeur(str);
-        }
-
-        @Override
-        public void onError(int errorCode) {
-
-        }
-
-        @Override
-        public void onConnectError(final BluetoothDevice device, String message) {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    bluetooth.connectToDevice(device);
-                }
-            }, 3000);
-        }
-    };
-
-    public void afficherValeur (String str){
-        String premierCaractere = (str.substring(0,1));
-        String valeurCourante = (str.substring(1));
+    public void afficherValeur (String chaineRecuParBluetooth){
+        String premierCaractere = (chaineRecuParBluetooth.substring(0,1));
+        String valeurCourante = (chaineRecuParBluetooth.substring(1));
         switch (premierCaractere){
             case "$" :
                 modeProd.getVitesseRotation().setValCourante(Double.parseDouble(valeurCourante));
@@ -544,9 +502,57 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //Partie Bluetooth
+    private DeviceCallback deviceCallback = new DeviceCallback() {
+        @Override
+        public void onDeviceConnected(BluetoothDevice device) {
+            logoBluetooth.setImageResource(R.drawable.logobluetoohconnecte);
+            nomPeripheriqueBluetooth.setText(getResources().getString(R.string.connecteA)+ " "+device.getName());
+        }
+
+        @Override
+        public void onDeviceDisconnected(final BluetoothDevice device, String message) {
+            logoBluetooth.setImageResource(R.drawable.logobluetoohdeconnecte);
+            nomPeripheriqueBluetooth.setText(getResources().getString(R.string.connecteA));
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    bluetooth.connectToDevice(device);
+                }
+            }, 3000);
+        }
+
+        @Override
+        public void onMessage(byte[] message) {
+            String str = new String(message);
+            afficherValeur(str);
+        }
+
+        @Override
+        public void onError(int errorCode) {
+
+        }
+
+        @Override
+        public void onConnectError(final BluetoothDevice device, String message) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    bluetooth.connectToDevice(device);
+                }
+            }, 3000);
+        }
+    };
+
+    //Partie Android
     @Override
     public void onBackPressed() {
         //Permet de bloquer la flêche retour de l'appareil
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
     }
 
 }
