@@ -143,8 +143,6 @@
         app:layout_constraintTop_toBottomOf="@+id/boutonTemperatureAlternateur"
         tools:visibility="visible" />
 
-
-
     <Button
         android:id="@+id/boutonRAZenergie"
         android:layout_width="56dp"
@@ -434,6 +432,17 @@
         app:rcRadius="0dp"
         app:rcReverse="false"
         app:rcSecondaryProgressColor="@color/colorAccent" />
+
+    <Button
+        android:id="@+id/boutonModeTest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/boutonMode_test"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="44dp"
+        app:layout_constraintBottom_toTopOf="@id/barreSeparationHorizontale"
+
+        />
 
 
 

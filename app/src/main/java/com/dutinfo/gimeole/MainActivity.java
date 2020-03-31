@@ -1,6 +1,7 @@
 package com.dutinfo.gimeole;
 
 import android.bluetooth.BluetoothDevice;
+import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,7 +28,7 @@ import me.aflak.bluetooth.interfaces.DeviceCallback;
 
 
 public class MainActivity extends AppCompatActivity {
-
+    boolean disconnected = false;
     //Création du modeProduction
     final ModeProduction modeProd = new ModeProduction();
 
@@ -53,7 +54,10 @@ public class MainActivity extends AppCompatActivity {
     TextView nomPeripheriqueBluetooth;
 
     //Création des bouttons permettant de changer la jauge affiché
-    Button boutonVitesseRotation,boutonTensionEnEntree,boutonCourantEnEntree,boutonPuissanceFournie,boutonEnergieProduite,boutonTemperatureAlternateur,boutonTemperatureFrein,boutonReglageJauges,boutonRAZenergie;
+    Button boutonVitesseRotation,boutonTensionEnEntree,boutonCourantEnEntree,boutonPuissanceFournie,boutonEnergieProduite,boutonTemperatureAlternateur,boutonTemperatureFrein,boutonRAZenergie;
+
+    //Création du bouton permettant d'entrer dans l'activité réglage et test
+    Button boutonReglageJauges, boutonModeTest;
 
     //Nécessaire à la connexion Bluetooth
     private Bluetooth bluetooth;
@@ -111,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
         boutonTemperatureFrein = findViewById(R.id.boutonTemperatureFrein);
         boutonReglageJauges = findViewById(R.id.boutonReglage);
         boutonRAZenergie = findViewById(R.id.boutonRAZenergie);
+        boutonModeTest = findViewById(R.id.boutonModeTest);
 
         //Lien entre le nom de la jauge courante de l'interface et l'activité
         nomJaugeCourante = findViewById(R.id.nomJaugeCourante);
@@ -213,10 +218,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+        boutonModeTest.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Code here executes on main thread after user presses button
+                Intent intent = new Intent(MainActivity.this, ModeTestActivity.class);
+                intent.putExtra("device", device);
+                startActivity(intent);
+                finish();
+            }
+        });
 
     }
-
 
 
     @Override
@@ -514,12 +526,15 @@ public class MainActivity extends AppCompatActivity {
         public void onDeviceDisconnected(final BluetoothDevice device, String message) {
             logoBluetooth.setImageResource(R.drawable.logobluetoohdeconnecte);
             nomPeripheriqueBluetooth.setText(getResources().getString(R.string.connecteA));
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    bluetooth.connectToDevice(device);
-                }
-            }, 3000);
+            if(!disconnected){
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        bluetooth.connectToDevice(device);
+                    }
+                }, 3000);
+            }
+
         }
 
         @Override
@@ -542,6 +557,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             }, 3000);
         }
+
+
     };
 
     //Partie Android
@@ -553,6 +570,18 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+
     }
+
+    @Override
+    public void finish() {
+        super.finish();
+        bluetooth.onStop();
+        disconnected=true;
+        bluetooth.disconnect();
+
+
+    }
+
 
 }

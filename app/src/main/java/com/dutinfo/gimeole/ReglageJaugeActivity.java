@@ -41,7 +41,7 @@ public class ReglageJaugeActivity extends AppCompatActivity {
         final EditText minTemperatureFrein = findViewById(R.id.minTemperatureFrein);
         final EditText maxTemperatureFrein = findViewById(R.id.maxTemperatureFrein);
 
-        //Affichage des valeurs prédéfinis du min max du modeProd actuel
+        //Affichage des valeurs prédéfinis du min max du modeTest actuel
         minVitesseRotation.setText(Double.toString(tabMinMax[0]));
         maxVitesseRotation.setText(Double.toString(tabMinMax[1]));
         minTensionEnEntree.setText(Double.toString(tabMinMax[2]));
