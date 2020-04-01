@@ -52,7 +52,9 @@
     <string name="ValeurFreinage">0 A</string>
     <string name="valeurPoint">0 A</string>
     <string name="valeurPointPrecis">0.0 A</string>
-    <string name="validerPoint">OK</string>
+    <string name="validerPoint">Ajouter</string>
+    <string name="supprimerPoint">Supprimer</string>
+    <string name="envoyerPoints">Envoyer la série de point à l\'éolienne</string>
 
 
 </resources>

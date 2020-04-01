@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -19,6 +20,7 @@ import com.dutinfo.gimeole.ClassesUtiles.Point;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
+import com.jjoe64.graphview.series.PointsGraphSeries;
 
 import me.aflak.bluetooth.Bluetooth;
 import me.aflak.bluetooth.interfaces.DeviceCallback;
@@ -33,19 +35,26 @@ public class ModeTestActivity extends AppCompatActivity {
     private BluetoothDevice device;
 
     //Création valeurs à afficher
-    TextView vitesseRotation, tensionEnEntree, courantEnEntree, puissanceFournie, energieProduite, temperatureAlternateur,temperatureFrein, nomJaugeCourante;
+    TextView vitesseRotation, tensionEnEntree, courantEnEntree, puissanceFournie, energieProduite, temperatureAlternateur,temperatureFrein;
 
     //Création de l'indicateur Bluetooth et de du nom du périphérique connecté
     ImageView logoBluetooth;
     TextView nomPeripheriqueBluetooth;
 
     //Création des bouttons de l'activité
-    Button boutonRAZenergie, boutonFreinage, boutonModeProduction, boutonValiderPoint;
+    Button boutonRAZenergie, boutonModeProduction, boutonValiderPoint, boutonPointPrecedent, boutonPointSuivant,boutonSupprimerPoint, boutonEnvoyerSerieDePoint;
 
     //Création du graphique
     GraphView graphique;
 
     EditText abscisseSaisie,ordonneeSaisie;
+
+    //Serie de point affiché actuellement
+    LineGraphSeries<DataPoint> pointsAffiches = new LineGraphSeries<>();
+
+    //indicateur permettant de savoir si le bluetooth a été deconnecté à cause d'un changement d'activité
+    boolean estDeconnecteDuBluetoothCarChangementDActivite;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,15 +83,25 @@ public class ModeTestActivity extends AppCompatActivity {
         nomPeripheriqueBluetooth = findViewById(R.id.nomPeripheriqueBluetooth);
         nomPeripheriqueBluetooth.setText(getResources().getString(R.string.connecteA));
 
+        estDeconnecteDuBluetoothCarChangementDActivite=false;
+
         //Lien entre les boutons de l'interface et l'activité
         boutonRAZenergie = findViewById(R.id.t_boutonRAZenergie);
         boutonModeProduction = findViewById(R.id.t_boutonModeProd);
         boutonValiderPoint = findViewById(R.id.t_boutonValidationPoint);
+        boutonPointPrecedent = findViewById(R.id.t_boutonPointPrécédent);
+        boutonPointSuivant = findViewById(R.id.t_boutonPointSuivant);
+        boutonSupprimerPoint = findViewById(R.id.t_boutonSupprimerPoint);
+        boutonEnvoyerSerieDePoint = findViewById(R.id.t_boutonEnvoyerSerieDePoints);
 
+        //Lien entre le graphique de l'interface et l'activité
         graphique = findViewById(R.id.t_graphique);
 
+        //Lien entre les zones de saisis de l'interface et l'activité
         abscisseSaisie = findViewById(R.id.t_saisieAbscisse);
         ordonneeSaisie = findViewById(R.id.t_saiseOrdonnee);
+
+        initialiserGraphique();
 
         boutonValiderPoint.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -95,25 +114,7 @@ public class ModeTestActivity extends AppCompatActivity {
                  boolean estAjoute;
                  estAjoute=modeTest.ajouterUnPointEtTrierTableau(Double.parseDouble(abscisse),Double.parseDouble(ordonnee));
                  if(estAjoute){
-                     LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
-                     for(Point pointCourant : modeTest.getPointsDuGraphique()){
-                         series.appendData(new DataPoint(pointCourant.getAbscisse(),pointCourant.getOrdonnee()),true,10);
-                     }
-                     graphique.removeAllSeries();
-                     series.setDrawDataPoints(true);
-                     series.setDataPointsRadius(10);
-                     series.setThickness(8);
-                     graphique.getViewport().setYAxisBoundsManual(true);
-                     graphique.getViewport().setMinY(0);
-                     graphique.getViewport().setMaxY(20);
-                     graphique.getViewport().setXAxisBoundsManual(true);
-                     graphique.getViewport().setMinX(0);
-                     graphique.getViewport().setMaxX(3000);
-                     graphique.getViewport().setScalable(true);
-                     graphique.getViewport().setScalableY(true);
-                     graphique.getViewport().setScrollable(true);
-                     graphique.getViewport().setScrollableY(true);
-                     graphique.addSeries(series);
+                     afficherLesPointsSurLeGraphique();
                  }
                  else{
                      Toast messageTableauComplet = Toast.makeText(getApplicationContext(),
@@ -148,6 +149,99 @@ public class ModeTestActivity extends AppCompatActivity {
                 intent.putExtra("device", device);
                 startActivity(intent);
                 finish();
+            }
+        });
+
+
+        boutonPointPrecedent.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Code here executes on main thread after user presses button
+                if(modeTest.getNombreDePoints()!=0){
+                    switch (modeTest.getPointSelectionne()){
+                        case -1:
+                            modeTest.setPointSelectionne(0);
+                            break;
+                        case 0:
+                            Toast messagePasDePointPrecedent = Toast.makeText(getApplicationContext(),
+                                    "C'est déjà le premier point !",
+                                    Toast.LENGTH_SHORT);
+                            messagePasDePointPrecedent.show();
+                            break;
+                        default:
+                            modeTest.setPointSelectionne(modeTest.getPointSelectionne()-1);
+                            break;
+                    }
+                    afficherPointSelectionne(modeTest.getPointSelectionne());
+                }
+                else{
+                    Toast messageAucunPointSaisi = Toast.makeText(getApplicationContext(),
+                            "Aucun point n'a été ajouté !",
+                            Toast.LENGTH_SHORT);
+                    messageAucunPointSaisi.show();
+                }
+
+
+            }
+        });
+
+        boutonPointSuivant.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Code here executes on main thread after user presses button
+                if(modeTest.getNombreDePoints()!=0){
+                    if(modeTest.getPointSelectionne()==modeTest.getNombreDePoints()-1){
+                        Toast messagePasDePointSuivant = Toast.makeText(getApplicationContext(),
+                                "C'est déjà le dernier point !",
+                                Toast.LENGTH_SHORT);
+                        messagePasDePointSuivant.show();
+                    }
+                    else{
+                        modeTest.setPointSelectionne(modeTest.getPointSelectionne()+1);
+                    }
+                    afficherPointSelectionne(modeTest.getPointSelectionne());
+                }
+                else{
+                    Toast messageAucunPointSaisi = Toast.makeText(getApplicationContext(),
+                            "Aucun point n'a été ajouté !",
+                            Toast.LENGTH_SHORT);
+                    messageAucunPointSaisi.show();
+                }
+
+            }
+        });
+
+        boutonSupprimerPoint.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Code here executes on main thread after user presses button
+                if(modeTest.getPointSelectionne()!=-1){
+                    modeTest.supprimerPointSelectionne(modeTest.getPointSelectionne());
+                    modeTest.setPointSelectionne(-1);
+                    afficherLesPointsSurLeGraphique();
+                }
+                else{
+                    Toast messagePasDePointSelectionne = Toast.makeText(getApplicationContext(),
+                            "Aucun point n'a été selectionné !",
+                            Toast.LENGTH_SHORT);
+                    messagePasDePointSelectionne.show();
+                }
+
+            }
+        });
+
+        boutonEnvoyerSerieDePoint.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Code here executes on main thread after user presses button
+                if(modeTest.getNombreDePoints()!=0){
+                    for(Point pointCourant : modeTest.getPointsDuGraphique()){
+                        bluetooth.send("n"+pointCourant.getAbscisse()+";"+pointCourant.getOrdonnee());
+                    }
+                }
+                else{
+                    Toast messageAucunPointSaisi = Toast.makeText(getApplicationContext(),
+                            "Aucun point n'a été ajouté !",
+                            Toast.LENGTH_SHORT);
+                    messageAucunPointSaisi.show();
+                }
+
             }
         });
     }
@@ -196,6 +290,48 @@ public class ModeTestActivity extends AppCompatActivity {
         }
     }
 
+    public void afficherPointSelectionne(int positionDuPoint){
+        PointsGraphSeries<DataPoint> pointSelectionne = new PointsGraphSeries<>(new DataPoint[] {
+                new DataPoint(modeTest.getPointsDuGraphique().get(positionDuPoint).getAbscisse(), modeTest.getPointsDuGraphique().get(positionDuPoint).getOrdonnee())
+    });
+        pointSelectionne.setShape(PointsGraphSeries.Shape.POINT);
+        pointSelectionne.setColor(Color.RED);
+        pointSelectionne.setShape(PointsGraphSeries.Shape.POINT);
+        graphique.removeAllSeries();
+        graphique.addSeries(pointsAffiches);
+        graphique.addSeries(pointSelectionne);
+    }
+
+    public void afficherLesPointsSurLeGraphique(){
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
+        for(Point pointCourant : modeTest.getPointsDuGraphique()){
+            series.appendData(new DataPoint(pointCourant.getAbscisse(),pointCourant.getOrdonnee()),true,10);
+        }
+        pointsAffiches=series;
+        graphique.removeAllSeries();
+        pointsAffiches.setDrawDataPoints(true);
+        pointsAffiches.setDataPointsRadius(10);
+        pointsAffiches.setThickness(8);
+        graphique.getViewport().setYAxisBoundsManual(true);
+        graphique.getViewport().setMinY(0);
+        graphique.getViewport().setMaxY(modeTest.getMaxOrdonee());
+        graphique.getViewport().setXAxisBoundsManual(true);
+        graphique.getViewport().setMinX(0);
+        graphique.getViewport().setMaxX(modeTest.getMaxAbscisse());
+        graphique.addSeries(pointsAffiches);
+    }
+
+    public void initialiserGraphique(){
+        graphique.getViewport().setYAxisBoundsManual(true);
+        graphique.getViewport().setMinY(0);
+        graphique.getViewport().setMaxY(modeTest.getCourantEnEntree().getValMaxJauge());
+        graphique.getViewport().setXAxisBoundsManual(true);
+        graphique.getViewport().setMinX(0);
+        graphique.getViewport().setMaxX(modeTest.getVitesseRotation().getValMaxJauge());
+    }
+
+
+
     //Partie Bluetooth
     private DeviceCallback deviceCallback = new DeviceCallback() {
         @Override
@@ -208,12 +344,14 @@ public class ModeTestActivity extends AppCompatActivity {
         public void onDeviceDisconnected(final BluetoothDevice device, String message) {
             logoBluetooth.setImageResource(R.drawable.logobluetoohdeconnecte);
             nomPeripheriqueBluetooth.setText(getResources().getString(R.string.connecteA));
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    bluetooth.connectToDevice(device);
-                }
-            }, 3000);
+            if(!estDeconnecteDuBluetoothCarChangementDActivite){
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        bluetooth.connectToDevice(device);
+                    }
+                }, 3000);
+            }
         }
 
         @Override
@@ -253,6 +391,7 @@ public class ModeTestActivity extends AppCompatActivity {
     public void finish() {
         super.finish();
         bluetooth.onStop();
+        estDeconnecteDuBluetoothCarChangementDActivite = true;
         bluetooth.disconnect();
 
     }

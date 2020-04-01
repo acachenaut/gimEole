@@ -65,12 +65,12 @@
         android:id="@+id/t_boutonModeProd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/boutonMode_prod"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="44dp"
+        android:text="@string/boutonMode_prod"
         app:layout_constraintBottom_toTopOf="@id/barreSeparationHorizontale"
+        app:layout_constraintEnd_toEndOf="parent"
 
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/t_boutonVitesseDeRotation"
@@ -173,11 +173,10 @@
         android:text="@string/boutonTemperatureFrein"
         android:textAllCaps="false"
         android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/t_boutonEnvoyerSerieDePoints"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/barreSeparationVerticale"
         app:layout_constraintTop_toBottomOf="@+id/t_boutonTemperatureAlternateur"
-        app:layout_constraintBottom_toTopOf="@id/t_seekbarFreinage"
         tools:visibility="visible" />
 
 
@@ -273,43 +272,11 @@
         />
 
 
-    <SeekBar
-        android:id="@+id/t_seekbarFreinage"
-        android:layout_width="150dp"
-        android:layout_height="22dp"
-        android:max="100"
-        android:progress="30"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/t_valeurFreinage"
-        app:layout_constraintStart_toEndOf="@id/barreSeparationVerticale"
-        app:layout_constraintTop_toBottomOf="@id/t_temperatureFrein"></SeekBar>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:padding="0dp"
-        android:background="@color/gris"
-       android:id="@+id/t_boutonFreinage"
-        android:text="@string/boutonFreinage"
-        app:layout_constraintTop_toBottomOf="@id/t_temperatureFrein"
-        app:layout_constraintStart_toEndOf="@id/t_valeurFreinage"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        >
-    </Button>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:id="@+id/t_valeurFreinage"
-        app:layout_constraintStart_toEndOf="@id/t_seekbarFreinage"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/t_boutonFreinage"
-        app:layout_constraintTop_toBottomOf="@id/t_temperatureFrein"
-        android:text="@string/ValeurFreinage"
-        ></TextView>
+
+
+
 
 
 
@@ -328,7 +295,7 @@
         android:layout_height="wrap_content"
         android:ems="4"
         android:inputType="numberDecimal"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/t_boutonPointPrécédent"
         app:layout_constraintEnd_toStartOf="@+id/t_saiseOrdonnee"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/t_graphique" />
@@ -339,7 +306,7 @@
         android:layout_height="wrap_content"
         android:ems="4"
         android:inputType="numberDecimal"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/t_boutonPointSuivant"
         app:layout_constraintEnd_toStartOf="@+id/t_boutonValidationPoint"
         app:layout_constraintStart_toEndOf="@+id/t_saisieAbscisse"
         app:layout_constraintTop_toBottomOf="@+id/t_graphique" />
@@ -349,10 +316,64 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/validerPoint"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:fontFamily="sans-serif-light"
+        android:textAllCaps="false"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@+id/t_boutonSupprimerPoint"
         app:layout_constraintEnd_toStartOf="@+id/barreSeparationVerticale"
         app:layout_constraintStart_toEndOf="@+id/t_saiseOrdonnee"
         app:layout_constraintTop_toBottomOf="@+id/t_graphique" />
+
+    <Button
+        android:id="@+id/t_boutonPointPrécédent"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/precedent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/t_saisieAbscisse"
+        app:layout_constraintStart_toStartOf="@+id/t_saisieAbscisse"
+        app:layout_constraintTop_toBottomOf="@+id/t_saisieAbscisse"
+        tools:visibility="visible" />
+
+    <Button
+        android:id="@+id/t_boutonPointSuivant"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/suivant"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/t_saiseOrdonnee"
+        app:layout_constraintStart_toStartOf="@+id/t_saiseOrdonnee"
+        app:layout_constraintTop_toBottomOf="@+id/t_saiseOrdonnee"
+        tools:visibility="visible" />
+
+    <Button
+    android:id="@+id/t_boutonSupprimerPoint"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:fontFamily="sans-serif-light"
+    android:text="@string/supprimerPoint"
+    android:textAllCaps="false"
+    android:textSize="15sp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="@+id/t_boutonValidationPoint"
+    app:layout_constraintStart_toStartOf="@+id/t_boutonValidationPoint"
+    app:layout_constraintTop_toBottomOf="@+id/t_boutonValidationPoint"
+    tools:visibility="visible" />
+
+    <Button
+        android:id="@+id/t_boutonEnvoyerSerieDePoints"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/envoyerPoints"
+        android:textAllCaps="false"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/barreSeparationVerticale"
+        app:layout_constraintTop_toBottomOf="@+id/t_boutonTemperatureFrein"
+        tools:visibility="visible" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

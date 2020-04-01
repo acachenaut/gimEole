@@ -1,7 +1,6 @@
 package com.dutinfo.gimeole;
 
 import android.bluetooth.BluetoothDevice;
-import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,7 +27,7 @@ import me.aflak.bluetooth.interfaces.DeviceCallback;
 
 
 public class MainActivity extends AppCompatActivity {
-    boolean disconnected = false;
+
     //Création du modeProduction
     final ModeProduction modeProd = new ModeProduction();
 
@@ -63,6 +62,9 @@ public class MainActivity extends AppCompatActivity {
     private Bluetooth bluetooth;
     private BluetoothDevice device;
 
+    //indicateur permettant de savoir si le bluetooth a été deconnecté à cause d'un changement d'activité
+    boolean estDeconnecteDuBluetoothCarChangementDActivite;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +78,8 @@ public class MainActivity extends AppCompatActivity {
         bluetooth.setDeviceCallback(deviceCallback);
         bluetooth.onStart();
         bluetooth.connectToDevice(device);
+
+        estDeconnecteDuBluetoothCarChangementDActivite=false;
 
         //Lien entre les jauges de l'interface et de l'activté
         jaugeVitesseRotation = findViewById(R.id.jaugeVitesseRotation);
@@ -526,7 +530,7 @@ public class MainActivity extends AppCompatActivity {
         public void onDeviceDisconnected(final BluetoothDevice device, String message) {
             logoBluetooth.setImageResource(R.drawable.logobluetoohdeconnecte);
             nomPeripheriqueBluetooth.setText(getResources().getString(R.string.connecteA));
-            if(!disconnected){
+            if(!estDeconnecteDuBluetoothCarChangementDActivite){
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -577,7 +581,7 @@ public class MainActivity extends AppCompatActivity {
     public void finish() {
         super.finish();
         bluetooth.onStop();
-        disconnected=true;
+        estDeconnecteDuBluetoothCarChangementDActivite =true;
         bluetooth.disconnect();
 
 
