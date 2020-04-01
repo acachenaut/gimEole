@@ -1,13 +1,13 @@
 <resources>
-    <string name="app_name">Gim\'Eole</string>
+    <string name="app_name">GimEole</string>
     <string name="mode_prod">Mode : Production</string>
     <string name="boutonVitesseDeRotation">Vitesse de rotation (tr/min) :</string>
     <string name="boutonTensionEnEntree">Tension en entrée du convertisseur (V) :</string>
-    <string name="boutonCourantEnEntree">Courant en entrée du convertisseur (A) :</string>
+    <string name="boutonCourantEnEntree">Courant en entée du convertisseur (A) :</string>
     <string name="boutonPuissanceFournie">Puissance fournie par l\'éolienne (W) :</string>
     <string name="boutonEnergieProduite">Energie produite par l\'éolienne (J) :</string>
     <string name="boutonTemperatureAlternateur">Température de l\'alternateur (°C) :</string>
-    <string name="boutonTemperatureFrein">Température du frein (°C) :</string>
+    <string name="boutonTemperatureFrein">Temperature du frein (°C) :</string>
     <string name="remiseAZero">RAZ</string>
     <string name="nomJaugeVitesseDeRotation">Vitesse de rotation</string>
     <string name="nomJaugeTensionEnEntree">Tension en entrée du convertisseur</string>
@@ -15,7 +15,7 @@
     <string name="nomJaugePuissanceFournie">Puissance fournie par l\'éolienne</string>
     <string name="nomJaugeEnergieProduite">Energie produite par l\'éolienne</string>
     <string name="nomJaugeTemperatureAlternateur">Température de l\'alternateur</string>
-    <string name="nomJaugeTemperatureFrein">Température du frein</string>
+    <string name="nomJaugeTemperatureFrein">Temperature du frein</string>
     <string name="uniteJaugeKMH">tr/min</string>
     <string name="uniteJaugeVolt">V</string>
     <string name="uniteJaugeAmpere">A</string>
@@ -46,9 +46,15 @@
     <string name="description">logo bt</string>
     <string name="boutonMode_prod">Production</string>
     <string name="mode_test">Mode : Test</string>
+    <string name="boutonFreinage">Freinage</string>
+    <string name="boutonEnregistrer">Enregistrer les données</string>
+    <string name="boutonGenerer">Générer l\'équation</string>
+    <string name="ValeurFreinage">0 A</string>
+    <string name="valeurPoint">0 A</string>
+    <string name="valeurPointPrecis">0.0 A</string>
     <string name="validerPoint">Ajouter</string>
     <string name="supprimerPoint">Supprimer</string>
-    <string name="envoyerPoints">Envoyer la série de points à l\'éolienne</string>
+    <string name="envoyerPoints">Envoyer la série de point à l\'éolienne</string>
 
 
 </resources>
