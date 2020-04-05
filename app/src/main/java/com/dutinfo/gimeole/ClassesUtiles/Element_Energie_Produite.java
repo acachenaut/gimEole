@@ -1,8 +1,5 @@
 package com.dutinfo.gimeole.ClassesUtiles;
 
-import android.util.Log;
-
-import java.text.DecimalFormat;
 
 public class Element_Energie_Produite extends Element_A_Afficher {
 
