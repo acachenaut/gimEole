@@ -38,7 +38,7 @@
     <Button
         android:id="@+id/boutonVitesseDeRotation"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:background="@null"
         android:fontFamily="sans-serif-light"
         android:text="@string/boutonVitesseDeRotation"
@@ -53,7 +53,7 @@
     <Button
         android:id="@+id/boutonTensionEnEntree"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:background="@null"
         android:fontFamily="sans-serif-light"
         android:text="@string/boutonTensionEnEntree"
@@ -68,22 +68,52 @@
     <Button
         android:id="@+id/boutonCourantEnEntree"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:background="@null"
         android:fontFamily="sans-serif-light"
         android:text="@string/boutonCourantEnEntree"
         android:textAllCaps="false"
         android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@+id/boutonPuissanceFournie"
+        app:layout_constraintBottom_toTopOf="@+id/boutonTensionEnSortie"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/barreSeparationVerticale"
         app:layout_constraintTop_toBottomOf="@+id/boutonTensionEnEntree"
         tools:visibility="visible" />
 
     <Button
+        android:id="@+id/boutonTensionEnSortie"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:background="@null"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/boutonTensionEnSortie"
+        android:textAllCaps="false"
+        android:textSize="15sp"
+        app:layout_constraintStart_toEndOf="@+id/barreSeparationVerticale"
+        app:layout_constraintBottom_toTopOf="@+id/boutonCourantEnSortie"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/boutonCourantEnEntree"
+        tools:visibility="visible" />
+
+    <Button
+        android:id="@+id/boutonCourantEnSortie"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:background="@null"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/boutonCourantEnSortie"
+        android:textAllCaps="false"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@+id/boutonPuissanceFournie"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/barreSeparationVerticale"
+        app:layout_constraintTop_toBottomOf="@+id/boutonTensionEnSortie"
+        tools:visibility="visible" />
+
+    <Button
         android:id="@+id/boutonPuissanceFournie"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:background="@null"
         android:fontFamily="sans-serif-light"
         android:text="@string/boutonPuissanceFournie"
@@ -92,17 +122,16 @@
         app:layout_constraintBottom_toTopOf="@+id/boutonEnergieProduite"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/barreSeparationVerticale"
-        app:layout_constraintTop_toBottomOf="@+id/boutonCourantEnEntree"
+        app:layout_constraintTop_toBottomOf="@+id/boutonCourantEnSortie"
         tools:visibility="visible" />
 
     <Button
         android:id="@+id/boutonEnergieProduite"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:background="@null"
         android:fontFamily="sans-serif-light"
         android:text="@string/boutonEnergieProduite"
-
         android:textAllCaps="false"
         android:textSize="15sp"
         app:layout_constraintBottom_toTopOf="@+id/boutonTemperatureAlternateur"
@@ -114,11 +143,10 @@
     <Button
         android:id="@+id/boutonTemperatureAlternateur"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:background="@null"
         android:fontFamily="sans-serif-light"
         android:text="@string/boutonTemperatureAlternateur"
-
         android:textAllCaps="false"
         android:textSize="15sp"
         app:layout_constraintBottom_toTopOf="@+id/boutonTemperatureFrein"
@@ -130,12 +158,11 @@
     <Button
         android:id="@+id/boutonTemperatureFrein"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:background="@null"
         android:fontFamily="sans-serif-light"
         android:text="@string/boutonTemperatureFrein"
         android:textAllCaps="false"
-
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -148,11 +175,11 @@
         android:layout_width="56dp"
         android:layout_height="wrap_content"
         android:text="@string/remiseAZero"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@+id/boutonTemperatureAlternateur"
         app:layout_constraintEnd_toStartOf="@+id/boutonEnergieProduite"
         app:layout_constraintStart_toEndOf="@+id/barreSeparationVerticale"
-        app:layout_constraintTop_toTopOf="@+id/boutonEnergieProduite"
+        app:layout_constraintTop_toBottomOf="@+id/boutonPuissanceFournie"
         app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
@@ -210,6 +237,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/boutonVitesseDeRotation" />
 
+
     <TextView
         android:id="@+id/courantEnEntree"
         android:layout_width="wrap_content"
@@ -223,6 +251,31 @@
         app:layout_constraintTop_toBottomOf="@+id/boutonTensionEnEntree" />
 
     <TextView
+        android:id="@+id/tensionEnSortie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="3dp"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/valeurNulle"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@+id/boutonTensionEnSortie"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/boutonCourantEnEntree"/>
+
+    <TextView
+        android:id="@+id/courantEnSortie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="3dp"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/valeurNulle"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@+id/boutonCourantEnSortie"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/boutonTensionEnSortie"/>
+
+
+    <TextView
         android:id="@+id/puissanceFournie"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -232,7 +285,7 @@
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="@+id/boutonPuissanceFournie"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/boutonCourantEnEntree" />
+        app:layout_constraintTop_toBottomOf="@+id/boutonCourantEnSortie" />
 
     <TextView
         android:id="@+id/energieProduite"
@@ -309,6 +362,32 @@
 
     <com.sccomponents.gauges.gr008.GR008
         android:id="@+id/jaugeCourantEnEntree"
+        android:layout_width="230dp"
+        android:layout_height="230dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/barreSeparationVerticale"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/barreSeparationHorizontale"
+        app:sccShowContour="true"
+        app:sccShowLabels="true"
+        app:sccText="@string/uniteJaugeAmpere" />
+
+    <com.sccomponents.gauges.gr008.GR008
+        android:id="@+id/jaugeTensionEnSortie"
+        android:layout_width="230dp"
+        android:layout_height="230dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/barreSeparationVerticale"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/barreSeparationHorizontale"
+        app:sccShowContour="true"
+        app:sccShowLabels="true"
+        app:sccText="@string/uniteJaugeVolt" />
+
+    <com.sccomponents.gauges.gr008.GR008
+        android:id="@+id/jaugeCourantEnSortie"
         android:layout_width="230dp"
         android:layout_height="230dp"
         android:visibility="invisible"

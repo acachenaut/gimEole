@@ -4,6 +4,8 @@
     <string name="boutonVitesseDeRotation">Vitesse de rotation (tr/min) :</string>
     <string name="boutonTensionEnEntree">Tension en entrée du convertisseur (V) :</string>
     <string name="boutonCourantEnEntree">Courant en entrée du convertisseur (A) :</string>
+    <string name="boutonTensionEnSortie">Tension en sortie du convertisseur (V) :</string>
+    <string name="boutonCourantEnSortie">Courant en sortie du convertisseur (A) :</string>
     <string name="boutonPuissanceFournie">Puissance fournie par l\'éolienne (W) :</string>
     <string name="boutonEnergieProduite">Energie produite par l\'éolienne (J) :</string>
     <string name="boutonTemperatureAlternateur">Température de l\'alternateur (°C) :</string>
@@ -12,6 +14,8 @@
     <string name="nomJaugeVitesseDeRotation">Vitesse de rotation</string>
     <string name="nomJaugeTensionEnEntree">Tension en entrée du convertisseur</string>
     <string name="nomJaugeCourantEnEntree">Courant en entrée du convertisseur</string>
+    <string name="nomJaugeTensionEnSortie">Tension en sortie du convertisseur</string>
+    <string name="nomJaugeCourantEnSortie">Courant en sortie du convertisseur</string>
     <string name="nomJaugePuissanceFournie">Puissance fournie par l\'éolienne</string>
     <string name="nomJaugeEnergieProduite">Energie produite par l\'éolienne</string>
     <string name="nomJaugeTemperatureAlternateur">Température de l\'alternateur</string>

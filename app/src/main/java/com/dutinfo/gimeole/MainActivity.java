@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     final ModeProduction modeProd = new ModeProduction();
 
     //Création des jauges
-    GR008 jaugeVitesseRotation, jaugeTensionEnEntree, jaugeCourantEnEntree, jaugePuissanceFournie;
+    GR008 jaugeVitesseRotation, jaugeTensionEnEntree, jaugeCourantEnEntree, jaugeTensionEnSortie, jaugeCourantEnSortie, jaugePuissanceFournie;
     RoundCornerProgressBar jaugeEnergieProduite;
     GraphView echelleLogarithmique;
     FrameLayout cacheDuGrapheDeLeEchelleLogarithmique;
@@ -40,20 +40,20 @@ public class MainActivity extends AppCompatActivity {
     ThermometerView.ThermometerBuilder thermometreAlternateurType, thermometreFreinType;
 
     //Création valeurs à afficher
-    TextView vitesseRotation, tensionEnEntree, courantEnEntree, puissanceFournie, energieProduite, temperatureAlternateur,temperatureFrein, nomJaugeCourante;
+    TextView vitesseRotation, tensionEnEntree, courantEnEntree, tensionEnSortie, courantEnSortie, puissanceFournie, energieProduite, temperatureAlternateur,temperatureFrein, nomJaugeCourante;
 
     //Création des valeurs moyennes et max à afficher
     TextView valeurMoyenne, valeurMax, valeurEnergie;
 
     //Création des noms des jauges à afficher
-    String nomJaugeVitesseRotation,nomJaugeTensionEnEntree,nomJaugeCourantEnEntree,nomJaugeEnergieProduite,nomJaugePuissanceFournie,nomJaugeTemperatureAlternateur,nomJaugeTemperatureFrein;
+    String nomJaugeVitesseRotation,nomJaugeTensionEnEntree,nomJaugeCourantEnEntree,nomJaugeTensionEnSortie,nomJaugeCourantEnSortie,nomJaugeEnergieProduite,nomJaugePuissanceFournie,nomJaugeTemperatureAlternateur,nomJaugeTemperatureFrein;
 
     //Création de l'indicateur Bluetooth et de du nom du périphérique connecté
     ImageView logoBluetooth;
     TextView nomPeripheriqueBluetooth;
 
     //Création des bouttons permettant de changer la jauge affiché
-    Button boutonVitesseRotation,boutonTensionEnEntree,boutonCourantEnEntree,boutonPuissanceFournie,boutonEnergieProduite,boutonTemperatureAlternateur,boutonTemperatureFrein,boutonRAZenergie;
+    Button boutonVitesseRotation,boutonTensionEnEntree,boutonCourantEnEntree,boutonTensionEnSortie,boutonCourantEnSortie,boutonPuissanceFournie,boutonEnergieProduite,boutonTemperatureAlternateur,boutonTemperatureFrein,boutonRAZenergie;
 
     //Création du bouton permettant d'entrer dans l'activité réglage et test
     Button boutonReglageJauges, boutonModeTest;
@@ -85,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
         jaugeVitesseRotation = findViewById(R.id.jaugeVitesseRotation);
         jaugeTensionEnEntree = findViewById(R.id.jaugeTensionEnEntree);
         jaugeCourantEnEntree = findViewById(R.id.jaugeCourantEnEntree);
+        jaugeTensionEnSortie = findViewById(R.id.jaugeTensionEnSortie);
+        jaugeCourantEnSortie = findViewById(R.id.jaugeCourantEnSortie);
         jaugePuissanceFournie = findViewById(R.id.jaugePuissanceFournie);
         jaugeEnergieProduite = findViewById(R.id.jaugeEnergieProduite);
         echelleLogarithmique = findViewById(R.id.echelleLogarithmiqueEnergieProduite);
@@ -96,6 +98,8 @@ public class MainActivity extends AppCompatActivity {
         nomJaugeVitesseRotation = getResources().getString(R.string.nomJaugeVitesseDeRotation);
         nomJaugeTensionEnEntree = getResources().getString(R.string.nomJaugeTensionEnEntree);
         nomJaugeCourantEnEntree = getResources().getString(R.string.nomJaugeCourantEnEntree);
+        nomJaugeTensionEnSortie = getResources().getString(R.string.nomJaugeTensionEnSortie);
+        nomJaugeCourantEnSortie = getResources().getString(R.string.nomJaugeCourantEnSortie);
         nomJaugeEnergieProduite = getResources().getString(R.string.nomJaugeEnergieProduite);
         nomJaugePuissanceFournie = getResources().getString(R.string.nomJaugePuissanceFournie);
         nomJaugeTemperatureAlternateur = getResources().getString(R.string.nomJaugeTemperatureAlternateur);
@@ -113,6 +117,8 @@ public class MainActivity extends AppCompatActivity {
         boutonVitesseRotation = findViewById(R.id.boutonVitesseDeRotation);
         boutonTensionEnEntree = findViewById(R.id.boutonTensionEnEntree);
         boutonCourantEnEntree = findViewById(R.id.boutonCourantEnEntree);
+        boutonTensionEnSortie = findViewById(R.id.boutonTensionEnSortie);
+        boutonCourantEnSortie = findViewById(R.id.boutonCourantEnSortie);
         boutonPuissanceFournie = findViewById(R.id.boutonPuissanceFournie);
         boutonEnergieProduite = findViewById(R.id.boutonEnergieProduite);
         boutonTemperatureAlternateur = findViewById(R.id.boutonTemperatureAlternateur);
@@ -128,6 +134,8 @@ public class MainActivity extends AppCompatActivity {
         vitesseRotation = findViewById(R.id.vitesseRotation);
         tensionEnEntree = findViewById(R.id.tensionEnEntree);
         courantEnEntree = findViewById(R.id.courantEnEntree);
+        tensionEnSortie = findViewById(R.id.tensionEnSortie);
+        courantEnSortie = findViewById(R.id.courantEnSortie);
         puissanceFournie = findViewById(R.id.puissanceFournie);
         energieProduite = findViewById(R.id.energieProduite);
         temperatureAlternateur = findViewById(R.id.temperatureAlternateur);
@@ -165,6 +173,24 @@ public class MainActivity extends AppCompatActivity {
                 // Code here executes on main thread after user presses button
                 supprimerJaugeAfficheeActuellement();
                 modeProd.setEtatModeProduction(ModeProduction.UnEtat.jaugeCourantEnEntree);
+                afficherNouvelleJauge();
+            }
+        });
+
+        boutonTensionEnSortie.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Code here executes on main thread after user presses button
+                supprimerJaugeAfficheeActuellement();
+                modeProd.setEtatModeProduction(ModeProduction.UnEtat.jaugeTensionEnSortie);
+                afficherNouvelleJauge();
+            }
+        });
+
+        boutonCourantEnSortie.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Code here executes on main thread after user presses button
+                supprimerJaugeAfficheeActuellement();
+                modeProd.setEtatModeProduction(ModeProduction.UnEtat.jaugeCourantEnSortie);
                 afficherNouvelleJauge();
             }
         });
@@ -289,7 +315,6 @@ public class MainActivity extends AppCompatActivity {
                 modeProd.getVitesseRotation().setValCourante(Double.parseDouble(valeurCourante));
                 jaugeVitesseRotation.setValue(modeProd.getVitesseRotation().getValCourante());
                 vitesseRotation.setText(Double.toString(modeProd.getVitesseRotation().getValCourante()));
-
                 break;
             case ":" :
                 modeProd.getTensionEnEntree().setValCourante(Double.parseDouble(valeurCourante));
@@ -301,33 +326,39 @@ public class MainActivity extends AppCompatActivity {
                 modeProd.getCourantEnEntree().setValCourante(Double.parseDouble(valeurCourante));
                 jaugeCourantEnEntree.setValue(modeProd.getCourantEnEntree().getValCourante());
                 courantEnEntree.setText(Double.toString(modeProd.getCourantEnEntree().getValCourante()));
+                break;
+            case "[" :
+                modeProd.getTensionEnSortie().setValCourante(Double.parseDouble(valeurCourante));
+                jaugeTensionEnSortie.setValue(modeProd.getTensionEnSortie().getValCourante());
+                tensionEnSortie.setText(Double.toString(modeProd.getTensionEnSortie().getValCourante()));
 
+                break;
+            case "]" :
+                modeProd.getCourantEnSortie().setValCourante(Double.parseDouble(valeurCourante));
+                jaugeCourantEnSortie.setValue(modeProd.getCourantEnSortie().getValCourante());
+                courantEnSortie.setText(Double.toString(modeProd.getCourantEnSortie().getValCourante()));
                 break;
             case "%" :
                 modeProd.getPuissanceFournie().setValCourante(Double.parseDouble(valeurCourante));
                 jaugePuissanceFournie.setValue(modeProd.getPuissanceFournie().getValCourante());
                 puissanceFournie.setText(Double.toString(modeProd.getPuissanceFournie().getValCourante()));
-
                 break;
             case "!" :
                 modeProd.getEnergieProduite().setValCourante(Double.parseDouble(valeurCourante));
                 jaugeEnergieProduite.setProgress((float) modeProd.getEnergieProduite().pourcentageRempliDeLaJauge());
                 energieProduite.setText(BoiteAOutils.obtenirEcritureScientifiqueAvecChiffresSignificatifs(3,modeProd.getEnergieProduite().getValCourante()));
-
                 break;
             case "(" :
                 modeProd.getTemperatureAlternateur().setValCourante(Double.parseDouble(valeurCourante));
                 changerMinMaxDuThermometreAlternateurCarValeurCouranteTropBasseOuTropElevee();
                 thermometreAlternateur.setValueAndStartAnim((float) modeProd.getTemperatureAlternateur().getValCourante());
                 temperatureAlternateur.setText(Double.toString(modeProd.getTemperatureAlternateur().getValCourante()));
-
                 break;
             case ")" :
                 modeProd.getTemperatureFrein().setValCourante(Double.parseDouble(valeurCourante));
                 changerMinMaxDuThermometreFreinCarValeurCouranteTropBasseOuTropElevee();
                 thermometreFrein.setValueAndStartAnim((float) modeProd.getTemperatureFrein().getValCourante());
                 temperatureFrein.setText(Double.toString(modeProd.getTemperatureFrein().getValCourante()));
-
                 break;
             default:
                 break;
@@ -374,11 +405,17 @@ public class MainActivity extends AppCompatActivity {
             case jaugeTensionEnEntree:
                 jaugeTensionEnEntree.setVisibility(View.INVISIBLE);
                 break;
-            case jaugePuissanceFournie:
-                jaugePuissanceFournie.setVisibility(View.INVISIBLE);
-                break;
             case jaugeCourantEnEntree:
                 jaugeCourantEnEntree.setVisibility(View.INVISIBLE);
+                break;
+            case jaugeTensionEnSortie:
+                jaugeTensionEnSortie.setVisibility(View.INVISIBLE);
+                break;
+            case jaugeCourantEnSortie:
+                jaugeCourantEnSortie.setVisibility(View.INVISIBLE);
+                break;
+            case jaugePuissanceFournie:
+                jaugePuissanceFournie.setVisibility(View.INVISIBLE);
                 break;
             case jaugeEnergieProduite:
                 jaugeEnergieProduite.setVisibility(View.INVISIBLE);
@@ -413,17 +450,29 @@ public class MainActivity extends AppCompatActivity {
                 valeurMoyenne.setText(getResources().getString(R.string.valeurTensionMoyenne));
                 valeurMax.setText(getResources().getString(R.string.valeurTensionMax));
                 break;
-            case jaugePuissanceFournie:
-                jaugePuissanceFournie.setVisibility(View.VISIBLE);
-                nomJaugeCourante.setText(nomJaugePuissanceFournie);
-                valeurMoyenne.setText(getResources().getString(R.string.valeurPuissanceMoyenne));
-                valeurMax.setText(getResources().getString(R.string.valeurPuissanceMoyenne));
-                break;
             case jaugeCourantEnEntree:
                 jaugeCourantEnEntree.setVisibility(View.VISIBLE);
                 nomJaugeCourante.setText(nomJaugeCourantEnEntree);
                 valeurMoyenne.setText(getResources().getString(R.string.valeurCourantMoyen));
                 valeurMax.setText(getResources().getString(R.string.valeurCourantMax));
+                break;
+            case jaugeTensionEnSortie:
+                jaugeTensionEnSortie.setVisibility(View.VISIBLE);
+                nomJaugeCourante.setText(nomJaugeTensionEnSortie);
+                valeurMoyenne.setText(getResources().getString(R.string.valeurTensionMoyenne));
+                valeurMax.setText(getResources().getString(R.string.valeurTensionMax));
+                break;
+            case jaugeCourantEnSortie:
+                jaugeCourantEnSortie.setVisibility(View.VISIBLE);
+                nomJaugeCourante.setText(nomJaugeCourantEnSortie);
+                valeurMoyenne.setText(getResources().getString(R.string.valeurCourantMoyen));
+                valeurMax.setText(getResources().getString(R.string.valeurCourantMax));
+                break;
+            case jaugePuissanceFournie:
+                jaugePuissanceFournie.setVisibility(View.VISIBLE);
+                nomJaugeCourante.setText(nomJaugePuissanceFournie);
+                valeurMoyenne.setText(getResources().getString(R.string.valeurPuissanceMoyenne));
+                valeurMax.setText(getResources().getString(R.string.valeurPuissanceMoyenne));
                 break;
             case jaugeEnergieProduite:
                 valeurMoyenne.setVisibility(View.INVISIBLE);
@@ -459,6 +508,10 @@ public class MainActivity extends AppCompatActivity {
         jaugeTensionEnEntree.setMaxValue(modeProd.getTensionEnEntree().getValMaxJauge());
         jaugeCourantEnEntree.setMinValue(modeProd.getCourantEnEntree().getValMinJauge());
         jaugeCourantEnEntree.setMaxValue(modeProd.getCourantEnEntree().getValMaxJauge());
+        jaugeTensionEnSortie.setMinValue(modeProd.getTensionEnSortie().getValMinJauge());
+        jaugeTensionEnSortie.setMaxValue(modeProd.getTensionEnSortie().getValMaxJauge());
+        jaugeCourantEnSortie.setMinValue(modeProd.getCourantEnSortie().getValMinJauge());
+        jaugeCourantEnSortie.setMaxValue(modeProd.getCourantEnSortie().getValMaxJauge());
         jaugePuissanceFournie.setMinValue(modeProd.getPuissanceFournie().getValMinJauge());
         jaugePuissanceFournie.setMaxValue(modeProd.getPuissanceFournie().getValMaxJauge());
         jaugeEnergieProduite.setMax(100);
@@ -478,6 +531,10 @@ public class MainActivity extends AppCompatActivity {
         jaugeTensionEnEntree.setMinorTicks((modeProd.getTensionEnEntree().getValMaxJauge()-modeProd.getTensionEnEntree().getValMinJauge())/10/4);
         jaugeCourantEnEntree.setMajorTicks((modeProd.getCourantEnEntree().getValMaxJauge()-modeProd.getCourantEnEntree().getValMinJauge())/10);
         jaugeCourantEnEntree.setMinorTicks((modeProd.getCourantEnEntree().getValMaxJauge()-modeProd.getCourantEnEntree().getValMinJauge())/10/4);
+        jaugeCourantEnSortie.setMajorTicks((modeProd.getCourantEnSortie().getValMaxJauge()-modeProd.getCourantEnSortie().getValMinJauge())/10);
+        jaugeCourantEnSortie.setMinorTicks((modeProd.getCourantEnSortie().getValMaxJauge()-modeProd.getCourantEnSortie().getValMinJauge())/10/4);
+        jaugeTensionEnSortie.setMajorTicks((modeProd.getTensionEnSortie().getValMaxJauge()-modeProd.getTensionEnSortie().getValMinJauge())/10);
+        jaugeTensionEnSortie.setMinorTicks((modeProd.getTensionEnSortie().getValMaxJauge()-modeProd.getTensionEnSortie().getValMinJauge())/10/4);
         jaugePuissanceFournie.setMajorTicks((modeProd.getPuissanceFournie().getValMaxJauge()-modeProd.getPuissanceFournie().getValMinJauge())/10);
         jaugePuissanceFournie.setMinorTicks((modeProd.getPuissanceFournie().getValMaxJauge()-modeProd.getPuissanceFournie  ().getValMinJauge())/10/4);
     }

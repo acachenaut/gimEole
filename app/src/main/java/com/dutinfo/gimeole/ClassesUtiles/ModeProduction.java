@@ -1,11 +1,13 @@
 package com.dutinfo.gimeole.ClassesUtiles;
 
 public class ModeProduction {
-    public enum UnEtat {jaugeVitesseRotation, jaugeTensionEnEntree, jaugeCourantEnEntree, jaugePuissanceFournie, jaugeEnergieProduite, jaugeTemperatureAlternateur, jaugeTemperatureFrein}
+    public enum UnEtat {jaugeVitesseRotation, jaugeTensionEnEntree, jaugeCourantEnEntree, jaugeTensionEnSortie, jaugeCourantEnSortie, jaugePuissanceFournie, jaugeEnergieProduite, jaugeTemperatureAlternateur, jaugeTemperatureFrein}
     private UnEtat etatModeProduction;
     private Element_A_Afficher vitesseRotation;
     private Element_A_Afficher tensionEnEntree;
     private Element_A_Afficher courantEnEntree;
+    private Element_A_Afficher tensionEnSortie;
+    private Element_A_Afficher courantEnSortie;
     private Element_A_Afficher puissanceFournie;
     private Element_Energie_Produite energieProduite;
     private Element_A_Afficher temperatureAlternateur;
@@ -15,6 +17,8 @@ public class ModeProduction {
          vitesseRotation = new Element_A_Afficher(0,3000);
          tensionEnEntree = new Element_A_Afficher(0,150);
          courantEnEntree = new Element_A_Afficher(0,20);
+        tensionEnSortie = new Element_A_Afficher(0,150);
+        courantEnSortie = new Element_A_Afficher(0,20);
          puissanceFournie = new Element_A_Afficher(1000,2000);
          energieProduite = new Element_Energie_Produite(0,1000000000);
          temperatureAlternateur = new Element_A_Afficher(15,30);
@@ -53,6 +57,14 @@ public class ModeProduction {
 
     public Element_A_Afficher getTensionEnEntree() {
         return tensionEnEntree;
+    }
+
+    public Element_A_Afficher getCourantEnSortie() {
+        return courantEnSortie;
+    }
+
+    public Element_A_Afficher getTensionEnSortie() {
+        return tensionEnSortie;
     }
 
     public Element_A_Afficher getVitesseRotation() {
