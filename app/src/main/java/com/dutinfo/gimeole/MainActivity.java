@@ -531,10 +531,10 @@ public class MainActivity extends AppCompatActivity {
         jaugeTensionEnEntree.setMinorTicks((modeProd.getTensionEnEntree().getValMaxJauge()-modeProd.getTensionEnEntree().getValMinJauge())/10/4);
         jaugeCourantEnEntree.setMajorTicks((modeProd.getCourantEnEntree().getValMaxJauge()-modeProd.getCourantEnEntree().getValMinJauge())/10);
         jaugeCourantEnEntree.setMinorTicks((modeProd.getCourantEnEntree().getValMaxJauge()-modeProd.getCourantEnEntree().getValMinJauge())/10/4);
-        jaugeCourantEnSortie.setMajorTicks((modeProd.getCourantEnSortie().getValMaxJauge()-modeProd.getCourantEnSortie().getValMinJauge())/10);
-        jaugeCourantEnSortie.setMinorTicks((modeProd.getCourantEnSortie().getValMaxJauge()-modeProd.getCourantEnSortie().getValMinJauge())/10/4);
         jaugeTensionEnSortie.setMajorTicks((modeProd.getTensionEnSortie().getValMaxJauge()-modeProd.getTensionEnSortie().getValMinJauge())/10);
         jaugeTensionEnSortie.setMinorTicks((modeProd.getTensionEnSortie().getValMaxJauge()-modeProd.getTensionEnSortie().getValMinJauge())/10/4);
+        jaugeCourantEnSortie.setMajorTicks((modeProd.getCourantEnSortie().getValMaxJauge()-modeProd.getCourantEnSortie().getValMinJauge())/10);
+        jaugeCourantEnSortie.setMinorTicks((modeProd.getCourantEnSortie().getValMaxJauge()-modeProd.getCourantEnSortie().getValMinJauge())/10/4);
         jaugePuissanceFournie.setMajorTicks((modeProd.getPuissanceFournie().getValMaxJauge()-modeProd.getPuissanceFournie().getValMinJauge())/10);
         jaugePuissanceFournie.setMinorTicks((modeProd.getPuissanceFournie().getValMaxJauge()-modeProd.getPuissanceFournie  ().getValMinJauge())/10/4);
     }

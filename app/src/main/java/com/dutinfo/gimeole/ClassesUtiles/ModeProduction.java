@@ -73,21 +73,25 @@ public class ModeProduction {
 
     public double[] getMinMaxDesJauges() {
 
-        double[] minMax = new double[14];
+        double[] minMax = new double[18];
         minMax[0]=this.getVitesseRotation().getValMinJauge();
         minMax[1]=this.getVitesseRotation().getValMaxJauge();
         minMax[2]=this.getTensionEnEntree().getValMinJauge();
         minMax[3]=this.getTensionEnEntree().getValMaxJauge();
         minMax[4]=this.getCourantEnEntree().getValMinJauge();
         minMax[5]=this.getCourantEnEntree().getValMaxJauge();
-        minMax[6]=this.getPuissanceFournie().getValMinJauge();
-        minMax[7]=this.getPuissanceFournie().getValMaxJauge();
-        minMax[8]=this.getEnergieProduite().getValMinJauge();
-        minMax[9]=this.getEnergieProduite().getValMaxJauge();
-        minMax[10]=this.getTemperatureAlternateur().getValMinJauge();
-        minMax[11]=this.getTemperatureAlternateur().getValMaxJauge();
-        minMax[12]=this.getTemperatureFrein().getValMinJauge();
-        minMax[13]=this.getTemperatureFrein().getValMaxJauge();
+        minMax[6]=this.getTensionEnSortie().getValMinJauge();
+        minMax[7]=this.getTensionEnSortie().getValMaxJauge();
+        minMax[8]=this.getCourantEnSortie().getValMinJauge();
+        minMax[9]=this.getCourantEnSortie().getValMaxJauge();
+        minMax[10]=this.getPuissanceFournie().getValMinJauge();
+        minMax[11]=this.getPuissanceFournie().getValMaxJauge();
+        minMax[12]=this.getEnergieProduite().getValMinJauge();
+        minMax[13]=this.getEnergieProduite().getValMaxJauge();
+        minMax[14]=this.getTemperatureAlternateur().getValMinJauge();
+        minMax[15]=this.getTemperatureAlternateur().getValMaxJauge();
+        minMax[16]=this.getTemperatureFrein().getValMinJauge();
+        minMax[17]=this.getTemperatureFrein().getValMaxJauge();
 
         return minMax;
 
@@ -101,14 +105,18 @@ public class ModeProduction {
         this.getTensionEnEntree().setValMaxJauge(tab[3]);
         this.getCourantEnEntree().setValMinJauge(tab[4]);
         this.getCourantEnEntree().setValMaxJauge(tab[5]);
-        this.getPuissanceFournie().setValMinJauge(tab[6]);
-        this.getPuissanceFournie().setValMaxJauge(tab[7]);
-        this.getEnergieProduite().setValMinJauge(tab[8]);
-        this.getEnergieProduite().setValMaxJauge(tab[9]);
-        this.getTemperatureAlternateur().setValMinJauge(tab[10]);
-        this.getTemperatureAlternateur().setValMaxJauge(tab[11]);
-        this.getTemperatureFrein().setValMinJauge(tab[12]);
-        this.getTemperatureFrein().setValMaxJauge(tab[13]);
+        this.getTensionEnSortie().setValMinJauge(tab[6]);
+        this.getTensionEnSortie().setValMaxJauge(tab[7]);
+        this.getCourantEnSortie().setValMinJauge(tab[8]);
+        this.getCourantEnSortie().setValMaxJauge(tab[9]);
+        this.getPuissanceFournie().setValMinJauge(tab[10]);
+        this.getPuissanceFournie().setValMaxJauge(tab[11]);
+        this.getEnergieProduite().setValMinJauge(tab[12]);
+        this.getEnergieProduite().setValMaxJauge(tab[13]);
+        this.getTemperatureAlternateur().setValMinJauge(tab[14]);
+        this.getTemperatureAlternateur().setValMaxJauge(tab[15]);
+        this.getTemperatureFrein().setValMinJauge(tab[16]);
+        this.getTemperatureFrein().setValMaxJauge(tab[17]);
     }
 
 }
