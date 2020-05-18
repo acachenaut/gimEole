@@ -29,7 +29,7 @@ import me.aflak.bluetooth.interfaces.DeviceCallback;
 public class MainActivity extends AppCompatActivity {
 
     //Création du modeProduction
-    final ModeProduction modeProd = new ModeProduction();
+    final ModeProduction modeProduction = new ModeProduction();
 
     //Création des jauges
     GR008 jaugeVitesseRotation, jaugeTensionEnEntree, jaugeCourantEnEntree, jaugeTensionEnSortie, jaugeCourantEnSortie, jaugePuissanceFournie;
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
     Button boutonVitesseRotation,boutonTensionEnEntree,boutonCourantEnEntree,boutonTensionEnSortie,boutonCourantEnSortie,boutonPuissanceFournie,boutonEnergieProduite,boutonTemperatureAlternateur,boutonTemperatureFrein,boutonRAZenergie;
 
     //Création du bouton permettant d'entrer dans l'activité réglage et test
-    Button boutonReglageJauges, boutonModeTest;
+    Button boutonReglageJauges, boutonModeReglage;
 
     //Nécessaire à la connexion Bluetooth
     private Bluetooth bluetooth;
@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
         boutonTemperatureFrein = findViewById(R.id.boutonTemperatureFrein);
         boutonReglageJauges = findViewById(R.id.boutonReglage);
         boutonRAZenergie = findViewById(R.id.boutonRAZenergie);
-        boutonModeTest = findViewById(R.id.boutonModeTest);
+        boutonModeReglage = findViewById(R.id.boutonModeReglage);
 
         //Lien entre le nom de la jauge courante de l'interface et l'activité
         nomJaugeCourante = findViewById(R.id.nomJaugeCourante);
@@ -154,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
                 supprimerJaugeAfficheeActuellement();
-                modeProd.setEtatModeProduction(ModeProduction.UnEtat.jaugeVitesseRotation);
+                modeProduction.setEtatModeProduction(ModeProduction.UnEtat.jaugeVitesseRotation);
                 afficherNouvelleJauge();
             }
         });
@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
                 supprimerJaugeAfficheeActuellement();
-                modeProd.setEtatModeProduction(ModeProduction.UnEtat.jaugeTensionEnEntree);
+                modeProduction.setEtatModeProduction(ModeProduction.UnEtat.jaugeTensionEnEntree);
                 afficherNouvelleJauge();
             }
         });
@@ -172,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
                 supprimerJaugeAfficheeActuellement();
-                modeProd.setEtatModeProduction(ModeProduction.UnEtat.jaugeCourantEnEntree);
+                modeProduction.setEtatModeProduction(ModeProduction.UnEtat.jaugeCourantEnEntree);
                 afficherNouvelleJauge();
             }
         });
@@ -181,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
                 supprimerJaugeAfficheeActuellement();
-                modeProd.setEtatModeProduction(ModeProduction.UnEtat.jaugeTensionEnSortie);
+                modeProduction.setEtatModeProduction(ModeProduction.UnEtat.jaugeTensionEnSortie);
                 afficherNouvelleJauge();
             }
         });
@@ -190,7 +190,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
                 supprimerJaugeAfficheeActuellement();
-                modeProd.setEtatModeProduction(ModeProduction.UnEtat.jaugeCourantEnSortie);
+                modeProduction.setEtatModeProduction(ModeProduction.UnEtat.jaugeCourantEnSortie);
                 afficherNouvelleJauge();
             }
         });
@@ -199,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
                 supprimerJaugeAfficheeActuellement();
-                modeProd.setEtatModeProduction(ModeProduction.UnEtat.jaugePuissanceFournie);
+                modeProduction.setEtatModeProduction(ModeProduction.UnEtat.jaugePuissanceFournie);
                 afficherNouvelleJauge();
             }
         });
@@ -208,7 +208,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
                 supprimerJaugeAfficheeActuellement();
-                modeProd.setEtatModeProduction(ModeProduction.UnEtat.jaugeEnergieProduite);
+                modeProduction.setEtatModeProduction(ModeProduction.UnEtat.jaugeEnergieProduite);
                 afficherNouvelleJauge();
             }
         });
@@ -217,7 +217,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
                 supprimerJaugeAfficheeActuellement();
-                modeProd.setEtatModeProduction(ModeProduction.UnEtat.jaugeTemperatureAlternateur);
+                modeProduction.setEtatModeProduction(ModeProduction.UnEtat.jaugeTemperatureAlternateur);
                 afficherNouvelleJauge();
             }
         });
@@ -226,7 +226,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
                 supprimerJaugeAfficheeActuellement();
-                modeProd.setEtatModeProduction(ModeProduction.UnEtat.jaugeTemperatureFrein);
+                modeProduction.setEtatModeProduction(ModeProduction.UnEtat.jaugeTemperatureFrein);
                 afficherNouvelleJauge();
             }
         });
@@ -235,7 +235,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
                 Intent reglageActivity = new Intent(MainActivity.this, ReglageJaugeActivity.class);
-                reglageActivity.putExtra("tabMinMax", modeProd.getMinMaxDesJauges());
+                reglageActivity.putExtra("tabMinMax", modeProduction.getMinMaxDesJauges());
                 startActivityForResult(reglageActivity, 1);
             }
         });
@@ -243,15 +243,15 @@ public class MainActivity extends AppCompatActivity {
         boutonRAZenergie.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
-                modeProd.getEnergieProduite().setValRAZ(modeProd.getEnergieProduite().getValCourante());
+                modeProduction.getEnergieProduite().setValRAZ(modeProduction.getEnergieProduite().getValCourante());
                 jaugeEnergieProduite.setProgress(0);
             }
         });
 
-        boutonModeTest.setOnClickListener(new View.OnClickListener() {
+        boutonModeReglage.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
-                Intent intent = new Intent(MainActivity.this, ModeTestActivity.class);
+                Intent intent = new Intent(MainActivity.this, ModeReglageActivity.class);
                 intent.putExtra("device", device);
                 startActivity(intent);
                 finish();
@@ -267,7 +267,7 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==1)
         {
-            modeProd.setMinMaxDesJauges(data.getDoubleArrayExtra("tabMinMax"));
+            modeProduction.setMinMaxDesJauges(data.getDoubleArrayExtra("tabMinMax"));
             changerMinMaxDesJauges();
         }
     }
@@ -276,13 +276,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void parametrerEtAfficherThermometreAlternateur(){
         thermometreAlternateurType = new ThermometerView.ThermometerBuilder(this.getApplicationContext());
-        thermometreAlternateurType.setMinScaleValue((float)modeProd.getTemperatureAlternateur().getValMinJauge());
-        thermometreAlternateurType.setMaxScaleValue((float)modeProd.getTemperatureAlternateur().getValMaxJauge());
+        thermometreAlternateurType.setMinScaleValue((float) modeProduction.getTemperatureAlternateur().getValMinJauge());
+        thermometreAlternateurType.setMaxScaleValue((float) modeProduction.getTemperatureAlternateur().getValMaxJauge());
         ConstraintLayout layoutOfDynamicContent = findViewById(R.id.thermometreAlternateur);
         layoutOfDynamicContent.removeAllViewsInLayout();
         thermometreAlternateur =thermometreAlternateurType.builder();
-        thermometreAlternateur.setCurValue((float)modeProd.getTemperatureAlternateur().getValMinJauge());
-        if(modeProd.getEtatModeProduction()!= ModeProduction.UnEtat.jaugeTemperatureAlternateur)
+        thermometreAlternateur.setCurValue((float) modeProduction.getTemperatureAlternateur().getValMinJauge());
+        if(modeProduction.getEtatModeProduction()!= ModeProduction.UnEtat.jaugeTemperatureAlternateur)
         {
             thermometreAlternateur.setVisibility(View.INVISIBLE);
         }
@@ -292,13 +292,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void parametrerEtAfficherThermometreFrein(){
         thermometreFreinType = new ThermometerView.ThermometerBuilder(this.getApplicationContext());
-        thermometreFreinType.setMinScaleValue((float)modeProd.getTemperatureFrein().getValMinJauge());
-        thermometreFreinType.setMaxScaleValue((float)modeProd.getTemperatureFrein().getValMaxJauge());
+        thermometreFreinType.setMinScaleValue((float) modeProduction.getTemperatureFrein().getValMinJauge());
+        thermometreFreinType.setMaxScaleValue((float) modeProduction.getTemperatureFrein().getValMaxJauge());
         ConstraintLayout layoutOfDynamicContent = findViewById(R.id.thermometreFrein);
         layoutOfDynamicContent.removeAllViewsInLayout();
         thermometreFrein =thermometreFreinType.builder();
-        thermometreFrein.setCurValue((float)modeProd.getTemperatureFrein().getValMinJauge());
-        if(modeProd.getEtatModeProduction()!= ModeProduction.UnEtat.jaugeTemperatureFrein)
+        thermometreFrein.setCurValue((float) modeProduction.getTemperatureFrein().getValMinJauge());
+        if(modeProduction.getEtatModeProduction()!= ModeProduction.UnEtat.jaugeTemperatureFrein)
         {
             thermometreFrein.setVisibility(View.INVISIBLE);
         }
@@ -312,85 +312,85 @@ public class MainActivity extends AppCompatActivity {
         String valeurCourante = (chaineRecuParBluetooth.substring(1));
         switch (premierCaractere){
             case "$" :
-                modeProd.getVitesseRotation().setValCourante(Double.parseDouble(valeurCourante));
-                jaugeVitesseRotation.setValue(modeProd.getVitesseRotation().getValCourante());
-                vitesseRotation.setText(Double.toString(modeProd.getVitesseRotation().getValCourante()));
+                modeProduction.getVitesseRotation().setValCourante(Double.parseDouble(valeurCourante));
+                jaugeVitesseRotation.setValue(modeProduction.getVitesseRotation().getValCourante());
+                vitesseRotation.setText(Double.toString(modeProduction.getVitesseRotation().getValCourante()));
                 break;
             case ":" :
-                modeProd.getTensionEnEntree().setValCourante(Double.parseDouble(valeurCourante));
-                jaugeTensionEnEntree.setValue(modeProd.getTensionEnEntree().getValCourante());
-                tensionEnEntree.setText(Double.toString(modeProd.getTensionEnEntree().getValCourante()));
+                modeProduction.getTensionEnEntree().setValCourante(Double.parseDouble(valeurCourante));
+                jaugeTensionEnEntree.setValue(modeProduction.getTensionEnEntree().getValCourante());
+                tensionEnEntree.setText(Double.toString(modeProduction.getTensionEnEntree().getValCourante()));
 
                 break;
             case ";" :
-                modeProd.getCourantEnEntree().setValCourante(Double.parseDouble(valeurCourante));
-                jaugeCourantEnEntree.setValue(modeProd.getCourantEnEntree().getValCourante());
-                courantEnEntree.setText(Double.toString(modeProd.getCourantEnEntree().getValCourante()));
+                modeProduction.getCourantEnEntree().setValCourante(Double.parseDouble(valeurCourante));
+                jaugeCourantEnEntree.setValue(modeProduction.getCourantEnEntree().getValCourante());
+                courantEnEntree.setText(Double.toString(modeProduction.getCourantEnEntree().getValCourante()));
                 break;
             case "[" :
-                modeProd.getTensionEnSortie().setValCourante(Double.parseDouble(valeurCourante));
-                jaugeTensionEnSortie.setValue(modeProd.getTensionEnSortie().getValCourante());
-                tensionEnSortie.setText(Double.toString(modeProd.getTensionEnSortie().getValCourante()));
+                modeProduction.getTensionEnSortie().setValCourante(Double.parseDouble(valeurCourante));
+                jaugeTensionEnSortie.setValue(modeProduction.getTensionEnSortie().getValCourante());
+                tensionEnSortie.setText(Double.toString(modeProduction.getTensionEnSortie().getValCourante()));
 
                 break;
             case "]" :
-                modeProd.getCourantEnSortie().setValCourante(Double.parseDouble(valeurCourante));
-                jaugeCourantEnSortie.setValue(modeProd.getCourantEnSortie().getValCourante());
-                courantEnSortie.setText(Double.toString(modeProd.getCourantEnSortie().getValCourante()));
+                modeProduction.getCourantEnSortie().setValCourante(Double.parseDouble(valeurCourante));
+                jaugeCourantEnSortie.setValue(modeProduction.getCourantEnSortie().getValCourante());
+                courantEnSortie.setText(Double.toString(modeProduction.getCourantEnSortie().getValCourante()));
                 break;
             case "%" :
-                modeProd.getPuissanceFournie().setValCourante(Double.parseDouble(valeurCourante));
-                jaugePuissanceFournie.setValue(modeProd.getPuissanceFournie().getValCourante());
-                puissanceFournie.setText(Double.toString(modeProd.getPuissanceFournie().getValCourante()));
+                modeProduction.getPuissanceFournie().setValCourante(Double.parseDouble(valeurCourante));
+                jaugePuissanceFournie.setValue(modeProduction.getPuissanceFournie().getValCourante());
+                puissanceFournie.setText(Double.toString(modeProduction.getPuissanceFournie().getValCourante()));
                 break;
             case "!" :
-                modeProd.getEnergieProduite().setValCourante(Double.parseDouble(valeurCourante));
-                jaugeEnergieProduite.setProgress((float) modeProd.getEnergieProduite().pourcentageRempliDeLaJauge());
-                energieProduite.setText(BoiteAOutils.obtenirEcritureScientifiqueAvecChiffresSignificatifs(3,modeProd.getEnergieProduite().getValCourante()));
+                modeProduction.getEnergieProduite().setValCourante(Double.parseDouble(valeurCourante));
+                jaugeEnergieProduite.setProgress((float) modeProduction.getEnergieProduite().pourcentageRempliDeLaJauge());
+                energieProduite.setText(BoiteAOutils.obtenirEcritureScientifiqueAvecChiffresSignificatifs(3, modeProduction.getEnergieProduite().getValCourante()));
                 break;
             case "(" :
-                modeProd.getTemperatureAlternateur().setValCourante(Double.parseDouble(valeurCourante));
+                modeProduction.getTemperatureAlternateur().setValCourante(Double.parseDouble(valeurCourante));
                 changerMinMaxDuThermometreAlternateurCarValeurCouranteTropBasseOuTropElevee();
-                thermometreAlternateur.setValueAndStartAnim((float) modeProd.getTemperatureAlternateur().getValCourante());
-                temperatureAlternateur.setText(Double.toString(modeProd.getTemperatureAlternateur().getValCourante()));
+                thermometreAlternateur.setValueAndStartAnim((float) modeProduction.getTemperatureAlternateur().getValCourante());
+                temperatureAlternateur.setText(Double.toString(modeProduction.getTemperatureAlternateur().getValCourante()));
                 break;
             case ")" :
-                modeProd.getTemperatureFrein().setValCourante(Double.parseDouble(valeurCourante));
+                modeProduction.getTemperatureFrein().setValCourante(Double.parseDouble(valeurCourante));
                 changerMinMaxDuThermometreFreinCarValeurCouranteTropBasseOuTropElevee();
-                thermometreFrein.setValueAndStartAnim((float) modeProd.getTemperatureFrein().getValCourante());
-                temperatureFrein.setText(Double.toString(modeProd.getTemperatureFrein().getValCourante()));
+                thermometreFrein.setValueAndStartAnim((float) modeProduction.getTemperatureFrein().getValCourante());
+                temperatureFrein.setText(Double.toString(modeProduction.getTemperatureFrein().getValCourante()));
                 break;
             default:
                 break;
         }
 
-        switch (modeProd.getEtatModeProduction()) {
+        switch (modeProduction.getEtatModeProduction()) {
             case jaugeVitesseRotation:
-                valeurMoyenne.setText(getResources().getString(R.string.valeurVitesseMoyenne)+modeProd.getVitesseRotation().getValMoyenne());
-                valeurMax.setText(getResources().getString(R.string.valeurVitesseMax)+modeProd.getVitesseRotation().getValMaxCourante());
+                valeurMoyenne.setText(getResources().getString(R.string.valeurVitesseMoyenne)+ modeProduction.getVitesseRotation().getValMoyenne());
+                valeurMax.setText(getResources().getString(R.string.valeurVitesseMax)+ modeProduction.getVitesseRotation().getValMaxCourante());
                 break;
             case jaugeTensionEnEntree:
-                valeurMoyenne.setText(getResources().getString(R.string.valeurTensionMoyenne)+modeProd.getTensionEnEntree().getValMoyenne());
-                valeurMax.setText(getResources().getString(R.string.valeurTensionMax)+modeProd.getTensionEnEntree().getValMaxCourante());
+                valeurMoyenne.setText(getResources().getString(R.string.valeurTensionMoyenne)+ modeProduction.getTensionEnEntree().getValMoyenne());
+                valeurMax.setText(getResources().getString(R.string.valeurTensionMax)+ modeProduction.getTensionEnEntree().getValMaxCourante());
                 break;
             case jaugeCourantEnEntree:
-                valeurMoyenne.setText(getResources().getString(R.string.valeurCourantMoyen)+modeProd.getCourantEnEntree().getValMoyenne());
-                valeurMax.setText(getResources().getString(R.string.valeurCourantMax)+modeProd.getCourantEnEntree().getValMaxCourante());
+                valeurMoyenne.setText(getResources().getString(R.string.valeurCourantMoyen)+ modeProduction.getCourantEnEntree().getValMoyenne());
+                valeurMax.setText(getResources().getString(R.string.valeurCourantMax)+ modeProduction.getCourantEnEntree().getValMaxCourante());
                 break;
             case jaugePuissanceFournie:
-                valeurMoyenne.setText(getResources().getString(R.string.valeurPuissanceMoyenne)+modeProd.getPuissanceFournie().getValMoyenne());
-                valeurMax.setText(getResources().getString(R.string.valeurPuissanceMax)+modeProd.getPuissanceFournie().getValMaxCourante());
+                valeurMoyenne.setText(getResources().getString(R.string.valeurPuissanceMoyenne)+ modeProduction.getPuissanceFournie().getValMoyenne());
+                valeurMax.setText(getResources().getString(R.string.valeurPuissanceMax)+ modeProduction.getPuissanceFournie().getValMaxCourante());
                 break;
             case jaugeEnergieProduite:
-                valeurEnergie.setText(getResources().getString(R.string.valeurEnergieProduite)+BoiteAOutils.obtenirEcritureScientifiqueAvecChiffresSignificatifs(3,modeProd.getEnergieProduite().getValCourante()));
+                valeurEnergie.setText(getResources().getString(R.string.valeurEnergieProduite)+BoiteAOutils.obtenirEcritureScientifiqueAvecChiffresSignificatifs(3, modeProduction.getEnergieProduite().getValCourante()));
                 break;
             case jaugeTemperatureAlternateur:
-                valeurMoyenne.setText(getResources().getString(R.string.valeurTemperatureMoyenne)+modeProd.getTemperatureAlternateur().getValMoyenne());
-                valeurMax.setText(getResources().getString(R.string.valeurTemperatureMax)+modeProd.getTemperatureAlternateur().getValMaxCourante());
+                valeurMoyenne.setText(getResources().getString(R.string.valeurTemperatureMoyenne)+ modeProduction.getTemperatureAlternateur().getValMoyenne());
+                valeurMax.setText(getResources().getString(R.string.valeurTemperatureMax)+ modeProduction.getTemperatureAlternateur().getValMaxCourante());
                 break;
             case jaugeTemperatureFrein:
-                valeurMoyenne.setText(getResources().getString(R.string.valeurTemperatureMoyenne)+modeProd.getTemperatureFrein().getValMoyenne());
-                valeurMax.setText(getResources().getString(R.string.valeurTemperatureMax)+modeProd.getTemperatureFrein().getValMaxCourante());
+                valeurMoyenne.setText(getResources().getString(R.string.valeurTemperatureMoyenne)+ modeProduction.getTemperatureFrein().getValMoyenne());
+                valeurMax.setText(getResources().getString(R.string.valeurTemperatureMax)+ modeProduction.getTemperatureFrein().getValMaxCourante());
                 break;
             default:
                 break;
@@ -398,7 +398,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void supprimerJaugeAfficheeActuellement(){
-        switch (modeProd.getEtatModeProduction()){
+        switch (modeProduction.getEtatModeProduction()){
             case jaugeVitesseRotation:
                 jaugeVitesseRotation.setVisibility(View.INVISIBLE);
                 break;
@@ -437,7 +437,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void afficherNouvelleJauge(){
-        switch (modeProd.getEtatModeProduction()){
+        switch (modeProduction.getEtatModeProduction()){
             case jaugeVitesseRotation:
                 jaugeVitesseRotation.setVisibility(View.VISIBLE);
                 nomJaugeCourante.setText(nomJaugeVitesseRotation);
@@ -502,21 +502,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void changerMinMaxDesJauges() {
-        jaugeVitesseRotation.setMinValue(modeProd.getVitesseRotation().getValMinJauge());
-        jaugeVitesseRotation.setMaxValue(modeProd.getVitesseRotation().getValMaxJauge());
-        jaugeTensionEnEntree.setMinValue(modeProd.getTensionEnEntree().getValMinJauge());
-        jaugeTensionEnEntree.setMaxValue(modeProd.getTensionEnEntree().getValMaxJauge());
-        jaugeCourantEnEntree.setMinValue(modeProd.getCourantEnEntree().getValMinJauge());
-        jaugeCourantEnEntree.setMaxValue(modeProd.getCourantEnEntree().getValMaxJauge());
-        jaugeTensionEnSortie.setMinValue(modeProd.getTensionEnSortie().getValMinJauge());
-        jaugeTensionEnSortie.setMaxValue(modeProd.getTensionEnSortie().getValMaxJauge());
-        jaugeCourantEnSortie.setMinValue(modeProd.getCourantEnSortie().getValMinJauge());
-        jaugeCourantEnSortie.setMaxValue(modeProd.getCourantEnSortie().getValMaxJauge());
-        jaugePuissanceFournie.setMinValue(modeProd.getPuissanceFournie().getValMinJauge());
-        jaugePuissanceFournie.setMaxValue(modeProd.getPuissanceFournie().getValMaxJauge());
+        jaugeVitesseRotation.setMinValue(modeProduction.getVitesseRotation().getValMinJauge());
+        jaugeVitesseRotation.setMaxValue(modeProduction.getVitesseRotation().getValMaxJauge());
+        jaugeTensionEnEntree.setMinValue(modeProduction.getTensionEnEntree().getValMinJauge());
+        jaugeTensionEnEntree.setMaxValue(modeProduction.getTensionEnEntree().getValMaxJauge());
+        jaugeCourantEnEntree.setMinValue(modeProduction.getCourantEnEntree().getValMinJauge());
+        jaugeCourantEnEntree.setMaxValue(modeProduction.getCourantEnEntree().getValMaxJauge());
+        jaugeTensionEnSortie.setMinValue(modeProduction.getTensionEnSortie().getValMinJauge());
+        jaugeTensionEnSortie.setMaxValue(modeProduction.getTensionEnSortie().getValMaxJauge());
+        jaugeCourantEnSortie.setMinValue(modeProduction.getCourantEnSortie().getValMinJauge());
+        jaugeCourantEnSortie.setMaxValue(modeProduction.getCourantEnSortie().getValMaxJauge());
+        jaugePuissanceFournie.setMinValue(modeProduction.getPuissanceFournie().getValMinJauge());
+        jaugePuissanceFournie.setMaxValue(modeProduction.getPuissanceFournie().getValMaxJauge());
         jaugeEnergieProduite.setMax(100);
         StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(echelleLogarithmique);
-        staticLabelsFormatter.setHorizontalLabels(modeProd.getEnergieProduite().echelleLogarithmique());
+        staticLabelsFormatter.setHorizontalLabels(modeProduction.getEnergieProduite().echelleLogarithmique());
         staticLabelsFormatter.setVerticalLabels(new String[] {"1",""});
         echelleLogarithmique.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
         parametrerEtAfficherThermometreAlternateur();
@@ -525,52 +525,52 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void changerEcartsEntreValeursDesJaugesCirculaires(){
-        jaugeVitesseRotation.setMajorTicks((modeProd.getVitesseRotation().getValMaxJauge()-modeProd.getVitesseRotation().getValMinJauge())/10);
-        jaugeVitesseRotation.setMinorTicks((modeProd.getVitesseRotation().getValMaxJauge()-modeProd.getVitesseRotation().getValMinJauge())/10/4);
-        jaugeTensionEnEntree.setMajorTicks((modeProd.getTensionEnEntree().getValMaxJauge()-modeProd.getTensionEnEntree().getValMinJauge())/10);
-        jaugeTensionEnEntree.setMinorTicks((modeProd.getTensionEnEntree().getValMaxJauge()-modeProd.getTensionEnEntree().getValMinJauge())/10/4);
-        jaugeCourantEnEntree.setMajorTicks((modeProd.getCourantEnEntree().getValMaxJauge()-modeProd.getCourantEnEntree().getValMinJauge())/10);
-        jaugeCourantEnEntree.setMinorTicks((modeProd.getCourantEnEntree().getValMaxJauge()-modeProd.getCourantEnEntree().getValMinJauge())/10/4);
-        jaugeTensionEnSortie.setMajorTicks((modeProd.getTensionEnSortie().getValMaxJauge()-modeProd.getTensionEnSortie().getValMinJauge())/10);
-        jaugeTensionEnSortie.setMinorTicks((modeProd.getTensionEnSortie().getValMaxJauge()-modeProd.getTensionEnSortie().getValMinJauge())/10/4);
-        jaugeCourantEnSortie.setMajorTicks((modeProd.getCourantEnSortie().getValMaxJauge()-modeProd.getCourantEnSortie().getValMinJauge())/10);
-        jaugeCourantEnSortie.setMinorTicks((modeProd.getCourantEnSortie().getValMaxJauge()-modeProd.getCourantEnSortie().getValMinJauge())/10/4);
-        jaugePuissanceFournie.setMajorTicks((modeProd.getPuissanceFournie().getValMaxJauge()-modeProd.getPuissanceFournie().getValMinJauge())/10);
-        jaugePuissanceFournie.setMinorTicks((modeProd.getPuissanceFournie().getValMaxJauge()-modeProd.getPuissanceFournie  ().getValMinJauge())/10/4);
+        jaugeVitesseRotation.setMajorTicks((modeProduction.getVitesseRotation().getValMaxJauge()- modeProduction.getVitesseRotation().getValMinJauge())/10);
+        jaugeVitesseRotation.setMinorTicks((modeProduction.getVitesseRotation().getValMaxJauge()- modeProduction.getVitesseRotation().getValMinJauge())/10/4);
+        jaugeTensionEnEntree.setMajorTicks((modeProduction.getTensionEnEntree().getValMaxJauge()- modeProduction.getTensionEnEntree().getValMinJauge())/10);
+        jaugeTensionEnEntree.setMinorTicks((modeProduction.getTensionEnEntree().getValMaxJauge()- modeProduction.getTensionEnEntree().getValMinJauge())/10/4);
+        jaugeCourantEnEntree.setMajorTicks((modeProduction.getCourantEnEntree().getValMaxJauge()- modeProduction.getCourantEnEntree().getValMinJauge())/10);
+        jaugeCourantEnEntree.setMinorTicks((modeProduction.getCourantEnEntree().getValMaxJauge()- modeProduction.getCourantEnEntree().getValMinJauge())/10/4);
+        jaugeTensionEnSortie.setMajorTicks((modeProduction.getTensionEnSortie().getValMaxJauge()- modeProduction.getTensionEnSortie().getValMinJauge())/10);
+        jaugeTensionEnSortie.setMinorTicks((modeProduction.getTensionEnSortie().getValMaxJauge()- modeProduction.getTensionEnSortie().getValMinJauge())/10/4);
+        jaugeCourantEnSortie.setMajorTicks((modeProduction.getCourantEnSortie().getValMaxJauge()- modeProduction.getCourantEnSortie().getValMinJauge())/10);
+        jaugeCourantEnSortie.setMinorTicks((modeProduction.getCourantEnSortie().getValMaxJauge()- modeProduction.getCourantEnSortie().getValMinJauge())/10/4);
+        jaugePuissanceFournie.setMajorTicks((modeProduction.getPuissanceFournie().getValMaxJauge()- modeProduction.getPuissanceFournie().getValMinJauge())/10);
+        jaugePuissanceFournie.setMinorTicks((modeProduction.getPuissanceFournie().getValMaxJauge()- modeProduction.getPuissanceFournie  ().getValMinJauge())/10/4);
     }
 
     public void changerMinMaxDuThermometreAlternateurCarValeurCouranteTropBasseOuTropElevee(){
-        if(modeProd.getTemperatureAlternateur().getValCourante()-modeProd.getTemperatureAlternateur().getValMinJauge()<5){
+        if(modeProduction.getTemperatureAlternateur().getValCourante()- modeProduction.getTemperatureAlternateur().getValMinJauge()<5){
             do {
-                modeProd.getTemperatureAlternateur().setValMinJauge(modeProd.getTemperatureAlternateur().getValMinJauge()-5);
-                modeProd.getTemperatureAlternateur().setValMaxJauge(modeProd.getTemperatureAlternateur().getValMaxJauge()-5);
+                modeProduction.getTemperatureAlternateur().setValMinJauge(modeProduction.getTemperatureAlternateur().getValMinJauge()-5);
+                modeProduction.getTemperatureAlternateur().setValMaxJauge(modeProduction.getTemperatureAlternateur().getValMaxJauge()-5);
 
-            }while(modeProd.getTemperatureAlternateur().getValCourante()-modeProd.getTemperatureAlternateur().getValMinJauge()<5);
+            }while(modeProduction.getTemperatureAlternateur().getValCourante()- modeProduction.getTemperatureAlternateur().getValMinJauge()<5);
             parametrerEtAfficherThermometreAlternateur();
         }
-        else if(modeProd.getTemperatureAlternateur().getValMaxJauge()-modeProd.getTemperatureAlternateur().getValCourante()<5){
+        else if(modeProduction.getTemperatureAlternateur().getValMaxJauge()- modeProduction.getTemperatureAlternateur().getValCourante()<5){
             do {
-                modeProd.getTemperatureAlternateur().setValMinJauge(modeProd.getTemperatureAlternateur().getValMinJauge()+5);
-                modeProd.getTemperatureAlternateur().setValMaxJauge(modeProd.getTemperatureAlternateur().getValMaxJauge()+5);
-            }while(modeProd.getTemperatureAlternateur().getValMaxJauge()-modeProd.getTemperatureAlternateur().getValCourante()<5);
+                modeProduction.getTemperatureAlternateur().setValMinJauge(modeProduction.getTemperatureAlternateur().getValMinJauge()+5);
+                modeProduction.getTemperatureAlternateur().setValMaxJauge(modeProduction.getTemperatureAlternateur().getValMaxJauge()+5);
+            }while(modeProduction.getTemperatureAlternateur().getValMaxJauge()- modeProduction.getTemperatureAlternateur().getValCourante()<5);
             parametrerEtAfficherThermometreAlternateur();
         }
     }
 
     public void changerMinMaxDuThermometreFreinCarValeurCouranteTropBasseOuTropElevee(){
-        if(modeProd.getTemperatureFrein().getValCourante()-modeProd.getTemperatureFrein().getValMinJauge()<5){
+        if(modeProduction.getTemperatureFrein().getValCourante()- modeProduction.getTemperatureFrein().getValMinJauge()<5){
             do {
-                modeProd.getTemperatureFrein().setValMinJauge(modeProd.getTemperatureFrein().getValMinJauge()-5);
-                modeProd.getTemperatureFrein().setValMaxJauge(modeProd.getTemperatureFrein().getValMaxJauge()-5);
+                modeProduction.getTemperatureFrein().setValMinJauge(modeProduction.getTemperatureFrein().getValMinJauge()-5);
+                modeProduction.getTemperatureFrein().setValMaxJauge(modeProduction.getTemperatureFrein().getValMaxJauge()-5);
 
-            }while(modeProd.getTemperatureFrein().getValCourante()-modeProd.getTemperatureFrein().getValMinJauge()<5);
+            }while(modeProduction.getTemperatureFrein().getValCourante()- modeProduction.getTemperatureFrein().getValMinJauge()<5);
             parametrerEtAfficherThermometreFrein();
         }
-        else if(modeProd.getTemperatureFrein().getValMaxJauge()-modeProd.getTemperatureFrein().getValCourante()<5){
+        else if(modeProduction.getTemperatureFrein().getValMaxJauge()- modeProduction.getTemperatureFrein().getValCourante()<5){
             do {
-                modeProd.getTemperatureFrein().setValMinJauge(modeProd.getTemperatureFrein().getValMinJauge()+5);
-                modeProd.getTemperatureFrein().setValMaxJauge(modeProd.getTemperatureFrein().getValMaxJauge()+5);
-            }while(modeProd.getTemperatureFrein().getValMaxJauge()-modeProd.getTemperatureFrein().getValCourante()<5);
+                modeProduction.getTemperatureFrein().setValMinJauge(modeProduction.getTemperatureFrein().getValMinJauge()+5);
+                modeProduction.getTemperatureFrein().setValMaxJauge(modeProduction.getTemperatureFrein().getValMaxJauge()+5);
+            }while(modeProduction.getTemperatureFrein().getValMaxJauge()- modeProduction.getTemperatureFrein().getValCourante()<5);
             parametrerEtAfficherThermometreFrein();
         }
     }

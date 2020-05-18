@@ -513,10 +513,10 @@
         app:rcSecondaryProgressColor="@color/colorAccent" />
 
     <Button
-        android:id="@+id/boutonModeTest"
+        android:id="@+id/boutonModeReglage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/boutonMode_test"
+        android:text="@string/boutonMode_reglage"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="44dp"
         app:layout_constraintBottom_toTopOf="@id/barreSeparationHorizontale"

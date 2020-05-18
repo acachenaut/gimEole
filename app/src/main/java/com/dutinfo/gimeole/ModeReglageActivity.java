@@ -15,7 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dutinfo.gimeole.ClassesUtiles.BoiteAOutils;
-import com.dutinfo.gimeole.ClassesUtiles.ModeTest;
+import com.dutinfo.gimeole.ClassesUtiles.ModeReglage;
 import com.dutinfo.gimeole.ClassesUtiles.Point;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
@@ -25,10 +25,10 @@ import com.jjoe64.graphview.series.PointsGraphSeries;
 import me.aflak.bluetooth.Bluetooth;
 import me.aflak.bluetooth.interfaces.DeviceCallback;
 
-public class ModeTestActivity extends AppCompatActivity {
+public class ModeReglageActivity extends AppCompatActivity {
 
     //Création du modeProduction
-    final ModeTest modeTest = new ModeTest();
+    final ModeReglage modeReglage = new ModeReglage();
 
     //Nécessaire à la connexion Bluetooth
     private Bluetooth bluetooth;
@@ -59,7 +59,7 @@ public class ModeTestActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mode_test);
+        setContentView(R.layout.activity_mode_reglage);
 
         //Initialisation de la connexion Bluetooth
         device = getIntent().getParcelableExtra("device");
@@ -112,7 +112,7 @@ public class ModeTestActivity extends AppCompatActivity {
                 if (!(abscisse.matches("") || ordonnee.matches("")))
                 {
                  boolean estAjoute;
-                 estAjoute=modeTest.ajouterUnPointEtTrierTableau(Double.parseDouble(abscisse),Double.parseDouble(ordonnee));
+                 estAjoute= modeReglage.ajouterUnPointEtTrierTableau(Double.parseDouble(abscisse),Double.parseDouble(ordonnee));
                  if(estAjoute){
                      afficherLesPointsSurLeGraphique();
                  }
@@ -138,14 +138,14 @@ public class ModeTestActivity extends AppCompatActivity {
         boutonRAZenergie.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
-                modeTest.getEnergieProduite().setValRAZ(modeTest.getEnergieProduite().getValCourante());
+                modeReglage.getEnergieProduite().setValRAZ(modeReglage.getEnergieProduite().getValCourante());
             }
         });
 
         boutonModeProduction.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
-                Intent intent = new Intent(ModeTestActivity.this, MainActivity.class);
+                Intent intent = new Intent(ModeReglageActivity.this, MainActivity.class);
                 intent.putExtra("device", device);
                 startActivity(intent);
                 finish();
@@ -156,10 +156,10 @@ public class ModeTestActivity extends AppCompatActivity {
         boutonPointPrecedent.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
-                if(modeTest.getNombreDePoints()!=0){
-                    switch (modeTest.getPointSelectionne()){
+                if(modeReglage.getNombreDePoints()!=0){
+                    switch (modeReglage.getPointSelectionne()){
                         case -1:
-                            modeTest.setPointSelectionne(0);
+                            modeReglage.setPointSelectionne(0);
                             break;
                         case 0:
                             Toast messagePasDePointPrecedent = Toast.makeText(getApplicationContext(),
@@ -168,10 +168,10 @@ public class ModeTestActivity extends AppCompatActivity {
                             messagePasDePointPrecedent.show();
                             break;
                         default:
-                            modeTest.setPointSelectionne(modeTest.getPointSelectionne()-1);
+                            modeReglage.setPointSelectionne(modeReglage.getPointSelectionne()-1);
                             break;
                     }
-                    afficherPointSelectionne(modeTest.getPointSelectionne());
+                    afficherPointSelectionne(modeReglage.getPointSelectionne());
                 }
                 else{
                     Toast messageAucunPointSaisi = Toast.makeText(getApplicationContext(),
@@ -187,17 +187,17 @@ public class ModeTestActivity extends AppCompatActivity {
         boutonPointSuivant.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
-                if(modeTest.getNombreDePoints()!=0){
-                    if(modeTest.getPointSelectionne()==modeTest.getNombreDePoints()-1){
+                if(modeReglage.getNombreDePoints()!=0){
+                    if(modeReglage.getPointSelectionne()== modeReglage.getNombreDePoints()-1){
                         Toast messagePasDePointSuivant = Toast.makeText(getApplicationContext(),
                                 "C'est déjà le dernier point !",
                                 Toast.LENGTH_SHORT);
                         messagePasDePointSuivant.show();
                     }
                     else{
-                        modeTest.setPointSelectionne(modeTest.getPointSelectionne()+1);
+                        modeReglage.setPointSelectionne(modeReglage.getPointSelectionne()+1);
                     }
-                    afficherPointSelectionne(modeTest.getPointSelectionne());
+                    afficherPointSelectionne(modeReglage.getPointSelectionne());
                 }
                 else{
                     Toast messageAucunPointSaisi = Toast.makeText(getApplicationContext(),
@@ -212,9 +212,9 @@ public class ModeTestActivity extends AppCompatActivity {
         boutonSupprimerPoint.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
-                if(modeTest.getPointSelectionne()!=-1){
-                    modeTest.supprimerPointSelectionne(modeTest.getPointSelectionne());
-                    modeTest.setPointSelectionne(-1);
+                if(modeReglage.getPointSelectionne()!=-1){
+                    modeReglage.supprimerPointSelectionne(modeReglage.getPointSelectionne());
+                    modeReglage.setPointSelectionne(-1);
                     afficherLesPointsSurLeGraphique();
                 }
                 else{
@@ -230,8 +230,8 @@ public class ModeTestActivity extends AppCompatActivity {
         boutonEnvoyerSerieDePoint.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
-                if(modeTest.getNombreDePoints()!=0){
-                    for(Point pointCourant : modeTest.getPointsDuGraphique()){
+                if(modeReglage.getNombreDePoints()!=0){
+                    for(Point pointCourant : modeReglage.getPointsDuGraphique()){
                         bluetooth.send("n"+pointCourant.getAbscisse()+";"+pointCourant.getOrdonnee());
                     }
                 }
@@ -251,38 +251,38 @@ public class ModeTestActivity extends AppCompatActivity {
         String valeurCourante = (chaineRecuParBluetooth.substring(1));
         switch (premierCaractere){
             case "$" :
-                modeTest.getVitesseRotation().setValCourante(Double.parseDouble(valeurCourante));
-                vitesseRotation.setText(Double.toString(modeTest.getVitesseRotation().getValCourante()));
+                modeReglage.getVitesseRotation().setValCourante(Double.parseDouble(valeurCourante));
+                vitesseRotation.setText(Double.toString(modeReglage.getVitesseRotation().getValCourante()));
 
                 break;
             case ":" :
-                modeTest.getTensionEnEntree().setValCourante(Double.parseDouble(valeurCourante));
-                tensionEnEntree.setText(Double.toString(modeTest.getTensionEnEntree().getValCourante()));
+                modeReglage.getTensionEnEntree().setValCourante(Double.parseDouble(valeurCourante));
+                tensionEnEntree.setText(Double.toString(modeReglage.getTensionEnEntree().getValCourante()));
 
                 break;
             case ";" :
-                modeTest.getCourantEnEntree().setValCourante(Double.parseDouble(valeurCourante));
-                courantEnEntree.setText(Double.toString(modeTest.getCourantEnEntree().getValCourante()));
+                modeReglage.getCourantEnEntree().setValCourante(Double.parseDouble(valeurCourante));
+                courantEnEntree.setText(Double.toString(modeReglage.getCourantEnEntree().getValCourante()));
 
                 break;
             case "%" :
-                modeTest.getPuissanceFournie().setValCourante(Double.parseDouble(valeurCourante));
-                puissanceFournie.setText(Double.toString(modeTest.getPuissanceFournie().getValCourante()));
+                modeReglage.getPuissanceFournie().setValCourante(Double.parseDouble(valeurCourante));
+                puissanceFournie.setText(Double.toString(modeReglage.getPuissanceFournie().getValCourante()));
 
                 break;
             case "!" :
-                modeTest.getEnergieProduite().setValCourante(Double.parseDouble(valeurCourante));
-                energieProduite.setText(BoiteAOutils.obtenirEcritureScientifiqueAvecChiffresSignificatifs(3, modeTest.getEnergieProduite().getValCourante()));
+                modeReglage.getEnergieProduite().setValCourante(Double.parseDouble(valeurCourante));
+                energieProduite.setText(BoiteAOutils.obtenirEcritureScientifiqueAvecChiffresSignificatifs(3, modeReglage.getEnergieProduite().getValCourante()));
 
                 break;
             case "(" :
-                modeTest.getTemperatureAlternateur().setValCourante(Double.parseDouble(valeurCourante));
-                temperatureAlternateur.setText(Double.toString(modeTest.getTemperatureAlternateur().getValCourante()));
+                modeReglage.getTemperatureAlternateur().setValCourante(Double.parseDouble(valeurCourante));
+                temperatureAlternateur.setText(Double.toString(modeReglage.getTemperatureAlternateur().getValCourante()));
 
                 break;
             case ")" :
-                modeTest.getTemperatureFrein().setValCourante(Double.parseDouble(valeurCourante));
-                temperatureFrein.setText(Double.toString(modeTest.getTemperatureFrein().getValCourante()));
+                modeReglage.getTemperatureFrein().setValCourante(Double.parseDouble(valeurCourante));
+                temperatureFrein.setText(Double.toString(modeReglage.getTemperatureFrein().getValCourante()));
 
                 break;
             default:
@@ -292,7 +292,7 @@ public class ModeTestActivity extends AppCompatActivity {
 
     public void afficherPointSelectionne(int positionDuPoint){
         PointsGraphSeries<DataPoint> pointSelectionne = new PointsGraphSeries<>(new DataPoint[] {
-                new DataPoint(modeTest.getPointsDuGraphique().get(positionDuPoint).getAbscisse(), modeTest.getPointsDuGraphique().get(positionDuPoint).getOrdonnee())
+                new DataPoint(modeReglage.getPointsDuGraphique().get(positionDuPoint).getAbscisse(), modeReglage.getPointsDuGraphique().get(positionDuPoint).getOrdonnee())
     });
         pointSelectionne.setShape(PointsGraphSeries.Shape.POINT);
         pointSelectionne.setColor(Color.RED);
@@ -304,7 +304,7 @@ public class ModeTestActivity extends AppCompatActivity {
 
     public void afficherLesPointsSurLeGraphique(){
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
-        for(Point pointCourant : modeTest.getPointsDuGraphique()){
+        for(Point pointCourant : modeReglage.getPointsDuGraphique()){
             series.appendData(new DataPoint(pointCourant.getAbscisse(),pointCourant.getOrdonnee()),true,10);
         }
         pointsAffiches=series;
@@ -314,20 +314,20 @@ public class ModeTestActivity extends AppCompatActivity {
         pointsAffiches.setThickness(8);
         graphique.getViewport().setYAxisBoundsManual(true);
         graphique.getViewport().setMinY(0);
-        graphique.getViewport().setMaxY(modeTest.getMaxOrdonee());
+        graphique.getViewport().setMaxY(modeReglage.getMaxOrdonee());
         graphique.getViewport().setXAxisBoundsManual(true);
         graphique.getViewport().setMinX(0);
-        graphique.getViewport().setMaxX(modeTest.getMaxAbscisse());
+        graphique.getViewport().setMaxX(modeReglage.getMaxAbscisse());
         graphique.addSeries(pointsAffiches);
     }
 
     public void initialiserGraphique(){
         graphique.getViewport().setYAxisBoundsManual(true);
         graphique.getViewport().setMinY(0);
-        graphique.getViewport().setMaxY(modeTest.getCourantEnEntree().getValMaxJauge());
+        graphique.getViewport().setMaxY(modeReglage.getCourantEnEntree().getValMaxJauge());
         graphique.getViewport().setXAxisBoundsManual(true);
         graphique.getViewport().setMinX(0);
-        graphique.getViewport().setMaxX(modeTest.getVitesseRotation().getValMaxJauge());
+        graphique.getViewport().setMaxX(modeReglage.getVitesseRotation().getValMaxJauge());
     }
 
 

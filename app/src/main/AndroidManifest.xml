@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ModeTestActivity"
+            android:name=".ModeReglageActivity"
             android:screenOrientation="landscape"></activity>
         <activity
             android:name=".DemandeDesAutorisationsActivity"

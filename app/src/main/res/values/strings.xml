@@ -43,13 +43,13 @@
     <string name="valeurTemperatureMax">Température max : </string>
     <string name="valeurEnergieProduite">L\'éolienne a produit : </string>
     <string name="connecteA">Connecté à : </string>
-    <string name="boutonMode_test">Test</string>
+    <string name="boutonMode_reglage">Réglage</string>
 
-    <!--mode test-->
+    <!--mode reglage-->
 
     <string name="description">logo bt</string>
     <string name="boutonMode_prod">Production</string>
-    <string name="mode_test">Mode : Test</string>
+    <string name="mode_reglage">Mode : Réglage</string>
     <string name="validerPoint">Ajouter</string>
     <string name="supprimerPoint">Supprimer</string>
     <string name="envoyerPoints">Envoyer la série de points à l\'éolienne</string>

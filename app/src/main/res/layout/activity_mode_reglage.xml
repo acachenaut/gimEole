@@ -30,7 +30,7 @@
         android:id="@+id/titreModeTest"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/mode_test"
+        android:text="@string/mode_reglage"
         app:layout_constraintBottom_toTopOf="@+id/barreSeparationHorizontale"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

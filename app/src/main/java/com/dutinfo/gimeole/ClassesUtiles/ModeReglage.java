@@ -3,7 +3,7 @@ package com.dutinfo.gimeole.ClassesUtiles;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class ModeTest extends ModeProduction {
+public class ModeReglage extends ModeProduction {
 
     private ArrayList<Point> pointsDuGraphique;
     private int nombreDePoints;
@@ -11,7 +11,7 @@ public class ModeTest extends ModeProduction {
     private double maxAbscisse;
     private double maxOrdonee;
 
-    public ModeTest (){
+    public ModeReglage(){
         super();
         this.nombreDePoints=0;
         this.pointsDuGraphique = new ArrayList<>();
