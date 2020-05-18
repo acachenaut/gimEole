@@ -1,15 +1,15 @@
 <resources>
     <string name="app_name">Gim\'Eole</string>
     <string name="mode_prod">Mode : Production</string>
-    <string name="boutonVitesseDeRotation">Vitesse de rotation (tr/min) :</string>
-    <string name="boutonTensionEnEntree">Tension en entrée du convertisseur (V) :</string>
-    <string name="boutonCourantEnEntree">Courant en entrée du convertisseur (A) :</string>
-    <string name="boutonTensionEnSortie">Tension en sortie du convertisseur (V) :</string>
-    <string name="boutonCourantEnSortie">Courant en sortie du convertisseur (A) :</string>
-    <string name="boutonPuissanceFournie">Puissance fournie par l\'éolienne (W) :</string>
-    <string name="boutonEnergieProduite">Energie produite par l\'éolienne (J) :</string>
-    <string name="boutonTemperatureAlternateur">Température de l\'alternateur (°C) :</string>
-    <string name="boutonTemperatureFrein">Température du frein (°C) :</string>
+    <string name="boutonVitesseDeRotation"><u>Vitesse de rotation (tr/min) :</u></string>
+    <string name="boutonTensionEnEntree"><u>Tension en entrée du convertisseur (V) :</u></string>
+    <string name="boutonCourantEnEntree"><u>Courant en entrée du convertisseur (A) :</u></string>
+    <string name="boutonTensionEnSortie"><u>Tension en sortie du convertisseur (V) :</u></string>
+    <string name="boutonCourantEnSortie"><u>Courant en sortie du convertisseur (A) :</u></string>
+    <string name="boutonPuissanceFournie"><u>Puissance fournie par l\'éolienne (W) :</u></string>
+    <string name="boutonEnergieProduite"><u>Energie produite par l\'éolienne (J) :</u></string>
+    <string name="boutonTemperatureAlternateur"><u>Température de l\'alternateur (°C) :</u></string>
+    <string name="boutonTemperatureFrein"><u>Température du frein (°C) :</u></string>
     <string name="remiseAZero">RAZ</string>
     <string name="nomJaugeVitesseDeRotation">Vitesse de rotation</string>
     <string name="nomJaugeTensionEnEntree">Tension en entrée du convertisseur</string>

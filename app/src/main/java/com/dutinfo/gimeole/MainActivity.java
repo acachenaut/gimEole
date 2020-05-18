@@ -2,6 +2,7 @@ package com.dutinfo.gimeole;
 
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -148,6 +149,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         changerMinMaxDesJauges();
+        afficherNouvelleJauge();
 
 
         boutonVitesseRotation.setOnClickListener(new View.OnClickListener() {
@@ -401,21 +403,33 @@ public class MainActivity extends AppCompatActivity {
         switch (modeProduction.getEtatModeProduction()){
             case jaugeVitesseRotation:
                 jaugeVitesseRotation.setVisibility(View.INVISIBLE);
+                boutonVitesseRotation.setTextColor(getResources().getColor(R.color.cyan));
+                boutonVitesseRotation.setTypeface(null, Typeface.NORMAL);
                 break;
             case jaugeTensionEnEntree:
                 jaugeTensionEnEntree.setVisibility(View.INVISIBLE);
+                boutonTensionEnEntree.setTextColor(getResources().getColor(R.color.cyan));
+                boutonTensionEnEntree.setTypeface(null, Typeface.NORMAL);
                 break;
             case jaugeCourantEnEntree:
                 jaugeCourantEnEntree.setVisibility(View.INVISIBLE);
+                boutonCourantEnEntree.setTextColor(getResources().getColor(R.color.cyan));
+                boutonCourantEnEntree.setTypeface(null, Typeface.NORMAL);
                 break;
             case jaugeTensionEnSortie:
                 jaugeTensionEnSortie.setVisibility(View.INVISIBLE);
+                boutonTensionEnSortie.setTextColor(getResources().getColor(R.color.cyan));
+                boutonTensionEnSortie.setTypeface(null, Typeface.NORMAL);
                 break;
             case jaugeCourantEnSortie:
                 jaugeCourantEnSortie.setVisibility(View.INVISIBLE);
+                boutonCourantEnSortie.setTextColor(getResources().getColor(R.color.cyan));
+                boutonCourantEnSortie.setTypeface(null, Typeface.NORMAL);
                 break;
             case jaugePuissanceFournie:
                 jaugePuissanceFournie.setVisibility(View.INVISIBLE);
+                boutonPuissanceFournie.setTextColor(getResources().getColor(R.color.cyan));
+                boutonPuissanceFournie.setTypeface(null, Typeface.NORMAL);
                 break;
             case jaugeEnergieProduite:
                 jaugeEnergieProduite.setVisibility(View.INVISIBLE);
@@ -424,12 +438,18 @@ public class MainActivity extends AppCompatActivity {
                 valeurEnergie.setVisibility(View.INVISIBLE);
                 valeurMoyenne.setVisibility(View.VISIBLE);
                 valeurMax.setVisibility(View.VISIBLE);
+                boutonEnergieProduite.setTextColor(getResources().getColor(R.color.cyan));
+                boutonEnergieProduite.setTypeface(null, Typeface.NORMAL);
                 break;
             case jaugeTemperatureAlternateur:
                 thermometreAlternateur.setVisibility(View.INVISIBLE);
+                boutonTemperatureAlternateur.setTextColor(getResources().getColor(R.color.cyan));
+                boutonTemperatureAlternateur.setTypeface(null, Typeface.NORMAL);
                 break;
             case jaugeTemperatureFrein:
                 thermometreFrein.setVisibility(View.INVISIBLE);
+                boutonTemperatureFrein.setTextColor(getResources().getColor(R.color.cyan));
+                boutonTemperatureFrein.setTypeface(null, Typeface.NORMAL);
                 break;
             default:
                 break;
@@ -443,36 +463,48 @@ public class MainActivity extends AppCompatActivity {
                 nomJaugeCourante.setText(nomJaugeVitesseRotation);
                 valeurMoyenne.setText(getResources().getString(R.string.valeurVitesseMoyenne));
                 valeurMax.setText(getResources().getString(R.string.valeurVitesseMax));
+                boutonVitesseRotation.setTextColor(getResources().getColor(R.color.violet));
+                boutonVitesseRotation.setTypeface(null, Typeface.BOLD);
                 break;
             case jaugeTensionEnEntree:
                 jaugeTensionEnEntree.setVisibility(View.VISIBLE);
                 nomJaugeCourante.setText(nomJaugeTensionEnEntree);
                 valeurMoyenne.setText(getResources().getString(R.string.valeurTensionMoyenne));
                 valeurMax.setText(getResources().getString(R.string.valeurTensionMax));
+                boutonTensionEnEntree.setTextColor(getResources().getColor(R.color.violet));
+                boutonTensionEnEntree.setTypeface(null, Typeface.BOLD);
                 break;
             case jaugeCourantEnEntree:
                 jaugeCourantEnEntree.setVisibility(View.VISIBLE);
                 nomJaugeCourante.setText(nomJaugeCourantEnEntree);
                 valeurMoyenne.setText(getResources().getString(R.string.valeurCourantMoyen));
                 valeurMax.setText(getResources().getString(R.string.valeurCourantMax));
+                boutonCourantEnEntree.setTextColor(getResources().getColor(R.color.violet));
+                boutonCourantEnEntree.setTypeface(null, Typeface.BOLD);
                 break;
             case jaugeTensionEnSortie:
                 jaugeTensionEnSortie.setVisibility(View.VISIBLE);
                 nomJaugeCourante.setText(nomJaugeTensionEnSortie);
                 valeurMoyenne.setText(getResources().getString(R.string.valeurTensionMoyenne));
                 valeurMax.setText(getResources().getString(R.string.valeurTensionMax));
+                boutonTensionEnSortie.setTextColor(getResources().getColor(R.color.violet));
+                boutonTensionEnSortie.setTypeface(null, Typeface.BOLD);
                 break;
             case jaugeCourantEnSortie:
                 jaugeCourantEnSortie.setVisibility(View.VISIBLE);
                 nomJaugeCourante.setText(nomJaugeCourantEnSortie);
                 valeurMoyenne.setText(getResources().getString(R.string.valeurCourantMoyen));
                 valeurMax.setText(getResources().getString(R.string.valeurCourantMax));
+                boutonCourantEnSortie.setTextColor(getResources().getColor(R.color.violet));
+                boutonCourantEnSortie.setTypeface(null, Typeface.BOLD);
                 break;
             case jaugePuissanceFournie:
                 jaugePuissanceFournie.setVisibility(View.VISIBLE);
                 nomJaugeCourante.setText(nomJaugePuissanceFournie);
                 valeurMoyenne.setText(getResources().getString(R.string.valeurPuissanceMoyenne));
                 valeurMax.setText(getResources().getString(R.string.valeurPuissanceMoyenne));
+                boutonPuissanceFournie.setTextColor(getResources().getColor(R.color.violet));
+                boutonPuissanceFournie.setTypeface(null, Typeface.BOLD);
                 break;
             case jaugeEnergieProduite:
                 valeurMoyenne.setVisibility(View.INVISIBLE);
@@ -482,18 +514,24 @@ public class MainActivity extends AppCompatActivity {
                 echelleLogarithmique.setVisibility(View.VISIBLE);
                 cacheDuGrapheDeLeEchelleLogarithmique.setVisibility(View.VISIBLE);
                 nomJaugeCourante.setText(nomJaugeEnergieProduite);
+                boutonEnergieProduite.setTextColor(getResources().getColor(R.color.violet));
+                boutonEnergieProduite.setTypeface(null, Typeface.BOLD);
                 break;
             case jaugeTemperatureAlternateur:
                 thermometreAlternateur.setVisibility(View.VISIBLE);
                 nomJaugeCourante.setText(nomJaugeTemperatureAlternateur);
                 valeurMoyenne.setText(getResources().getString(R.string.valeurTemperatureMoyenne));
                 valeurMax.setText(getResources().getString(R.string.valeurTemperatureMax));
+                boutonTemperatureAlternateur.setTextColor(getResources().getColor(R.color.violet));
+                boutonTemperatureAlternateur.setTypeface(null, Typeface.BOLD);
                 break;
             case jaugeTemperatureFrein:
                 thermometreFrein.setVisibility(View.VISIBLE);
                 nomJaugeCourante.setText(nomJaugeTemperatureFrein);
                 valeurMoyenne.setText(getResources().getString(R.string.valeurTemperatureMoyenne));
                 valeurMax.setText(getResources().getString(R.string.valeurTemperatureMax));
+                boutonTemperatureFrein.setTextColor(getResources().getColor(R.color.violet));
+                boutonTemperatureFrein.setTypeface(null, Typeface.BOLD);
                 break;
             default:
                 break;

@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="18sp"
-            android:text="Paired devices :" />
+            android:text="Appareils appairés :" />
 
         <ListView
             android:id="@+id/activity_scan_paired_list"
