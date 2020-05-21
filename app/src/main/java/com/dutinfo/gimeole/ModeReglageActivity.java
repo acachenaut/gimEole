@@ -14,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.dutinfo.gimeole.ClassesUtiles.BoiteAOutils;
 import com.dutinfo.gimeole.ClassesUtiles.ModeReglage;
 import com.dutinfo.gimeole.ClassesUtiles.Point;
 import com.jjoe64.graphview.GraphView;
@@ -35,21 +34,21 @@ public class ModeReglageActivity extends AppCompatActivity {
     private BluetoothDevice device;
 
     //Création valeurs à afficher
-    TextView vitesseRotation, tensionEnEntree, courantEnEntree, puissanceFournie, energieProduite, temperatureAlternateur,temperatureFrein;
-
+    TextView vitesseRotation, tensionEnEntree, courantEnEntree, puissanceFournie, affichageUniteAmpere,affichageDixiemeAmpere,affichageAmpere;
     //Création de l'indicateur Bluetooth et de du nom du périphérique connecté
     ImageView logoBluetooth;
     TextView nomPeripheriqueBluetooth;
 
     //Création des bouttons de l'activité
-    Button boutonRAZenergie, boutonModeProduction, boutonValiderPoint, boutonPointPrecedent, boutonPointSuivant,boutonSupprimerPoint, boutonEnvoyerSerieDePoint;
+    Button boutonModeProduction,boutonPointPrecedent, boutonPointSuivant,boutonSupprimerPoint,boutonTransfererProfilAppli;
+    Button boutonMoins1Ampere,boutonPlus1Ampere,boutonMoins1DixiemeAmpere,boutonPlus1DixiemeAmpere,boutonAjouterPoint,boutonModeSuivant,boutonModifierPoint,boutonModePrecedent;
 
     //Création du graphique
     GraphView graphique;
 
     EditText abscisseSaisie,ordonneeSaisie;
 
-    //Serie de point affiché actuellement
+    //Série de points affichés actuellement
     LineGraphSeries<DataPoint> pointsAffiches = new LineGraphSeries<>();
 
     //indicateur permettant de savoir si le bluetooth a été deconnecté à cause d'un changement d'activité
@@ -74,9 +73,9 @@ public class ModeReglageActivity extends AppCompatActivity {
         tensionEnEntree = findViewById(R.id.t_tensionEnEntree);
         courantEnEntree = findViewById(R.id.t_courantEnEntree);
         puissanceFournie = findViewById(R.id.t_puissanceFournie);
-        energieProduite = findViewById(R.id.t_energieProduite);
-        temperatureAlternateur = findViewById(R.id.t_temperatureAlternateur);
-        temperatureFrein = findViewById(R.id.t_temperatureFrein);
+        affichageUniteAmpere = findViewById(R.id.t_affichageUniteAmpere);
+        affichageDixiemeAmpere = findViewById(R.id.t_affichageDixiemeAmpere);
+        affichageAmpere = findViewById(R.id.t_affichageAmpere);
 
         //Lien entre l'indicateur Bluetooth/nom du périphérique de l'interface et l'activité
         logoBluetooth = findViewById(R.id.logoBluetooth);
@@ -86,13 +85,19 @@ public class ModeReglageActivity extends AppCompatActivity {
         estDeconnecteDuBluetoothCarChangementDActivite=false;
 
         //Lien entre les boutons de l'interface et l'activité
-        boutonRAZenergie = findViewById(R.id.t_boutonRAZenergie);
         boutonModeProduction = findViewById(R.id.t_boutonModeProd);
-        boutonValiderPoint = findViewById(R.id.t_boutonValidationPoint);
         boutonPointPrecedent = findViewById(R.id.t_boutonPointPrécédent);
         boutonPointSuivant = findViewById(R.id.t_boutonPointSuivant);
         boutonSupprimerPoint = findViewById(R.id.t_boutonSupprimerPoint);
-        boutonEnvoyerSerieDePoint = findViewById(R.id.t_boutonEnvoyerSerieDePoints);
+        boutonMoins1Ampere = findViewById(R.id.t_boutonMoins1Ampere);
+        boutonPlus1Ampere = findViewById(R.id.t_boutonPlus1Ampere);
+        boutonMoins1DixiemeAmpere = findViewById(R.id.t_boutonMoins1DixiemeAmpere);
+        boutonPlus1DixiemeAmpere = findViewById(R.id.t_boutonPlus1DixiemeAmpere);
+        boutonAjouterPoint = findViewById(R.id.t_boutonAjouterPoint);
+        boutonModeSuivant = findViewById(R.id.t_boutonModeSuivant);
+        boutonModifierPoint = findViewById(R.id.t_boutonModifierPoint);
+        boutonModePrecedent = findViewById(R.id.t_boutonModePrecedent);
+        boutonTransfererProfilAppli = findViewById(R.id.t_boutonTransfererProfilAppli);
 
         //Lien entre le graphique de l'interface et l'activité
         graphique = findViewById(R.id.t_graphique);
@@ -103,7 +108,7 @@ public class ModeReglageActivity extends AppCompatActivity {
 
         initialiserGraphique();
 
-        boutonValiderPoint.setOnClickListener(new View.OnClickListener() {
+        boutonAjouterPoint.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
 
@@ -132,13 +137,6 @@ public class ModeReglageActivity extends AppCompatActivity {
 
                     messageZoneDeSaisieVide.show();
                 }
-            }
-        });
-
-        boutonRAZenergie.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                // Code here executes on main thread after user presses button
-                modeReglage.getEnergieProduite().setValRAZ(modeReglage.getEnergieProduite().getValCourante());
             }
         });
 
@@ -227,23 +225,51 @@ public class ModeReglageActivity extends AppCompatActivity {
             }
         });
 
-        boutonEnvoyerSerieDePoint.setOnClickListener(new View.OnClickListener() {
+
+        boutonModeSuivant.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
-                if(modeReglage.getNombreDePoints()!=0){
-                    for(Point pointCourant : modeReglage.getPointsDuGraphique()){
-                        bluetooth.send("n"+pointCourant.getAbscisse()+";"+pointCourant.getOrdonnee());
-                    }
-                }
-                else{
-                    Toast messageAucunPointSaisi = Toast.makeText(getApplicationContext(),
-                            "Aucun point n'a été ajouté !",
-                            Toast.LENGTH_SHORT);
-                    messageAucunPointSaisi.show();
-                }
-
+                boutonMoins1Ampere.setVisibility(v.INVISIBLE);
+                boutonPlus1Ampere.setVisibility(v.INVISIBLE);
+                boutonMoins1DixiemeAmpere.setVisibility(v.INVISIBLE);
+                boutonPlus1DixiemeAmpere.setVisibility(v.INVISIBLE);
+                boutonAjouterPoint.setVisibility(v.INVISIBLE);
+                boutonModeSuivant.setVisibility(v.INVISIBLE);
+                affichageUniteAmpere.setVisibility(v.INVISIBLE);
+                affichageDixiemeAmpere.setVisibility(v.INVISIBLE);
+                affichageAmpere.setVisibility(v.INVISIBLE);
+                abscisseSaisie.setVisibility(v.VISIBLE);
+                ordonneeSaisie.setVisibility(v.VISIBLE);
+                boutonModifierPoint.setVisibility(v.VISIBLE);
+                boutonSupprimerPoint.setVisibility(v.VISIBLE);
+                boutonModePrecedent.setVisibility(v.VISIBLE);
+                boutonPointPrecedent.setVisibility(v.VISIBLE);
+                boutonPointSuivant.setVisibility(v.VISIBLE);
             }
         });
+
+        boutonModePrecedent.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Code here executes on main thread after user presses button
+                boutonMoins1Ampere.setVisibility(v.VISIBLE);
+                boutonPlus1Ampere.setVisibility(v.VISIBLE);
+                boutonMoins1DixiemeAmpere.setVisibility(v.VISIBLE);
+                boutonPlus1DixiemeAmpere.setVisibility(v.VISIBLE);
+                boutonAjouterPoint.setVisibility(v.VISIBLE);
+                boutonModeSuivant.setVisibility(v.VISIBLE);
+                affichageUniteAmpere.setVisibility(v.VISIBLE);
+                affichageDixiemeAmpere.setVisibility(v.VISIBLE);
+                affichageAmpere.setVisibility(v.VISIBLE);
+                abscisseSaisie.setVisibility(v.INVISIBLE);
+                ordonneeSaisie.setVisibility(v.INVISIBLE);
+                boutonModifierPoint.setVisibility(v.INVISIBLE);
+                boutonSupprimerPoint.setVisibility(v.INVISIBLE);
+                boutonModePrecedent.setVisibility(v.INVISIBLE);
+                boutonPointPrecedent.setVisibility(v.INVISIBLE);
+                boutonPointSuivant.setVisibility(v.INVISIBLE);
+            }
+        });
+
     }
 
     public void afficherValeur (String chaineRecuParBluetooth){
@@ -265,6 +291,13 @@ public class ModeReglageActivity extends AppCompatActivity {
                 courantEnEntree.setText(Double.toString(modeReglage.getCourantEnEntree().getValCourante()));
 
                 break;
+            case "[" :
+                modeReglage.getTensionEnSortie().setValCourante(Double.parseDouble(valeurCourante));
+
+                break;
+            case "]" :
+                modeReglage.getCourantEnSortie().setValCourante(Double.parseDouble(valeurCourante));
+                break;
             case "%" :
                 modeReglage.getPuissanceFournie().setValCourante(Double.parseDouble(valeurCourante));
                 puissanceFournie.setText(Double.toString(modeReglage.getPuissanceFournie().getValCourante()));
@@ -272,17 +305,14 @@ public class ModeReglageActivity extends AppCompatActivity {
                 break;
             case "!" :
                 modeReglage.getEnergieProduite().setValCourante(Double.parseDouble(valeurCourante));
-                energieProduite.setText(BoiteAOutils.obtenirEcritureScientifiqueAvecChiffresSignificatifs(3, modeReglage.getEnergieProduite().getValCourante()));
 
                 break;
             case "(" :
                 modeReglage.getTemperatureAlternateur().setValCourante(Double.parseDouble(valeurCourante));
-                temperatureAlternateur.setText(Double.toString(modeReglage.getTemperatureAlternateur().getValCourante()));
 
                 break;
             case ")" :
                 modeReglage.getTemperatureFrein().setValCourante(Double.parseDouble(valeurCourante));
-                temperatureFrein.setText(Double.toString(modeReglage.getTemperatureFrein().getValCourante()));
 
                 break;
             default:

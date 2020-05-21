@@ -51,7 +51,16 @@
     <string name="mode_reglage">Mode : Réglage</string>
     <string name="validerPoint">Ajouter</string>
     <string name="supprimerPoint">Supprimer</string>
+    <string name="modifierPoint">Modifier</string>
     <string name="envoyerPoints">Envoyer la série de points à l\'éolienne</string>
+    <string name="ModeSuivant">Suivant</string>
+    <string name="ModePrecedent">Precedent</string>
+    <string name="freiner">Freiner</string>
+    <string name="TransfererProfilAppli">Transférer profil appli</string>
+    <string name="GenererProfilAppli">Générer profilAppli</string>
+    <string name="GenererEquation">Générer equation</string>
+    <string name="EnregistrerProfilAppli">Enregistrer profilAppli</string>
+    <string name="GererProfilAppli">Gérer profilAppli</string>
 
     <!--Réglage des jauges-->
 

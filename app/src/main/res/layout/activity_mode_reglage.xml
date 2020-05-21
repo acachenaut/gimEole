@@ -27,7 +27,7 @@
         app:layout_constraintTop_toTopOf="@+id/barreSeparationHorizontale" />
 
     <TextView
-        android:id="@+id/titreModeTest"
+        android:id="@+id/titreModeReglage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/mode_reglage"
@@ -69,7 +69,6 @@
         android:text="@string/boutonMode_prod"
         app:layout_constraintBottom_toTopOf="@id/barreSeparationHorizontale"
         app:layout_constraintEnd_toEndOf="parent"
-
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
@@ -81,11 +80,11 @@
         android:text="@string/boutonVitesseDeRotation"
         android:textAllCaps="false"
         android:textSize="15sp"
+        android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/t_boutonTensionEnEntree"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/barreSeparationVerticale"
-        app:layout_constraintTop_toBottomOf="@+id/barreSeparationHorizontale"
-        tools:visibility="visible" />
+        app:layout_constraintTop_toBottomOf="@+id/barreSeparationHorizontale" />
 
     <Button
         android:id="@+id/t_boutonTensionEnEntree"
@@ -96,11 +95,11 @@
         android:text="@string/boutonTensionEnEntree"
         android:textAllCaps="false"
         android:textSize="15sp"
+        android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/t_boutonCourantEnEntree"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/barreSeparationVerticale"
-        app:layout_constraintTop_toBottomOf="@+id/t_boutonVitesseDeRotation"
-        tools:visibility="visible" />
+        app:layout_constraintTop_toBottomOf="@+id/t_boutonVitesseDeRotation" />
 
     <Button
         android:id="@+id/t_boutonCourantEnEntree"
@@ -111,11 +110,11 @@
         android:text="@string/boutonCourantEnEntree"
         android:textAllCaps="false"
         android:textSize="15sp"
+        android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/t_boutonPuissanceFournie"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/barreSeparationVerticale"
-        app:layout_constraintTop_toBottomOf="@+id/t_boutonTensionEnEntree"
-        tools:visibility="visible" />
+        app:layout_constraintTop_toBottomOf="@+id/t_boutonTensionEnEntree"/>
 
     <Button
         android:id="@+id/t_boutonPuissanceFournie"
@@ -126,70 +125,12 @@
         android:text="@string/boutonPuissanceFournie"
         android:textAllCaps="false"
         android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@+id/t_boutonEnergieProduite"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/t_boutonPlus1Ampere"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/barreSeparationVerticale"
-        app:layout_constraintTop_toBottomOf="@+id/t_boutonCourantEnEntree"
-        tools:visibility="visible" />
+        app:layout_constraintTop_toBottomOf="@+id/t_boutonCourantEnEntree" />
 
-    <Button
-        android:id="@+id/t_boutonEnergieProduite"
-        android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:background="@null"
-        android:fontFamily="sans-serif-light"
-        android:text="@string/boutonEnergieProduite"
-
-        android:textAllCaps="false"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@+id/t_boutonTemperatureAlternateur"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/barreSeparationVerticale"
-        app:layout_constraintTop_toBottomOf="@+id/t_boutonPuissanceFournie"
-        tools:visibility="visible" />
-
-    <Button
-        android:id="@+id/t_boutonTemperatureAlternateur"
-        android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:background="@null"
-        android:fontFamily="sans-serif-light"
-        android:text="@string/boutonTemperatureAlternateur"
-
-        android:textAllCaps="false"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@+id/t_boutonTemperatureFrein"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/barreSeparationVerticale"
-        app:layout_constraintTop_toBottomOf="@+id/t_boutonEnergieProduite"
-        tools:visibility="visible" />
-
-    <Button
-        android:id="@+id/t_boutonTemperatureFrein"
-        android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:background="@null"
-        android:fontFamily="sans-serif-light"
-        android:text="@string/boutonTemperatureFrein"
-        android:textAllCaps="false"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@+id/t_boutonEnvoyerSerieDePoints"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/barreSeparationVerticale"
-        app:layout_constraintTop_toBottomOf="@+id/t_boutonTemperatureAlternateur"
-        tools:visibility="visible" />
-
-
-    <Button
-        android:id="@+id/t_boutonRAZenergie"
-        android:layout_width="56dp"
-        android:layout_height="wrap_content"
-        android:text="@string/remiseAZero"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@+id/t_boutonTemperatureAlternateur"
-        app:layout_constraintEnd_toStartOf="@+id/t_boutonEnergieProduite"
-        app:layout_constraintStart_toStartOf="@+id/barreSeparationVerticale"
-        app:layout_constraintTop_toBottomOf="@+id/t_boutonPuissanceFournie" />
 
     <TextView
         android:id="@+id/t_vitesseRotation"
@@ -201,7 +142,7 @@
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="@+id/t_boutonVitesseDeRotation"
         app:layout_constraintEnd_toEndOf="parent"
-/>
+        />
     <TextView
         android:id="@+id/t_tensionEnEntree"
         android:layout_width="wrap_content"
@@ -236,143 +177,294 @@
         app:layout_constraintBottom_toBottomOf="@+id/t_boutonPuissanceFournie"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <TextView
-        android:id="@+id/t_energieProduite"
-        android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:layout_marginEnd="3dp"
-        android:fontFamily="sans-serif-light"
-        android:text="@string/valeurNulle"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="@+id/t_boutonEnergieProduite"
-        app:layout_constraintEnd_toEndOf="parent"
-         />
 
-    <TextView
-        android:id="@+id/t_temperatureAlternateur"
-        android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:layout_marginEnd="3dp"
-        android:fontFamily="sans-serif-light"
-        android:text="@string/valeurNulle"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="@+id/t_boutonTemperatureAlternateur"
-        app:layout_constraintEnd_toEndOf="parent"
-         />
-
-    <TextView
-        android:id="@+id/t_temperatureFrein"
-        android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:fontFamily="sans-serif-light"
-        android:text="@string/valeurNulle"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="@+id/t_boutonTemperatureFrein"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
-
-
-
-
-
-
-
-
-
-
-    <com.jjoe64.graphview.GraphView
-        android:id="@+id/t_graphique"
-        android:layout_width="325dp"
-        android:layout_height="250dp"
+    <Button
+        android:id="@+id/t_boutonMoins1Ampere"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/precedent"
         android:visibility="visible"
-        app:layout_constraintEnd_toStartOf="@+id/barreSeparationVerticale"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/barreSeparationHorizontale" />
+        app:layout_constraintBottom_toTopOf="@+id/t_boutonMoins1DixiemeAmpere"
+        app:layout_constraintEnd_toStartOf="@+id/t_affichageUniteAmpere"
+        app:layout_constraintStart_toEndOf="@+id/barreSeparationVerticale"
+        app:layout_constraintTop_toBottomOf="@+id/t_boutonPuissanceFournie" />
 
-    <EditText
-        android:id="@+id/t_saisieAbscisse"
+
+    <TextView
+        android:id="@+id/t_affichageUniteAmpere"
+        android:layout_width="25dp"
+        android:layout_height="30dp"
+        android:fontFamily="sans-serif-light"
+        android:text="20"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/t_affichageDixiemeAmpere"
+        app:layout_constraintEnd_toStartOf="@+id/t_boutonPlus1Ampere"
+        app:layout_constraintStart_toEndOf="@+id/t_boutonMoins1Ampere"
+        app:layout_constraintTop_toBottomOf="@+id/t_boutonPuissanceFournie" />
+
+    <Button
+        android:id="@+id/t_boutonPlus1Ampere"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/suivant"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/t_boutonPlus1DixiemeAmpere"
+        app:layout_constraintEnd_toStartOf="@+id/t_affichageAmpere"
+        app:layout_constraintStart_toEndOf="@+id/t_affichageUniteAmpere"
+        app:layout_constraintTop_toBottomOf="@+id/t_boutonPuissanceFournie" />
+
+    <Button
+        android:id="@+id/t_boutonMoins1DixiemeAmpere"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/precedent"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/t_boutonFreiner"
+        app:layout_constraintEnd_toStartOf="@+id/t_affichageDixiemeAmpere"
+        app:layout_constraintStart_toEndOf="@+id/barreSeparationVerticale"
+        app:layout_constraintTop_toBottomOf="@+id/t_boutonMoins1Ampere" />
+
+
+    <TextView
+        android:id="@+id/t_affichageDixiemeAmpere"
+        android:layout_width="25dp"
+        android:layout_height="20dp"
+        android:fontFamily="sans-serif-light"
+        android:text="0"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/t_boutonFreiner"
+        app:layout_constraintEnd_toStartOf="@+id/t_boutonPlus1DixiemeAmpere"
+        app:layout_constraintStart_toEndOf="@+id/t_boutonMoins1DixiemeAmpere"
+        app:layout_constraintTop_toBottomOf="@+id/t_affichageUniteAmpere" />
+
+    <Button
+        android:id="@+id/t_boutonPlus1DixiemeAmpere"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/suivant"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/t_boutonFreiner"
+        app:layout_constraintEnd_toStartOf="@+id/t_affichageAmpere"
+        app:layout_constraintStart_toEndOf="@+id/t_affichageDixiemeAmpere"
+        app:layout_constraintTop_toBottomOf="@+id/t_boutonPlus1Ampere" />
+
+    <TextView
+        android:id="@+id/t_affichageAmpere"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:fontFamily="sans-serif-light"
+        android:text="0"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/t_boutonTransfererProfilAppli"
+        app:layout_constraintEnd_toStartOf="@+id/t_boutonAjouterPoint"
+        app:layout_constraintStart_toEndOf="@+id/t_boutonPlus1DixiemeAmpere"
+        app:layout_constraintTop_toBottomOf="@+id/t_boutonPuissanceFournie" />
+
+    <Button
+        android:id="@+id/t_boutonAjouterPoint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="4"
-        android:inputType="numberDecimal"
-        app:layout_constraintBottom_toTopOf="@+id/t_boutonPointPrécédent"
-        app:layout_constraintEnd_toStartOf="@+id/t_saiseOrdonnee"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/t_graphique" />
+        android:fontFamily="sans-serif-light"
+        android:text="@string/validerPoint"
+        android:textAllCaps="false"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@+id/t_boutonTransfererProfilAppli"
+        app:layout_constraintEnd_toStartOf="@+id/t_boutonModeSuivant"
+        app:layout_constraintStart_toEndOf="@id/t_affichageAmpere"
+        app:layout_constraintTop_toBottomOf="@+id/t_boutonPuissanceFournie" />
+
+    <Button
+        android:id="@+id/t_boutonModeSuivant"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/ModeSuivant"
+        android:textAllCaps="false"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@+id/t_boutonTransfererProfilAppli"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/t_boutonAjouterPoint"
+        app:layout_constraintTop_toBottomOf="@+id/t_boutonPuissanceFournie" />
+
+
+    <Button
+        android:id="@+id/t_boutonFreiner"
+        android:layout_width="165dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/freiner"
+        android:textAllCaps="false"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@+id/t_boutonGenererProfilAppli"
+        app:layout_constraintEnd_toStartOf="@+id/t_boutonTransfererProfilAppli"
+        app:layout_constraintStart_toEndOf="@+id/barreSeparationVerticale"
+        app:layout_constraintTop_toBottomOf="@+id/t_boutonPlus1DixiemeAmpere" />
+
+    <Button
+        android:id="@+id/t_boutonTransfererProfilAppli"
+        android:layout_width="165dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/TransfererProfilAppli"
+        android:textAllCaps="false"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@+id/t_boutonGenererEquation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/t_boutonFreiner"
+        app:layout_constraintTop_toBottomOf="@id/t_boutonPlus1DixiemeAmpere" />
+
+    <Button
+        android:id="@+id/t_boutonGenererProfilAppli"
+        android:layout_width="165dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/GenererProfilAppli"
+        android:textAllCaps="false"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@+id/t_boutonEnregistrerProfilAppli"
+        app:layout_constraintEnd_toStartOf="@+id/t_boutonGenererEquation"
+        app:layout_constraintStart_toEndOf="@+id/barreSeparationVerticale"
+        app:layout_constraintTop_toBottomOf="@+id/t_boutonFreiner" />
+
+    <Button
+        android:id="@+id/t_boutonGenererEquation"
+        android:layout_width="165dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/GenererEquation"
+        android:textAllCaps="false"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@+id/t_boutonGererProfilAppli"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/t_boutonGenererProfilAppli"
+        app:layout_constraintTop_toBottomOf="@+id/t_boutonTransfererProfilAppli" />
+
+    <Button
+        android:id="@+id/t_boutonEnregistrerProfilAppli"
+        android:layout_width="165dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/EnregistrerProfilAppli"
+        android:textAllCaps="false"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/t_boutonGererProfilAppli"
+        app:layout_constraintStart_toEndOf="@+id/barreSeparationVerticale"
+        app:layout_constraintTop_toBottomOf="@+id/t_boutonGenererProfilAppli" />
+
+    <Button
+        android:id="@+id/t_boutonGererProfilAppli"
+        android:layout_width="165dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/GererProfilAppli"
+        android:textAllCaps="false"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/t_boutonEnregistrerProfilAppli"
+        app:layout_constraintTop_toBottomOf="@+id/t_boutonGenererEquation" />
+
 
     <EditText
         android:id="@+id/t_saiseOrdonnee"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="4"
+        android:ems="3"
         android:inputType="numberDecimal"
+        android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/t_boutonPointSuivant"
-        app:layout_constraintEnd_toStartOf="@+id/t_boutonValidationPoint"
-        app:layout_constraintStart_toEndOf="@+id/t_saisieAbscisse"
-        app:layout_constraintTop_toBottomOf="@+id/t_graphique" />
+        app:layout_constraintEnd_toStartOf="@+id/t_boutonModifierPoint"
+        app:layout_constraintStart_toEndOf="@id/t_saisieAbscisse"
+        app:layout_constraintTop_toBottomOf="@+id/t_boutonPuissanceFournie" />
 
-    <Button
-        android:id="@+id/t_boutonValidationPoint"
+    <EditText
+        android:id="@+id/t_saisieAbscisse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/validerPoint"
-        android:fontFamily="sans-serif-light"
-        android:textAllCaps="false"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@+id/t_boutonSupprimerPoint"
-        app:layout_constraintEnd_toStartOf="@+id/barreSeparationVerticale"
-        app:layout_constraintStart_toEndOf="@+id/t_saiseOrdonnee"
-        app:layout_constraintTop_toBottomOf="@+id/t_graphique" />
+        android:ems="3"
+        android:inputType="numberDecimal"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/t_boutonPointPrécédent"
+        app:layout_constraintEnd_toStartOf="@+id/t_saiseOrdonnee"
+        app:layout_constraintStart_toEndOf="@+id/barreSeparationVerticale"
+        app:layout_constraintTop_toBottomOf="@+id/t_boutonPuissanceFournie" />
 
     <Button
         android:id="@+id/t_boutonPointPrécédent"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:background="@drawable/precedent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/t_saisieAbscisse"
-        app:layout_constraintStart_toStartOf="@+id/t_saisieAbscisse"
-        app:layout_constraintTop_toBottomOf="@+id/t_saisieAbscisse"
-        tools:visibility="visible" />
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/t_boutonFreiner"
+        app:layout_constraintEnd_toStartOf="@+id/t_boutonPointSuivant"
+        app:layout_constraintStart_toEndOf="@+id/barreSeparationVerticale" />
 
     <Button
         android:id="@+id/t_boutonPointSuivant"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:background="@drawable/suivant"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/t_saiseOrdonnee"
-        app:layout_constraintStart_toStartOf="@+id/t_saiseOrdonnee"
-        app:layout_constraintTop_toBottomOf="@+id/t_saiseOrdonnee"
-        tools:visibility="visible" />
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/t_boutonFreiner"
+        app:layout_constraintEnd_toStartOf="@+id/t_boutonSupprimerPoint"
+        app:layout_constraintStart_toEndOf="@id/t_boutonPointPrécédent" />
+
 
     <Button
-    android:id="@+id/t_boutonSupprimerPoint"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:fontFamily="sans-serif-light"
-    android:text="@string/supprimerPoint"
-    android:textAllCaps="false"
-    android:textSize="15sp"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="@+id/t_boutonValidationPoint"
-    app:layout_constraintStart_toStartOf="@+id/t_boutonValidationPoint"
-    app:layout_constraintTop_toBottomOf="@+id/t_boutonValidationPoint"
-    tools:visibility="visible" />
-
-    <Button
-        android:id="@+id/t_boutonEnvoyerSerieDePoints"
+        android:id="@+id/t_boutonModifierPoint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-light"
-        android:text="@string/envoyerPoints"
+        android:text="@string/modifierPoint"
         android:textAllCaps="false"
         android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/t_boutonSupprimerPoint"
+        app:layout_constraintEnd_toStartOf="@+id/t_boutonModePrecedent"
+        app:layout_constraintStart_toEndOf="@+id/t_boutonPointSuivant"
+        app:layout_constraintTop_toBottomOf="@+id/t_boutonPuissanceFournie" />
+
+    <Button
+        android:id="@+id/t_boutonSupprimerPoint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/supprimerPoint"
+        android:textAllCaps="false"
+        android:textSize="15sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/t_boutonTransfererProfilAppli"
+        app:layout_constraintEnd_toStartOf="@+id/t_boutonModeSuivant"
+        app:layout_constraintStart_toEndOf="@id/t_boutonPointSuivant"
+        app:layout_constraintTop_toBottomOf="@id/t_boutonModifierPoint" />
+
+    <Button
+        android:id="@+id/t_boutonModePrecedent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ModePrecedent"
+        android:fontFamily="sans-serif-light"
+        android:textAllCaps="false"
+        android:textSize="15sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/t_boutonTransfererProfilAppli"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/barreSeparationVerticale"
-        app:layout_constraintTop_toBottomOf="@+id/t_boutonTemperatureFrein"
-        tools:visibility="visible" />
+        app:layout_constraintStart_toEndOf="@+id/t_boutonAjouterPoint"
+        app:layout_constraintTop_toBottomOf="@+id/t_boutonPuissanceFournie"/>
+
+
+    <com.jjoe64.graphview.GraphView
+        android:id="@+id/t_graphique"
+        android:layout_width="325dp"
+        android:layout_height="325dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/barreSeparationVerticale"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/barreSeparationHorizontale" />
+
+
 
 
 
