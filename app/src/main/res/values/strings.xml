@@ -1,4 +1,7 @@
 <resources>
+
+    <!--mode production-->
+
     <string name="app_name">Gim\'Eole</string>
     <string name="mode_prod">Mode : Production</string>
     <string name="boutonVitesseDeRotation"><u>Vitesse de rotation (tr/min) :</u></string>
@@ -27,10 +30,6 @@
     <string name="uniteJaugeJoule">J</string>
     <string name="uniteJaugeDegre">°C</string>
     <string name="valeurNulle">0</string>
-    <string name="titreRglage">Paramétrage des valeurs minimales et maximales</string>
-    <string name="consigneDesReglage">Saisissez vos valeurs minimales et maximales : </string>
-    <string name="valeurMin">valeur minimale :</string>
-    <string name="valeurMax">valeur maximale :</string>
     <string name="valeurVitesseMoyenne">Vitesse moyenne : </string>
     <string name="valeurTensionMoyenne">Tension moyenne : </string>
     <string name="valeurCourantMoyen">Courant moyen : </string>
@@ -45,7 +44,7 @@
     <string name="connecteA">Connecté à : </string>
     <string name="boutonMode_reglage">Réglage</string>
 
-    <!--mode reglage-->
+    <!--mode réglage-->
 
     <string name="description">logo bt</string>
     <string name="boutonMode_prod">Production</string>
@@ -54,5 +53,9 @@
     <string name="supprimerPoint">Supprimer</string>
     <string name="envoyerPoints">Envoyer la série de points à l\'éolienne</string>
 
+    <!--Réglage des jauges-->
+
+    <string name="titreRglage">Paramétrage des valeurs maximales</string>
+    <string name="consigneDesReglage">Sélectionnez les valeurs maximales des jauges : </string>
 
 </resources>

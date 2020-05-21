@@ -14,15 +14,15 @@ public class ModeProduction {
     private Element_A_Afficher temperatureFrein;
 
     public ModeProduction (){
-         vitesseRotation = new Element_A_Afficher(0,3000);
-         tensionEnEntree = new Element_A_Afficher(0,150);
+         vitesseRotation = new Element_A_Afficher(0,500);
+         tensionEnEntree = new Element_A_Afficher(0,100);
          courantEnEntree = new Element_A_Afficher(0,20);
-        tensionEnSortie = new Element_A_Afficher(0,150);
-        courantEnSortie = new Element_A_Afficher(0,20);
-         puissanceFournie = new Element_A_Afficher(1000,2000);
-         energieProduite = new Element_Energie_Produite(0,1000000000);
-         temperatureAlternateur = new Element_A_Afficher(15,30);
-         temperatureFrein = new Element_A_Afficher(15,30);
+        tensionEnSortie = new Element_A_Afficher(0,30);
+        courantEnSortie = new Element_A_Afficher(0,30);
+         puissanceFournie = new Element_A_Afficher(0,500);
+         energieProduite = new Element_Energie_Produite(0,100);
+         temperatureAlternateur = new Element_A_Afficher(0,15);
+         temperatureFrein = new Element_A_Afficher(0,15);
          this.etatModeProduction=UnEtat.jaugeVitesseRotation;
 
     }
