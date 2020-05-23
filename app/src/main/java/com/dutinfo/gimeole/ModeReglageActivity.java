@@ -146,7 +146,7 @@ public class ModeReglageActivity extends AppCompatActivity {
         boutonPointPrecedent.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
-                if(modeReglage.getNombreDePoints()!=0){
+                if(modeReglage.getNombreDePointsDuProfilAppli()!=0){
                     switch (modeReglage.getPointSelectionne()){
                         case -1:
                             modeReglage.setPointSelectionne(0);
@@ -177,8 +177,8 @@ public class ModeReglageActivity extends AppCompatActivity {
         boutonPointSuivant.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
-                if(modeReglage.getNombreDePoints()!=0){
-                    if(modeReglage.getPointSelectionne()== modeReglage.getNombreDePoints()-1){
+                if(modeReglage.getNombreDePointsDuProfilAppli()!=0){
+                    if(modeReglage.getPointSelectionne()== modeReglage.getNombreDePointsDuProfilAppli()-1){
                         Toast messagePasDePointSuivant = Toast.makeText(getApplicationContext(),
                                 "C'est déjà le dernier point !",
                                 Toast.LENGTH_SHORT);
@@ -331,14 +331,12 @@ public class ModeReglageActivity extends AppCompatActivity {
         profilAppli.setDrawDataPoints(true);
         profilAppli.setDataPointsRadius(10);
         profilAppli.setThickness(8);
-        graphique.getViewport().setYAxisBoundsManual(true);
-        graphique.getViewport().setMinY(0);
-        graphique.getViewport().setMaxY(modeReglage.getMaxOrdonee());
-        graphique.getViewport().setXAxisBoundsManual(true);
-        graphique.getViewport().setMinX(0);
-        graphique.getViewport().setMaxX(modeReglage.getMaxAbscisse());
+        adapterEchelleDuGraphqiue();
         graphique.addSeries(profilAppli);
         graphique.addSeries(pointDeFonctionnement);
+        if(pointSelectionne!=null){
+            graphique.addSeries(pointSelectionne);
+        }
     }
 
     public void initialiserGraphique(){
@@ -354,6 +352,8 @@ public class ModeReglageActivity extends AppCompatActivity {
         PointsGraphSeries<DataPoint> point = new PointsGraphSeries<>(new DataPoint[] {
                 new DataPoint(modeReglage.getVitesseRotation().getValCourante(), modeReglage.getCourantEnEntree().getValCourante())
         });
+        modeReglage.setAbscisseDuPointDeFonctionnement(point.getHighestValueX());
+        modeReglage.setOrdonneeDuPointDeFonctionnement(point.getHighestValueY());
         pointDeFonctionnement = point;
         pointDeFonctionnement.setColor(Color.BLACK);
         pointDeFonctionnement.setCustomShape(new PointsGraphSeries.CustomShape() {
@@ -365,11 +365,22 @@ public class ModeReglageActivity extends AppCompatActivity {
             }
         });
         graphique.removeAllSeries();
+        adapterEchelleDuGraphqiue();
         graphique.addSeries(profilAppli);
         graphique.addSeries(pointDeFonctionnement);
         if(pointSelectionne!=null){
             graphique.addSeries(pointSelectionne);
         }
+    }
+
+    public void adapterEchelleDuGraphqiue(){
+        graphique.getViewport().setXAxisBoundsManual(true);
+        graphique.getViewport().setMinX(0);
+        graphique.getViewport().setMaxX(modeReglage.getMaxAbscisseDuGraphique());
+        graphique.getViewport().setYAxisBoundsManual(true);
+        graphique.getViewport().setMinY(0);
+        graphique.getViewport().setMaxY(modeReglage.getMaxOrdonneeDuGraphique());
+
     }
 
 

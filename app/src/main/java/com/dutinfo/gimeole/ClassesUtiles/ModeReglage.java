@@ -6,33 +6,33 @@ import java.util.Collections;
 public class ModeReglage extends ModeProduction {
 
     private ArrayList<Point> pointsDuProfilAppli;
-    private int nombreDePoints;
+    private int nombreDePointsDuProfilAppli;
     private int pointSelectionne;
-    private double maxAbscisse;
-    private double maxOrdonee;
+    private double maxAbscisseDuGraphique;
+    private double maxOrdonneeDuGraphique;
+    private double maxAbscisseDuProfilAppli;
+    private double maxOrdonneeDuProfilAppli;
+    private double abscisseDuPointDeFonctionnement;
+    private double ordonneeDuPointDeFonctionnement;
+
 
     public ModeReglage(){
         super();
-        this.nombreDePoints=0;
+        this.nombreDePointsDuProfilAppli =0;
         this.pointsDuProfilAppli = new ArrayList<>();
         this.pointSelectionne=-1;
-        this.maxAbscisse=0;
-        this.maxOrdonee=0;
+        this.maxAbscisseDuProfilAppli =0;
+        this.maxOrdonneeDuProfilAppli =0;
 
 
     }
 
     public boolean ajouterUnPointEtTrierTableau(double abscisse, double ordonnee){
-        if(this.getNombreDePoints()<10){
+        if(this.getNombreDePointsDuProfilAppli()<10){
             pointsDuProfilAppli.add(new Point(abscisse,ordonnee));
-            this.setNombreDePoints(this.getNombreDePoints()+1);
+            this.setNombreDePointsDuProfilAppli(this.getNombreDePointsDuProfilAppli()+1);
             Collections.sort(this.getPointsDuProfilAppli());
-            if(this.getMaxAbscisse()<abscisse){
-                this.setMaxAbscisse(abscisse);
-            }
-            if(this.getMaxOrdonee()<ordonnee){
-                this.setMaxOrdonee(ordonnee);
-            }
+            modifierMaxAbscisseEtOrdonneeDuProfilAppliEnFonctionDuNouveauPoint(abscisse,ordonnee);
             return true;
         }
         else{
@@ -40,12 +40,39 @@ public class ModeReglage extends ModeProduction {
         }
     }
 
-    public void setNombreDePoints(int nombreDePoints) {
-        this.nombreDePoints = nombreDePoints;
+    public void adapterMaxAbscisseDuGraphique(){
+        if (this.getMaxAbscisseDuProfilAppli()>this.getAbscisseDuPointDeFonctionnement()){
+            this.setMaxAbscisseDuGraphique(this.getMaxAbscisseDuProfilAppli());
+        }
+        else{
+            this.setMaxAbscisseDuGraphique(this.getAbscisseDuPointDeFonctionnement());
+        }
     }
 
-    public int getNombreDePoints() {
-        return nombreDePoints;
+    public void adapterMaxOrdonneeDuGraphique(){
+        if (this.getMaxOrdonneeDuProfilAppli()>this.getOrdonneeDuPointDeFonctionnement()){
+            this.setMaxOrdonneeDuGraphique(this.getMaxOrdonneeDuProfilAppli());
+        }
+        else{
+            this.setMaxOrdonneeDuGraphique(this.getOrdonneeDuPointDeFonctionnement());
+        }
+    }
+
+    public void modifierMaxAbscisseEtOrdonneeDuProfilAppliEnFonctionDuNouveauPoint(double abscisse, double ordonnee){
+        if(this.getMaxAbscisseDuProfilAppli()<abscisse){
+            this.setMaxAbscisseDuProfilAppli(abscisse);
+        }
+        if(this.getMaxOrdonneeDuProfilAppli()<ordonnee){
+            this.setMaxOrdonneeDuProfilAppli(ordonnee);
+        }
+    }
+
+    public void setNombreDePointsDuProfilAppli(int nombreDePointsDuProfilAppli) {
+        this.nombreDePointsDuProfilAppli = nombreDePointsDuProfilAppli;
+    }
+
+    public int getNombreDePointsDuProfilAppli() {
+        return nombreDePointsDuProfilAppli;
     }
 
     public ArrayList<Point> getPointsDuProfilAppli() {
@@ -61,24 +88,67 @@ public class ModeReglage extends ModeProduction {
     }
 
     public void supprimerPointSelectionne(int positionDuPoint){
+        if(this.getPointsDuProfilAppli().get(positionDuPoint).getAbscisse()== maxAbscisseDuProfilAppli || this.getPointsDuProfilAppli().get(positionDuPoint).getOrdonnee()== maxOrdonneeDuProfilAppli){
+            for(Point pointCourant : pointsDuProfilAppli){
+                modifierMaxAbscisseEtOrdonneeDuProfilAppliEnFonctionDuNouveauPoint(pointCourant.getAbscisse(),pointCourant.getOrdonnee());
+            }
+        }
         this.getPointsDuProfilAppli().remove(positionDuPoint);
         Collections.sort(this.getPointsDuProfilAppli());
-        this.setNombreDePoints(this.getNombreDePoints()-1);
+        this.setNombreDePointsDuProfilAppli(this.getNombreDePointsDuProfilAppli()-1);
+        if (this.getNombreDePointsDuProfilAppli()==0){
+            this.setMaxAbscisseDuProfilAppli(0);
+            this.setMaxOrdonneeDuProfilAppli(0);
+        }
     }
 
-    public void setMaxAbscisse(double maxAbscisse) {
-        this.maxAbscisse = maxAbscisse;
+    public void setMaxAbscisseDuProfilAppli(double maxAbscisseDuProfilAppli) {
+        this.maxAbscisseDuProfilAppli = maxAbscisseDuProfilAppli;
     }
 
-    public double getMaxAbscisse() {
-        return maxAbscisse;
+    public double getMaxAbscisseDuProfilAppli() {
+        return maxAbscisseDuProfilAppli;
     }
 
-    public void setMaxOrdonee(double maxOrdonee) {
-        this.maxOrdonee = maxOrdonee;
+    public void setMaxOrdonneeDuProfilAppli(double maxOrdonneeDuProfilAppli) {
+        this.maxOrdonneeDuProfilAppli = maxOrdonneeDuProfilAppli;
     }
 
-    public double getMaxOrdonee() {
-        return maxOrdonee;
+    public double getMaxOrdonneeDuProfilAppli() {
+        return maxOrdonneeDuProfilAppli;
+    }
+
+    public double getAbscisseDuPointDeFonctionnement() {
+        return abscisseDuPointDeFonctionnement;
+    }
+
+    public void setAbscisseDuPointDeFonctionnement(double abscisseDuPointDeFonctionnement) {
+        this.abscisseDuPointDeFonctionnement = abscisseDuPointDeFonctionnement;
+    }
+
+    public double getOrdonneeDuPointDeFonctionnement() {
+        return ordonneeDuPointDeFonctionnement;
+    }
+
+    public void setOrdonneeDuPointDeFonctionnement(double ordonneeDuPointDeFonctionnement) {
+        this.ordonneeDuPointDeFonctionnement = ordonneeDuPointDeFonctionnement;
+    }
+
+    public double getMaxAbscisseDuGraphique() {
+        adapterMaxAbscisseDuGraphique();
+        return maxAbscisseDuGraphique;
+    }
+
+    public void setMaxAbscisseDuGraphique(double maxAbscisseDuGraphique) {
+        this.maxAbscisseDuGraphique = maxAbscisseDuGraphique;
+    }
+
+    public double getMaxOrdonneeDuGraphique() {
+        adapterMaxOrdonneeDuGraphique();
+        return maxOrdonneeDuGraphique;
+    }
+
+    public void setMaxOrdonneeDuGraphique(double maxOrdonneeDuGraphique) {
+        this.maxOrdonneeDuGraphique = maxOrdonneeDuGraphique;
     }
 }
