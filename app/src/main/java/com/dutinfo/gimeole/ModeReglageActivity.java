@@ -150,6 +150,8 @@ public class ModeReglageActivity extends AppCompatActivity {
                     switch (modeReglage.getPointSelectionne()){
                         case -1:
                             modeReglage.setPointSelectionne(0);
+                            abscisseSaisie.setText(String.valueOf(modeReglage.getPointsDuProfilAppli().get(modeReglage.getPointSelectionne()).getAbscisse()));
+                            ordonneeSaisie.setText(String.valueOf(modeReglage.getPointsDuProfilAppli().get(modeReglage.getPointSelectionne()).getOrdonnee()));
                             break;
                         case 0:
                             Toast messagePasDePointPrecedent = Toast.makeText(getApplicationContext(),
@@ -159,6 +161,8 @@ public class ModeReglageActivity extends AppCompatActivity {
                             break;
                         default:
                             modeReglage.setPointSelectionne(modeReglage.getPointSelectionne()-1);
+                            abscisseSaisie.setText(String.valueOf(modeReglage.getPointsDuProfilAppli().get(modeReglage.getPointSelectionne()).getAbscisse()));
+                            ordonneeSaisie.setText(String.valueOf(modeReglage.getPointsDuProfilAppli().get(modeReglage.getPointSelectionne()).getOrdonnee()));
                             break;
                     }
                     afficherPointSelectionne(modeReglage.getPointSelectionne());
@@ -186,6 +190,8 @@ public class ModeReglageActivity extends AppCompatActivity {
                     }
                     else{
                         modeReglage.setPointSelectionne(modeReglage.getPointSelectionne()+1);
+                        abscisseSaisie.setText(String.valueOf(modeReglage.getPointsDuProfilAppli().get(modeReglage.getPointSelectionne()).getAbscisse()));
+                        ordonneeSaisie.setText(String.valueOf(modeReglage.getPointsDuProfilAppli().get(modeReglage.getPointSelectionne()).getOrdonnee()));
                     }
                     afficherPointSelectionne(modeReglage.getPointSelectionne());
                 }
@@ -199,6 +205,37 @@ public class ModeReglageActivity extends AppCompatActivity {
             }
         });
 
+        boutonModifierPoint.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                String abscisse = abscisseSaisie.getText().toString();
+                String ordonnee = ordonneeSaisie.getText().toString();
+                if (modeReglage.getPointSelectionne()!=-1){
+                    if (!(abscisse.matches("") || ordonnee.matches("")))
+                    {
+                        modeReglage.modifierPointDuProfilAppli(Double.parseDouble(abscisse),Double.parseDouble(ordonnee),modeReglage.getPointSelectionne());
+                        afficherLesPointsSurLeGraphique();
+                        afficherPointSelectionne(modeReglage.getPointSelectionne());
+                    }
+                    else
+                    {
+                        Toast messageZoneDeSaisieVide = Toast.makeText(getApplicationContext(),
+                                "Une ou plusieurs zones de saisies sont vide !",
+                                Toast.LENGTH_SHORT);
+
+                        messageZoneDeSaisieVide.show();
+                    }
+                }
+                else {
+                    Toast messagePasDePointSelectionne = Toast.makeText(getApplicationContext(),
+                            "Aucun point n'a été selectionné !",
+                            Toast.LENGTH_SHORT);
+                    messagePasDePointSelectionne.show();
+                }
+
+            }
+
+        });
+
         boutonSupprimerPoint.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
@@ -206,6 +243,8 @@ public class ModeReglageActivity extends AppCompatActivity {
                     modeReglage.supprimerPointSelectionne(modeReglage.getPointSelectionne());
                     modeReglage.setPointSelectionne(-1);
                     pointSelectionne=null;
+                    abscisseSaisie.setText(null);
+                    ordonneeSaisie.setText(null);
                     afficherLesPointsSurLeGraphique();
                 }
                 else{

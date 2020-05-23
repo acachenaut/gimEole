@@ -67,6 +67,21 @@ public class ModeReglage extends ModeProduction {
         }
     }
 
+    public void modifierPointDuProfilAppli(double abscisse, double ordonnee, int positionDuPoint){
+        this.getPointsDuProfilAppli().get(positionDuPoint).setAbscisse(abscisse);
+        this.getPointsDuProfilAppli().get(positionDuPoint).setOrdonnee(ordonnee);
+        modifierMaxAbscisseEtOrdonneeDuProfilAppliEnFonctionDuNouveauPoint(abscisse,ordonnee);
+        Collections.sort(this.getPointsDuProfilAppli());
+        int i = -1;
+        for(Point pointCourant : pointsDuProfilAppli){
+            i++;
+            if(pointCourant.getAbscisse()==abscisse && pointCourant.getOrdonnee()==ordonnee){
+                this.setPointSelectionne(i);
+            }
+        }
+
+    }
+
     public void setNombreDePointsDuProfilAppli(int nombreDePointsDuProfilAppli) {
         this.nombreDePointsDuProfilAppli = nombreDePointsDuProfilAppli;
     }
@@ -89,11 +104,16 @@ public class ModeReglage extends ModeProduction {
 
     public void supprimerPointSelectionne(int positionDuPoint){
         if(this.getPointsDuProfilAppli().get(positionDuPoint).getAbscisse()== maxAbscisseDuProfilAppli || this.getPointsDuProfilAppli().get(positionDuPoint).getOrdonnee()== maxOrdonneeDuProfilAppli){
+            this.getPointsDuProfilAppli().remove(positionDuPoint);
+            this.setMaxAbscisseDuProfilAppli(0);
+            this.setMaxOrdonneeDuProfilAppli(0);
             for(Point pointCourant : pointsDuProfilAppli){
                 modifierMaxAbscisseEtOrdonneeDuProfilAppliEnFonctionDuNouveauPoint(pointCourant.getAbscisse(),pointCourant.getOrdonnee());
             }
         }
-        this.getPointsDuProfilAppli().remove(positionDuPoint);
+        else {
+            this.getPointsDuProfilAppli().remove(positionDuPoint);
+        }
         Collections.sort(this.getPointsDuProfilAppli());
         this.setNombreDePointsDuProfilAppli(this.getNombreDePointsDuProfilAppli()-1);
         if (this.getNombreDePointsDuProfilAppli()==0){
