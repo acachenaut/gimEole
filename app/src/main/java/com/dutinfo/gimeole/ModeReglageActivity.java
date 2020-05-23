@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -19,6 +21,7 @@ import com.dutinfo.gimeole.ClassesUtiles.ModeReglage;
 import com.dutinfo.gimeole.ClassesUtiles.Point;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.DataPointInterface;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.jjoe64.graphview.series.PointsGraphSeries;
 
@@ -280,10 +283,12 @@ public class ModeReglageActivity extends AppCompatActivity {
             case "$" :
                 modeReglage.getVitesseRotation().setValCourante(Double.parseDouble(valeurCourante));
                 vitesseRotation.setText(BoiteAOutils.arrondirChiffreEnFonctionDuNombreDeChiffresSignificatifs(4,modeReglage.getVitesseRotation().getValCourante()));
+                afficherPointDeFonctionnement();
                 break;
             case ":" :
                 modeReglage.getTensionEnEntree().setValCourante(Double.parseDouble(valeurCourante));
                 tensionEnEntree.setText(BoiteAOutils.arrondirChiffreEnFonctionDuNombreDeChiffresSignificatifs(3,modeReglage.getTensionEnEntree().getValCourante()));
+                afficherPointDeFonctionnement();
                 break;
             case ";" :
                 modeReglage.getCourantEnEntree().setValCourante(Double.parseDouble(valeurCourante));
@@ -351,6 +356,24 @@ public class ModeReglageActivity extends AppCompatActivity {
         graphique.getViewport().setXAxisBoundsManual(true);
         graphique.getViewport().setMinX(0);
         graphique.getViewport().setMaxX(modeReglage.getVitesseRotation().getValMaxJauge());
+    }
+
+    public void afficherPointDeFonctionnement(){
+        PointsGraphSeries<DataPoint> pointDeFonctionnement = new PointsGraphSeries<>(new DataPoint[] {
+                new DataPoint(modeReglage.getVitesseRotation().getValCourante(), modeReglage.getCourantEnEntree().getValCourante())
+        });
+        pointDeFonctionnement.setColor(Color.BLACK);
+        pointDeFonctionnement.setCustomShape(new PointsGraphSeries.CustomShape() {
+            @Override
+            public void draw(Canvas canvas, Paint paint, float x, float y, DataPointInterface dataPoint) {
+                paint.setStrokeWidth(10);
+                canvas.drawLine(x-20, y-20, x+20, y+20, paint);
+                canvas.drawLine(x+20, y-20, x-20, y+20, paint);
+            }
+        });
+        graphique.removeAllSeries();
+        graphique.addSeries(pointsAffiches);
+        graphique.addSeries(pointDeFonctionnement);
     }
 
 
