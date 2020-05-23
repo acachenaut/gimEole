@@ -1,6 +1,7 @@
 package com.dutinfo.gimeole.ClassesUtiles;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 
 public class ModeReglage extends ModeProduction {
@@ -18,17 +19,18 @@ public class ModeReglage extends ModeProduction {
 
     public ModeReglage(){
         super();
-        this.nombreDePointsDuProfilAppli =0;
+        this.nombreDePointsDuProfilAppli = 1;
         this.pointsDuProfilAppli = new ArrayList<>();
-        this.pointSelectionne=-1;
-        this.maxAbscisseDuProfilAppli =0;
-        this.maxOrdonneeDuProfilAppli =0;
+        this.pointsDuProfilAppli.add(new Point(0,0));
+        this.pointSelectionne = 0;
+        this.maxAbscisseDuProfilAppli = 0;
+        this.maxOrdonneeDuProfilAppli = 0;
 
 
     }
 
     public boolean ajouterUnPointEtTrierTableau(double abscisse, double ordonnee){
-        if(this.getNombreDePointsDuProfilAppli()<10){
+        if(this.getNombreDePointsDuProfilAppli()<11){
             pointsDuProfilAppli.add(new Point(abscisse,ordonnee));
             this.setNombreDePointsDuProfilAppli(this.getNombreDePointsDuProfilAppli()+1);
             Collections.sort(this.getPointsDuProfilAppli());
@@ -115,11 +117,19 @@ public class ModeReglage extends ModeProduction {
             this.getPointsDuProfilAppli().remove(positionDuPoint);
         }
         Collections.sort(this.getPointsDuProfilAppli());
+        this.setPointSelectionne(0);
         this.setNombreDePointsDuProfilAppli(this.getNombreDePointsDuProfilAppli()-1);
         if (this.getNombreDePointsDuProfilAppli()==0){
             this.setMaxAbscisseDuProfilAppli(0);
             this.setMaxOrdonneeDuProfilAppli(0);
         }
+    }
+
+    public void supprimerProfilAppli(){
+        this.getPointsDuProfilAppli().clear();
+        this.setNombreDePointsDuProfilAppli(0);
+        this.setMaxAbscisseDuProfilAppli(0);
+        this.setMaxOrdonneeDuProfilAppli(0);
     }
 
     public void setMaxAbscisseDuProfilAppli(double maxAbscisseDuProfilAppli) {

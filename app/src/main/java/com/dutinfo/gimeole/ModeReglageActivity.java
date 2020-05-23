@@ -1,8 +1,10 @@
 package com.dutinfo.gimeole;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.bluetooth.BluetoothDevice;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -45,7 +47,7 @@ public class ModeReglageActivity extends AppCompatActivity {
 
     //Création des bouttons de l'activité
     Button boutonModeProduction,boutonPointPrecedent, boutonPointSuivant,boutonSupprimerPoint,boutonTransfererProfilAppli;
-    Button boutonMoins1Ampere,boutonPlus1Ampere,boutonMoins1DixiemeAmpere,boutonPlus1DixiemeAmpere,boutonAjouterPoint,boutonModeSuivant,boutonModifierPoint,boutonModePrecedent;
+    Button boutonMoins1Ampere,boutonPlus1Ampere,boutonMoins1DixiemeAmpere,boutonPlus1DixiemeAmpere,boutonAjouterPoint,boutonModeSuivant,boutonModifierPoint,boutonModePrecedent, boutonGenererProfilAppli;
 
     //Création du graphique
     GraphView graphique;
@@ -54,12 +56,16 @@ public class ModeReglageActivity extends AppCompatActivity {
 
     //Série de points affichés actuellement
     LineGraphSeries<DataPoint> profilAppli = new LineGraphSeries<>();
-    PointsGraphSeries<DataPoint> pointDeFonctionnement = new PointsGraphSeries<>();
+    PointsGraphSeries<DataPoint> pointDeFonctionnement = null;
     PointsGraphSeries<DataPoint> pointSelectionne = new PointsGraphSeries<>();
 
 
     //indicateur permettant de savoir si le bluetooth a été deconnecté à cause d'un changement d'activité
     boolean estDeconnecteDuBluetoothCarChangementDActivite;
+
+
+    enum choixGenererProfilAppli {aPartirDUnPoint,aPartinDeLEnsembleDesPoints,aPartirDuPorfilConv,aPartirDUnFichierCSV}
+    choixGenererProfilAppli choixUtilisateurGenererProfilAppli;
 
 
     @Override
@@ -105,6 +111,7 @@ public class ModeReglageActivity extends AppCompatActivity {
         boutonModifierPoint = findViewById(R.id.t_boutonModifierPoint);
         boutonModePrecedent = findViewById(R.id.t_boutonModePrecedent);
         boutonTransfererProfilAppli = findViewById(R.id.t_boutonTransfererProfilAppli);
+        boutonGenererProfilAppli = findViewById(R.id.t_boutonGenererProfilAppli);
 
         //Lien entre le graphique de l'interface et l'activité
         graphique = findViewById(R.id.t_graphique);
@@ -118,17 +125,19 @@ public class ModeReglageActivity extends AppCompatActivity {
         boutonAjouterPoint.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
-                 boolean estAjoute;
-                 estAjoute= modeReglage.ajouterUnPointEtTrierTableau(pointDeFonctionnement.getHighestValueX(), pointDeFonctionnement.getHighestValueY());
-                 if(estAjoute){
-                     afficherLesPointsSurLeGraphique();
-                 }
-                 else{
-                     Toast messageTableauComplet = Toast.makeText(getApplicationContext(),
-                             "Vous avez déjà saisi vos 10 points",
-                             Toast.LENGTH_SHORT);
-                     messageTableauComplet.show();
-                 }
+                if (pointDeFonctionnement!=null){
+                    boolean estAjoute;
+                    estAjoute= modeReglage.ajouterUnPointEtTrierTableau(pointDeFonctionnement.getHighestValueX(), pointDeFonctionnement.getHighestValueY());
+                    if(estAjoute){
+                        afficherLesPointsSurLeGraphique();
+                    }
+                    else{
+                        Toast messageTableauComplet = Toast.makeText(getApplicationContext(),
+                                "Vous avez déjà saisi vos 11 points",
+                                Toast.LENGTH_SHORT);
+                        messageTableauComplet.show();
+                    }
+                }
             }
         });
 
@@ -146,14 +155,14 @@ public class ModeReglageActivity extends AppCompatActivity {
         boutonPointPrecedent.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
-                if(modeReglage.getNombreDePointsDuProfilAppli()!=0){
+                if(modeReglage.getNombreDePointsDuProfilAppli()!=1){
                     switch (modeReglage.getPointSelectionne()){
-                        case -1:
-                            modeReglage.setPointSelectionne(0);
+                        case 0:
+                            modeReglage.setPointSelectionne(1);
                             abscisseSaisie.setText(String.valueOf(modeReglage.getPointsDuProfilAppli().get(modeReglage.getPointSelectionne()).getAbscisse()));
                             ordonneeSaisie.setText(String.valueOf(modeReglage.getPointsDuProfilAppli().get(modeReglage.getPointSelectionne()).getOrdonnee()));
                             break;
-                        case 0:
+                        case 1:
                             Toast messagePasDePointPrecedent = Toast.makeText(getApplicationContext(),
                                     "C'est déjà le premier point !",
                                     Toast.LENGTH_SHORT);
@@ -181,7 +190,7 @@ public class ModeReglageActivity extends AppCompatActivity {
         boutonPointSuivant.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
-                if(modeReglage.getNombreDePointsDuProfilAppli()!=0){
+                if(modeReglage.getNombreDePointsDuProfilAppli()!=1){
                     if(modeReglage.getPointSelectionne()== modeReglage.getNombreDePointsDuProfilAppli()-1){
                         Toast messagePasDePointSuivant = Toast.makeText(getApplicationContext(),
                                 "C'est déjà le dernier point !",
@@ -209,7 +218,7 @@ public class ModeReglageActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String abscisse = abscisseSaisie.getText().toString();
                 String ordonnee = ordonneeSaisie.getText().toString();
-                if (modeReglage.getPointSelectionne()!=-1){
+                if (modeReglage.getPointSelectionne()!=0){
                     if (!(abscisse.matches("") || ordonnee.matches("")))
                     {
                         modeReglage.modifierPointDuProfilAppli(Double.parseDouble(abscisse),Double.parseDouble(ordonnee),modeReglage.getPointSelectionne());
@@ -239,9 +248,8 @@ public class ModeReglageActivity extends AppCompatActivity {
         boutonSupprimerPoint.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
-                if(modeReglage.getPointSelectionne()!=-1){
+                if(modeReglage.getPointSelectionne()!=0){
                     modeReglage.supprimerPointSelectionne(modeReglage.getPointSelectionne());
-                    modeReglage.setPointSelectionne(-1);
                     pointSelectionne=null;
                     abscisseSaisie.setText(null);
                     ordonneeSaisie.setText(null);
@@ -301,6 +309,87 @@ public class ModeReglageActivity extends AppCompatActivity {
                 boutonPointSuivant.setVisibility(v.INVISIBLE);
             }
         });
+
+        boutonGenererProfilAppli.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Code here executes on main thread after user presses button
+                AlertDialog.Builder builder = new AlertDialog.Builder(ModeReglageActivity.this);
+                builder.setTitle(R.string.genererProfilAppli);
+                builder.setSingleChoiceItems(R.array.genererProfilAppliAlertDialog,-1, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case 0:
+                                choixUtilisateurGenererProfilAppli = choixGenererProfilAppli.aPartirDUnPoint;
+                                break;
+                            case 1:
+                                choixUtilisateurGenererProfilAppli = choixGenererProfilAppli.aPartinDeLEnsembleDesPoints;
+                                break;
+                            case 2:
+                                choixUtilisateurGenererProfilAppli = choixGenererProfilAppli.aPartirDuPorfilConv;
+                                break;
+                            case 3:
+                                choixUtilisateurGenererProfilAppli = choixGenererProfilAppli.aPartirDUnFichierCSV;
+                                break;
+                        }
+                    }
+                });
+                builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User clicked OK button
+                        switch (choixUtilisateurGenererProfilAppli){
+                            case aPartirDUnPoint:
+                                if(modeReglage.getPointSelectionne()!=0){
+                                    double coefficient;
+                                    coefficient = modeReglage.getPointsDuProfilAppli().get(modeReglage.getPointSelectionne()).getOrdonnee()/Math.pow(modeReglage.getPointsDuProfilAppli().get(modeReglage.getPointSelectionne()).getAbscisse(),2);
+                                    modeReglage.supprimerProfilAppli();
+                                    modeReglage.ajouterUnPointEtTrierTableau(0,0);
+                                    double abscisseCourante = modeReglage.getVitesseRotation().getValMaxJauge()/10;
+                                    while(abscisseCourante<=modeReglage.getVitesseRotation().getValMaxJauge()){
+                                        modeReglage.ajouterUnPointEtTrierTableau(abscisseCourante,(coefficient*Math.pow(abscisseCourante,2)));
+                                        abscisseCourante += modeReglage.getVitesseRotation().getValMaxJauge()/10;
+                                    }
+                                    pointSelectionne=null;
+                                    abscisseSaisie.setText(null);
+                                    ordonneeSaisie.setText(null);
+                                    modeReglage.setPointSelectionne(0);
+                                    afficherLesPointsSurLeGraphique();
+                                }
+                                else{
+                                    Toast messagePasDePointSelectionne = Toast.makeText(getApplicationContext(),
+                                            "Aucun point n'a été selectionné !",
+                                            Toast.LENGTH_SHORT);
+                                    messagePasDePointSelectionne.show();
+                                }
+                                break;
+                            case aPartinDeLEnsembleDesPoints:
+                                break;
+                            case aPartirDuPorfilConv:
+                                break;
+                            case aPartirDUnFichierCSV:
+                                break;
+                            default:
+                                Toast aucuneChoixeffectue = Toast.makeText(getApplicationContext(),
+                                        "Vous n'avez rien sélectionné !",
+                                        Toast.LENGTH_SHORT);
+                                aucuneChoixeffectue.show();
+                                break;
+                        }
+                    }
+                });
+                builder.setNegativeButton(R.string.annuler, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User cancelled the dialog
+                    }
+                });
+                AlertDialog genererProfilAppliAlertDialog = builder.create();
+                genererProfilAppliAlertDialog.show();
+
+
+
+            }
+        });
+
 
     }
 
@@ -487,4 +576,5 @@ public class ModeReglageActivity extends AppCompatActivity {
         bluetooth.disconnect();
 
     }
+
 }

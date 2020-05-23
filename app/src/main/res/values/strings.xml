@@ -53,14 +53,22 @@
     <string name="supprimerPoint">Supprimer</string>
     <string name="modifierPoint">Modifier</string>
     <string name="envoyerPoints">Envoyer la série de points à l\'éolienne</string>
-    <string name="ModeSuivant">Suivant</string>
-    <string name="ModePrecedent">Precedent</string>
+    <string name="modeSuivant">Suivant</string>
+    <string name="modePrecedent">Precedent</string>
     <string name="freiner">Freiner</string>
-    <string name="TransfererProfilAppli">Transférer profilAppli</string>
-    <string name="GenererProfilAppli">Générer profilAppli</string>
-    <string name="GenererEquation">Générer equation</string>
-    <string name="EnregistrerProfilAppli">Enregistrer profilAppli</string>
-    <string name="GererProfilAppli">Gérer profilAppli</string>
+    <string name="transfererProfilAppli">Transférer profilAppli</string>
+    <string name="genererProfilAppli">Générer profilAppli</string>
+    <string name="genererEquation">Générer equation</string>
+    <string name="enregistrerProfilAppli">Enregistrer profilAppli</string>
+    <string name="gererProfilAppli">Gérer profilAppli</string>
+    <string-array name="genererProfilAppliAlertDialog">
+        <item>A partir d\'un point</item>
+        <item>A partir de l\'ensemble des points</item>
+        <item>A partir du profilConv</item>
+        <item>A partir d\'un fichier csv</item>
+    </string-array>
+    <string name="ok">OK</string>
+    <string name="annuler">Annuler</string>
 
     <!--Réglage des jauges-->
 
