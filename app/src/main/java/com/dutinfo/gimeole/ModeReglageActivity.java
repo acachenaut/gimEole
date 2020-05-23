@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dutinfo.gimeole.ClassesUtiles.BoiteAOutils;
 import com.dutinfo.gimeole.ClassesUtiles.ModeReglage;
 import com.dutinfo.gimeole.ClassesUtiles.Point;
 import com.jjoe64.graphview.GraphView;
@@ -278,42 +279,34 @@ public class ModeReglageActivity extends AppCompatActivity {
         switch (premierCaractere){
             case "$" :
                 modeReglage.getVitesseRotation().setValCourante(Double.parseDouble(valeurCourante));
-                vitesseRotation.setText(Double.toString(modeReglage.getVitesseRotation().getValCourante()));
-
+                vitesseRotation.setText(BoiteAOutils.arrondirChiffreEnFonctionDuNombreDeChiffresSignificatifs(4,modeReglage.getVitesseRotation().getValCourante()));
                 break;
             case ":" :
                 modeReglage.getTensionEnEntree().setValCourante(Double.parseDouble(valeurCourante));
-                tensionEnEntree.setText(Double.toString(modeReglage.getTensionEnEntree().getValCourante()));
-
+                tensionEnEntree.setText(BoiteAOutils.arrondirChiffreEnFonctionDuNombreDeChiffresSignificatifs(3,modeReglage.getTensionEnEntree().getValCourante()));
                 break;
             case ";" :
                 modeReglage.getCourantEnEntree().setValCourante(Double.parseDouble(valeurCourante));
-                courantEnEntree.setText(Double.toString(modeReglage.getCourantEnEntree().getValCourante()));
-
+                courantEnEntree.setText(BoiteAOutils.arrondirChiffreEnFonctionDuNombreDeChiffresSignificatifs(3,modeReglage.getCourantEnEntree().getValCourante()));
                 break;
             case "[" :
                 modeReglage.getTensionEnSortie().setValCourante(Double.parseDouble(valeurCourante));
-
                 break;
             case "]" :
                 modeReglage.getCourantEnSortie().setValCourante(Double.parseDouble(valeurCourante));
                 break;
             case "%" :
                 modeReglage.getPuissanceFournie().setValCourante(Double.parseDouble(valeurCourante));
-                puissanceFournie.setText(Double.toString(modeReglage.getPuissanceFournie().getValCourante()));
-
+                puissanceFournie.setText(BoiteAOutils.arrondirChiffreEnFonctionDuNombreDeChiffresSignificatifs(3,modeReglage.getPuissanceFournie().getValCourante()));
                 break;
             case "!" :
                 modeReglage.getEnergieProduite().setValCourante(Double.parseDouble(valeurCourante));
-
                 break;
             case "(" :
                 modeReglage.getTemperatureAlternateur().setValCourante(Double.parseDouble(valeurCourante));
-
                 break;
             case ")" :
                 modeReglage.getTemperatureFrein().setValCourante(Double.parseDouble(valeurCourante));
-
                 break;
             default:
                 break;
