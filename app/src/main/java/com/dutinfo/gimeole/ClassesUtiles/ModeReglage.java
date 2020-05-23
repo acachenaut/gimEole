@@ -5,7 +5,7 @@ import java.util.Collections;
 
 public class ModeReglage extends ModeProduction {
 
-    private ArrayList<Point> pointsDuGraphique;
+    private ArrayList<Point> pointsDuProfilAppli;
     private int nombreDePoints;
     private int pointSelectionne;
     private double maxAbscisse;
@@ -14,7 +14,7 @@ public class ModeReglage extends ModeProduction {
     public ModeReglage(){
         super();
         this.nombreDePoints=0;
-        this.pointsDuGraphique = new ArrayList<>();
+        this.pointsDuProfilAppli = new ArrayList<>();
         this.pointSelectionne=-1;
         this.maxAbscisse=0;
         this.maxOrdonee=0;
@@ -24,9 +24,9 @@ public class ModeReglage extends ModeProduction {
 
     public boolean ajouterUnPointEtTrierTableau(double abscisse, double ordonnee){
         if(this.getNombreDePoints()<10){
-            pointsDuGraphique.add(new Point(abscisse,ordonnee));
+            pointsDuProfilAppli.add(new Point(abscisse,ordonnee));
             this.setNombreDePoints(this.getNombreDePoints()+1);
-            Collections.sort(this.getPointsDuGraphique());
+            Collections.sort(this.getPointsDuProfilAppli());
             if(this.getMaxAbscisse()<abscisse){
                 this.setMaxAbscisse(abscisse);
             }
@@ -48,8 +48,8 @@ public class ModeReglage extends ModeProduction {
         return nombreDePoints;
     }
 
-    public ArrayList<Point> getPointsDuGraphique() {
-        return pointsDuGraphique;
+    public ArrayList<Point> getPointsDuProfilAppli() {
+        return pointsDuProfilAppli;
     }
 
     public void setPointSelectionne(int pointSelectionne) {
@@ -61,8 +61,8 @@ public class ModeReglage extends ModeProduction {
     }
 
     public void supprimerPointSelectionne(int positionDuPoint){
-        this.getPointsDuGraphique().remove(positionDuPoint);
-        Collections.sort(this.getPointsDuGraphique());
+        this.getPointsDuProfilAppli().remove(positionDuPoint);
+        Collections.sort(this.getPointsDuProfilAppli());
         this.setNombreDePoints(this.getNombreDePoints()-1);
     }
 

@@ -53,7 +53,10 @@ public class ModeReglageActivity extends AppCompatActivity {
     EditText abscisseSaisie,ordonneeSaisie;
 
     //Série de points affichés actuellement
-    LineGraphSeries<DataPoint> pointsAffiches = new LineGraphSeries<>();
+    LineGraphSeries<DataPoint> profilAppli = new LineGraphSeries<>();
+    PointsGraphSeries<DataPoint> pointDeFonctionnement = new PointsGraphSeries<>();
+    PointsGraphSeries<DataPoint> pointSelectionne = new PointsGraphSeries<>();
+
 
     //indicateur permettant de savoir si le bluetooth a été deconnecté à cause d'un changement d'activité
     boolean estDeconnecteDuBluetoothCarChangementDActivite;
@@ -115,13 +118,8 @@ public class ModeReglageActivity extends AppCompatActivity {
         boutonAjouterPoint.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
-
-                String abscisse = abscisseSaisie.getText().toString();
-                String ordonnee = ordonneeSaisie.getText().toString();
-                if (!(abscisse.matches("") || ordonnee.matches("")))
-                {
                  boolean estAjoute;
-                 estAjoute= modeReglage.ajouterUnPointEtTrierTableau(Double.parseDouble(abscisse),Double.parseDouble(ordonnee));
+                 estAjoute= modeReglage.ajouterUnPointEtTrierTableau(pointDeFonctionnement.getHighestValueX(), pointDeFonctionnement.getHighestValueY());
                  if(estAjoute){
                      afficherLesPointsSurLeGraphique();
                  }
@@ -130,17 +128,7 @@ public class ModeReglageActivity extends AppCompatActivity {
                              "Vous avez déjà saisi vos 10 points",
                              Toast.LENGTH_SHORT);
                      messageTableauComplet.show();
-
                  }
-                }
-                else
-                {
-                    Toast messageZoneDeSaisieVide = Toast.makeText(getApplicationContext(),
-                            "Une ou plusieurs zones de saisies sont vide !",
-                            Toast.LENGTH_SHORT);
-
-                    messageZoneDeSaisieVide.show();
-                }
             }
         });
 
@@ -217,6 +205,7 @@ public class ModeReglageActivity extends AppCompatActivity {
                 if(modeReglage.getPointSelectionne()!=-1){
                     modeReglage.supprimerPointSelectionne(modeReglage.getPointSelectionne());
                     modeReglage.setPointSelectionne(-1);
+                    pointSelectionne=null;
                     afficherLesPointsSurLeGraphique();
                 }
                 else{
@@ -319,34 +308,37 @@ public class ModeReglageActivity extends AppCompatActivity {
     }
 
     public void afficherPointSelectionne(int positionDuPoint){
-        PointsGraphSeries<DataPoint> pointSelectionne = new PointsGraphSeries<>(new DataPoint[] {
-                new DataPoint(modeReglage.getPointsDuGraphique().get(positionDuPoint).getAbscisse(), modeReglage.getPointsDuGraphique().get(positionDuPoint).getOrdonnee())
+        PointsGraphSeries<DataPoint> point = new PointsGraphSeries<>(new DataPoint[] {
+                new DataPoint(modeReglage.getPointsDuProfilAppli().get(positionDuPoint).getAbscisse(), modeReglage.getPointsDuProfilAppli().get(positionDuPoint).getOrdonnee())
     });
+        pointSelectionne = point;
         pointSelectionne.setShape(PointsGraphSeries.Shape.POINT);
         pointSelectionne.setColor(Color.RED);
         pointSelectionne.setShape(PointsGraphSeries.Shape.POINT);
         graphique.removeAllSeries();
-        graphique.addSeries(pointsAffiches);
+        graphique.addSeries(profilAppli);
         graphique.addSeries(pointSelectionne);
+        graphique.addSeries(pointDeFonctionnement);
     }
 
     public void afficherLesPointsSurLeGraphique(){
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
-        for(Point pointCourant : modeReglage.getPointsDuGraphique()){
+        for(Point pointCourant : modeReglage.getPointsDuProfilAppli()){
             series.appendData(new DataPoint(pointCourant.getAbscisse(),pointCourant.getOrdonnee()),true,10);
         }
-        pointsAffiches=series;
+        profilAppli =series;
         graphique.removeAllSeries();
-        pointsAffiches.setDrawDataPoints(true);
-        pointsAffiches.setDataPointsRadius(10);
-        pointsAffiches.setThickness(8);
+        profilAppli.setDrawDataPoints(true);
+        profilAppli.setDataPointsRadius(10);
+        profilAppli.setThickness(8);
         graphique.getViewport().setYAxisBoundsManual(true);
         graphique.getViewport().setMinY(0);
         graphique.getViewport().setMaxY(modeReglage.getMaxOrdonee());
         graphique.getViewport().setXAxisBoundsManual(true);
         graphique.getViewport().setMinX(0);
         graphique.getViewport().setMaxX(modeReglage.getMaxAbscisse());
-        graphique.addSeries(pointsAffiches);
+        graphique.addSeries(profilAppli);
+        graphique.addSeries(pointDeFonctionnement);
     }
 
     public void initialiserGraphique(){
@@ -359,9 +351,10 @@ public class ModeReglageActivity extends AppCompatActivity {
     }
 
     public void afficherPointDeFonctionnement(){
-        PointsGraphSeries<DataPoint> pointDeFonctionnement = new PointsGraphSeries<>(new DataPoint[] {
+        PointsGraphSeries<DataPoint> point = new PointsGraphSeries<>(new DataPoint[] {
                 new DataPoint(modeReglage.getVitesseRotation().getValCourante(), modeReglage.getCourantEnEntree().getValCourante())
         });
+        pointDeFonctionnement = point;
         pointDeFonctionnement.setColor(Color.BLACK);
         pointDeFonctionnement.setCustomShape(new PointsGraphSeries.CustomShape() {
             @Override
@@ -372,8 +365,11 @@ public class ModeReglageActivity extends AppCompatActivity {
             }
         });
         graphique.removeAllSeries();
-        graphique.addSeries(pointsAffiches);
+        graphique.addSeries(profilAppli);
         graphique.addSeries(pointDeFonctionnement);
+        if(pointSelectionne!=null){
+            graphique.addSeries(pointSelectionne);
+        }
     }
 
 
