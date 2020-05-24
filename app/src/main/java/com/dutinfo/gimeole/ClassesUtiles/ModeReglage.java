@@ -13,6 +13,8 @@ public class ModeReglage extends ModeProduction {
     private double maxOrdonneeDuGraphique;
     private double maxAbscisseDuProfilAppli;
     private double maxOrdonneeDuProfilAppli;
+    private double maxAbscisseEquationGenere;
+    private double maxOrdonneeEquationGenere;
     private double abscisseDuPointDeFonctionnement;
     private double ordonneeDuPointDeFonctionnement;
 
@@ -25,6 +27,8 @@ public class ModeReglage extends ModeProduction {
         this.pointSelectionne = 0;
         this.maxAbscisseDuProfilAppli = 0;
         this.maxOrdonneeDuProfilAppli = 0;
+        this.maxAbscisseEquationGenere = 0;
+        this.maxOrdonneeEquationGenere = 0;
 
 
     }
@@ -44,19 +48,39 @@ public class ModeReglage extends ModeProduction {
 
     public void adapterMaxAbscisseDuGraphique(){
         if (this.getMaxAbscisseDuProfilAppli()>this.getAbscisseDuPointDeFonctionnement()){
-            this.setMaxAbscisseDuGraphique(this.getMaxAbscisseDuProfilAppli());
+            if(this.getMaxAbscisseDuProfilAppli()>this.getMaxAbscisseEquationGenere()){
+                this.setMaxAbscisseDuGraphique(this.getMaxAbscisseDuProfilAppli());
+            }
+            else {
+                this.setMaxAbscisseDuGraphique(this.getMaxAbscisseEquationGenere());
+            }
         }
         else{
-            this.setMaxAbscisseDuGraphique(this.getAbscisseDuPointDeFonctionnement());
+            if(this.getAbscisseDuPointDeFonctionnement()>this.getMaxAbscisseEquationGenere()){
+                this.setMaxAbscisseDuGraphique(this.getAbscisseDuPointDeFonctionnement());
+            }
+            else {
+                this.setMaxAbscisseDuGraphique(this.getMaxAbscisseEquationGenere());
+            }
         }
     }
 
     public void adapterMaxOrdonneeDuGraphique(){
         if (this.getMaxOrdonneeDuProfilAppli()>this.getOrdonneeDuPointDeFonctionnement()){
-            this.setMaxOrdonneeDuGraphique(this.getMaxOrdonneeDuProfilAppli());
+            if(this.getMaxOrdonneeDuProfilAppli()>this.getMaxOrdonneeEquationGenere()){
+                this.setMaxOrdonneeDuGraphique(this.getMaxOrdonneeDuProfilAppli());
+            }
+            else {
+                this.setMaxOrdonneeDuGraphique(this.getMaxOrdonneeEquationGenere());
+            }
         }
         else{
-            this.setMaxOrdonneeDuGraphique(this.getOrdonneeDuPointDeFonctionnement());
+            if(this.getOrdonneeDuPointDeFonctionnement()>this.getMaxOrdonneeEquationGenere()){
+                this.setMaxOrdonneeDuGraphique(this.getOrdonneeDuPointDeFonctionnement());
+            }
+            else {
+                this.setMaxOrdonneeDuGraphique(this.getMaxOrdonneeEquationGenere());
+            }
         }
     }
 
@@ -67,6 +91,20 @@ public class ModeReglage extends ModeProduction {
         if(this.getMaxOrdonneeDuProfilAppli()<ordonnee){
             this.setMaxOrdonneeDuProfilAppli(ordonnee);
         }
+    }
+
+    public void modifierMaxAbscisseEtOrdonneeDeLEquationGenereEnFonctionDuNouveauPoint(double abscisse, double ordonnee){
+        if(this.getMaxAbscisseEquationGenere()<abscisse){
+            this.setMaxAbscisseEquationGenere(abscisse);
+        }
+        if(this.getMaxOrdonneeEquationGenere()<ordonnee){
+            this.setMaxOrdonneeEquationGenere(ordonnee);
+        }
+    }
+
+    public void reinitialiserMaxAbscisseEtOrdonneeDeLEquationGenere(){
+        this.setMaxAbscisseEquationGenere(0);
+        this.setMaxOrdonneeEquationGenere(0);
     }
 
     public void modifierPointDuProfilAppli(double abscisse, double ordonnee, int positionDuPoint){
@@ -180,5 +218,21 @@ public class ModeReglage extends ModeProduction {
 
     public void setMaxOrdonneeDuGraphique(double maxOrdonneeDuGraphique) {
         this.maxOrdonneeDuGraphique = maxOrdonneeDuGraphique;
+    }
+
+    public double getMaxAbscisseEquationGenere() {
+        return maxAbscisseEquationGenere;
+    }
+
+    public void setMaxAbscisseEquationGenere(double maxAbscisseEquationGenere) {
+        this.maxAbscisseEquationGenere = maxAbscisseEquationGenere;
+    }
+
+    public double getMaxOrdonneeEquationGenere() {
+        return maxOrdonneeEquationGenere;
+    }
+
+    public void setMaxOrdonneeEquationGenere(double maxOrdonneeEquationGenere) {
+        this.maxOrdonneeEquationGenere = maxOrdonneeEquationGenere;
     }
 }

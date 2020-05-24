@@ -11,6 +11,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/GR008" />
+            <option value="$PROJECT_DIR$/RetopMathLibrary" />
             <option value="$PROJECT_DIR$/app" />
           </set>
         </option>

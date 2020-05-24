@@ -58,7 +58,7 @@
     <string name="freiner">Freiner</string>
     <string name="transfererProfilAppli">Transférer profilAppli</string>
     <string name="genererProfilAppli">Générer profilAppli</string>
-    <string name="genererEquation">Générer equation</string>
+    <string name="genererEquation">Générer équation</string>
     <string name="enregistrerProfilAppli">Enregistrer profilAppli</string>
     <string name="gererProfilAppli">Gérer profilAppli</string>
     <string-array name="genererProfilAppliAlertDialog">

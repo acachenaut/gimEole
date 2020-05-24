@@ -31,6 +31,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
     implementation project(':GR008')
+    implementation project(':RetopMathLibrary')
     implementation 'com.github.biansemao:ThermometerView:1.0.1'
     implementation 'com.akexorcist:RoundCornerProgressBar:2.0.3'
     implementation 'me.aflak.libraries:bluetooth:1.3.9'

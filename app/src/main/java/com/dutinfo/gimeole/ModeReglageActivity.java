@@ -3,6 +3,7 @@ package com.dutinfo.gimeole;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+
 import android.bluetooth.BluetoothDevice;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,24 +12,32 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.dutinfo.gimeole.ClassesUtiles.BoiteAOutils;
 import com.dutinfo.gimeole.ClassesUtiles.ModeReglage;
 import com.dutinfo.gimeole.ClassesUtiles.Point;
+import com.dutinfo.gimeole.ClassesUtiles.PolynomialRegression;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.DataPointInterface;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.jjoe64.graphview.series.PointsGraphSeries;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import me.aflak.bluetooth.Bluetooth;
 import me.aflak.bluetooth.interfaces.DeviceCallback;
+
+import static com.dutinfo.gimeole.ClassesUtiles.BoiteAOutils.arrondirChiffreEnFonctionDuNombreDeChiffresSignificatifs;
 
 public class ModeReglageActivity extends AppCompatActivity {
 
@@ -40,14 +49,14 @@ public class ModeReglageActivity extends AppCompatActivity {
     private BluetoothDevice device;
 
     //Création valeurs à afficher
-    TextView vitesseRotation, tensionEnEntree, courantEnEntree, puissanceFournie, affichageUniteAmpere,affichageDixiemeAmpere,affichageAmpere;
+    TextView vitesseRotation, tensionEnEntree, courantEnEntree, puissanceFournie, affichageUniteAmpere,affichageDixiemeAmpere,affichageAmpere, affichageFonctionGenere;
     //Création de l'indicateur Bluetooth et de du nom du périphérique connecté
     ImageView logoBluetooth;
     TextView nomPeripheriqueBluetooth;
 
     //Création des bouttons de l'activité
     Button boutonModeProduction,boutonPointPrecedent, boutonPointSuivant,boutonSupprimerPoint,boutonTransfererProfilAppli;
-    Button boutonMoins1Ampere,boutonPlus1Ampere,boutonMoins1DixiemeAmpere,boutonPlus1DixiemeAmpere,boutonAjouterPoint,boutonModeSuivant,boutonModifierPoint,boutonModePrecedent, boutonGenererProfilAppli;
+    Button boutonMoins1Ampere,boutonPlus1Ampere,boutonMoins1DixiemeAmpere,boutonPlus1DixiemeAmpere,boutonAjouterPoint,boutonModeSuivant,boutonModifierPoint,boutonModePrecedent, boutonGenererProfilAppli, boutonGenererEquation;
 
     //Création du graphique
     GraphView graphique;
@@ -58,6 +67,7 @@ public class ModeReglageActivity extends AppCompatActivity {
     LineGraphSeries<DataPoint> profilAppli = new LineGraphSeries<>();
     PointsGraphSeries<DataPoint> pointDeFonctionnement = null;
     PointsGraphSeries<DataPoint> pointSelectionne = new PointsGraphSeries<>();
+    LineGraphSeries<DataPoint> regressionPolynomial = null;
 
 
     //indicateur permettant de savoir si le bluetooth a été deconnecté à cause d'un changement d'activité
@@ -66,6 +76,9 @@ public class ModeReglageActivity extends AppCompatActivity {
 
     enum choixGenererProfilAppli {aPartirDUnPoint,aPartinDeLEnsembleDesPoints,aPartirDuPorfilConv,aPartirDUnFichierCSV}
     choixGenererProfilAppli choixUtilisateurGenererProfilAppli;
+    int degreDuPolynome;
+    ArrayList<Double> coefficientsDuPolynome = new ArrayList<>();
+    ArrayList<Double> coefficientsDuPolynomeDansLOrdre = new ArrayList<>();
 
 
     @Override
@@ -89,6 +102,8 @@ public class ModeReglageActivity extends AppCompatActivity {
         affichageUniteAmpere = findViewById(R.id.t_affichageUniteAmpere);
         affichageDixiemeAmpere = findViewById(R.id.t_affichageDixiemeAmpere);
         affichageAmpere = findViewById(R.id.t_affichageAmpere);
+        affichageFonctionGenere = findViewById(R.id.t_affichageFonctionGenere);
+
 
         //Lien entre l'indicateur Bluetooth/nom du périphérique de l'interface et l'activité
         logoBluetooth = findViewById(R.id.logoBluetooth);
@@ -112,6 +127,7 @@ public class ModeReglageActivity extends AppCompatActivity {
         boutonModePrecedent = findViewById(R.id.t_boutonModePrecedent);
         boutonTransfererProfilAppli = findViewById(R.id.t_boutonTransfererProfilAppli);
         boutonGenererProfilAppli = findViewById(R.id.t_boutonGenererProfilAppli);
+        boutonGenererEquation = findViewById(R.id.t_boutonGenererEquation);
 
         //Lien entre le graphique de l'interface et l'activité
         graphique = findViewById(R.id.t_graphique);
@@ -310,6 +326,7 @@ public class ModeReglageActivity extends AppCompatActivity {
             }
         });
 
+
         boutonGenererProfilAppli.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
@@ -363,6 +380,35 @@ public class ModeReglageActivity extends AppCompatActivity {
                                 }
                                 break;
                             case aPartinDeLEnsembleDesPoints:
+                                if (regressionPolynomial!=null){
+                                    modeReglage.supprimerProfilAppli();
+                                    modeReglage.ajouterUnPointEtTrierTableau(0,0);
+                                    double abscisseCourante = modeReglage.getVitesseRotation().getValMaxJauge()/10;
+                                    while(abscisseCourante<=modeReglage.getVitesseRotation().getValMaxJauge()){
+                                        double ordonnee = 0;
+                                        int degre = 0;
+                                        for(Double coefficient : coefficientsDuPolynome) {
+                                            ordonnee += coefficient * Math.pow(abscisseCourante, degre);
+                                            degre++;
+                                        }
+                                        modeReglage.ajouterUnPointEtTrierTableau(abscisseCourante,ordonnee);
+                                        abscisseCourante += modeReglage.getVitesseRotation().getValMaxJauge()/10;
+                                    }
+                                    pointSelectionne=null;
+                                    abscisseSaisie.setText(null);
+                                    ordonneeSaisie.setText(null);
+                                    regressionPolynomial=null;
+                                    affichageFonctionGenere.setText(null);
+                                    modeReglage.reinitialiserMaxAbscisseEtOrdonneeDeLEquationGenere();
+                                    modeReglage.setPointSelectionne(0);
+                                    afficherLesPointsSurLeGraphique();
+                                }
+                                else {
+                                    Toast messagePasDEquationGenere = Toast.makeText(getApplicationContext(),
+                                            "Vous n'avez généré aucune équation !",
+                                            Toast.LENGTH_SHORT);
+                                    messagePasDEquationGenere.show();
+                                }
                                 break;
                             case aPartirDuPorfilConv:
                                 break;
@@ -385,7 +431,88 @@ public class ModeReglageActivity extends AppCompatActivity {
                 AlertDialog genererProfilAppliAlertDialog = builder.create();
                 genererProfilAppliAlertDialog.show();
 
+            }
+        });
 
+        boutonGenererEquation.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Code here executes on main thread after user presses button
+
+                NumberPicker choixDuDegreDuPolynome = new NumberPicker(ModeReglageActivity.this);
+                choixDuDegreDuPolynome.setMinValue(2);
+                choixDuDegreDuPolynome.setMaxValue(4);
+                FrameLayout layout = new FrameLayout(ModeReglageActivity.this);
+                layout.addView(choixDuDegreDuPolynome, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT, Gravity.CENTER));
+                AlertDialog.Builder builder = new AlertDialog.Builder(ModeReglageActivity.this);
+                builder.setTitle(R.string.genererEquation);
+                builder.setView(layout);
+                builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User clicked OK button
+                        coefficientsDuPolynome.clear();
+                        coefficientsDuPolynomeDansLOrdre.clear();
+                        degreDuPolynome=choixDuDegreDuPolynome.getValue();
+
+                        List<Utils.Point> points = new ArrayList<>();
+                        for(Point pointCourant : modeReglage.getPointsDuProfilAppli()){
+                            points.add(new Utils.Point(pointCourant.getAbscisse(),pointCourant.getOrdonnee()));
+                        }
+                        PolynomialRegression polynomialRegression = new PolynomialRegression(points,degreDuPolynome);
+                        for (int i = 0; i < polynomialRegression.getCoefficients().length; i++) {
+                            for (int j = 0; j < polynomialRegression.getCoefficients()[i].length; j++) {
+                                coefficientsDuPolynome.add(polynomialRegression.getCoefficients()[i][j]);
+                            }
+                        }
+
+
+                        int abscisseCourante = 0;
+                        LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
+                        while(abscisseCourante<=modeReglage.getVitesseRotation().getValMaxJauge()){
+                            double ordonneeCalculee = 0;
+                            int degre = 0;
+                            for(Double coefficient : coefficientsDuPolynome) {
+                                ordonneeCalculee += coefficient * Math.pow(abscisseCourante, degre);
+                                degre++;
+                            }
+                            series.appendData(new DataPoint(abscisseCourante,ordonneeCalculee),true,10000);
+                            modeReglage.modifierMaxAbscisseEtOrdonneeDeLEquationGenereEnFonctionDuNouveauPoint(abscisseCourante,ordonneeCalculee);
+                            abscisseCourante ++;
+                        }
+                        regressionPolynomial=series;
+                        regressionPolynomial.setDrawDataPoints(false);
+                        regressionPolynomial.setThickness(5);
+                        regressionPolynomial.setColor(Color.GREEN);
+                        afficherLesPointsSurLeGraphique();
+
+                        for (Double coefficient : coefficientsDuPolynome){
+                            coefficientsDuPolynomeDansLOrdre.add(coefficient);
+                        }
+                        String fonctionGenere = "f(x)=";
+                        int degre = coefficientsDuPolynomeDansLOrdre.size()-1;
+                        for (Double coefficient : coefficientsDuPolynomeDansLOrdre){
+                            if(coefficient>0 || coefficient==0){
+                                if (coefficientsDuPolynomeDansLOrdre.size()-1!=degre){
+                                    fonctionGenere+="+";
+                                }
+                            }
+                            fonctionGenere+=arrondirChiffreEnFonctionDuNombreDeChiffresSignificatifs(3,coefficient);
+                            if (degre!=0){
+                                fonctionGenere+="*X^"+degre;
+                            }
+                            degre--;
+                        }
+                        affichageFonctionGenere.setText(fonctionGenere);
+
+
+                    }
+                });
+                builder.setNegativeButton(R.string.annuler, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User cancelled the dialog
+                    }
+                });
+                AlertDialog genererEquationAlertDialog = builder.create();
+                genererEquationAlertDialog.show();
 
             }
         });
@@ -399,17 +526,17 @@ public class ModeReglageActivity extends AppCompatActivity {
         switch (premierCaractere){
             case "$" :
                 modeReglage.getVitesseRotation().setValCourante(Double.parseDouble(valeurCourante));
-                vitesseRotation.setText(BoiteAOutils.arrondirChiffreEnFonctionDuNombreDeChiffresSignificatifs(4,modeReglage.getVitesseRotation().getValCourante()));
+                vitesseRotation.setText(arrondirChiffreEnFonctionDuNombreDeChiffresSignificatifs(4,modeReglage.getVitesseRotation().getValCourante()));
                 afficherPointDeFonctionnement();
                 break;
             case ":" :
                 modeReglage.getTensionEnEntree().setValCourante(Double.parseDouble(valeurCourante));
-                tensionEnEntree.setText(BoiteAOutils.arrondirChiffreEnFonctionDuNombreDeChiffresSignificatifs(3,modeReglage.getTensionEnEntree().getValCourante()));
+                tensionEnEntree.setText(arrondirChiffreEnFonctionDuNombreDeChiffresSignificatifs(3,modeReglage.getTensionEnEntree().getValCourante()));
                 afficherPointDeFonctionnement();
                 break;
             case ";" :
                 modeReglage.getCourantEnEntree().setValCourante(Double.parseDouble(valeurCourante));
-                courantEnEntree.setText(BoiteAOutils.arrondirChiffreEnFonctionDuNombreDeChiffresSignificatifs(3,modeReglage.getCourantEnEntree().getValCourante()));
+                courantEnEntree.setText(arrondirChiffreEnFonctionDuNombreDeChiffresSignificatifs(3,modeReglage.getCourantEnEntree().getValCourante()));
                 break;
             case "[" :
                 modeReglage.getTensionEnSortie().setValCourante(Double.parseDouble(valeurCourante));
@@ -419,7 +546,7 @@ public class ModeReglageActivity extends AppCompatActivity {
                 break;
             case "%" :
                 modeReglage.getPuissanceFournie().setValCourante(Double.parseDouble(valeurCourante));
-                puissanceFournie.setText(BoiteAOutils.arrondirChiffreEnFonctionDuNombreDeChiffresSignificatifs(3,modeReglage.getPuissanceFournie().getValCourante()));
+                puissanceFournie.setText(arrondirChiffreEnFonctionDuNombreDeChiffresSignificatifs(3,modeReglage.getPuissanceFournie().getValCourante()));
                 break;
             case "!" :
                 modeReglage.getEnergieProduite().setValCourante(Double.parseDouble(valeurCourante));
@@ -452,7 +579,7 @@ public class ModeReglageActivity extends AppCompatActivity {
     public void afficherLesPointsSurLeGraphique(){
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
         for(Point pointCourant : modeReglage.getPointsDuProfilAppli()){
-            series.appendData(new DataPoint(pointCourant.getAbscisse(),pointCourant.getOrdonnee()),true,10);
+            series.appendData(new DataPoint(pointCourant.getAbscisse(),pointCourant.getOrdonnee()),true,11);
         }
         profilAppli =series;
         graphique.removeAllSeries();
@@ -464,6 +591,9 @@ public class ModeReglageActivity extends AppCompatActivity {
         graphique.addSeries(pointDeFonctionnement);
         if(pointSelectionne!=null){
             graphique.addSeries(pointSelectionne);
+        }
+        if(regressionPolynomial!=null){
+            graphique.addSeries(regressionPolynomial);
         }
     }
 
@@ -498,6 +628,9 @@ public class ModeReglageActivity extends AppCompatActivity {
         graphique.addSeries(pointDeFonctionnement);
         if(pointSelectionne!=null){
             graphique.addSeries(pointSelectionne);
+        }
+        if(regressionPolynomial!=null){
+            graphique.addSeries(regressionPolynomial);
         }
     }
 
