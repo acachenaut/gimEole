@@ -4,6 +4,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothDevice;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,6 +14,7 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,7 +24,6 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.dutinfo.gimeole.ClassesUtiles.ModeProduction;
 import com.dutinfo.gimeole.ClassesUtiles.ModeReglage;
 import com.dutinfo.gimeole.ClassesUtiles.Point;
 import com.dutinfo.gimeole.ClassesUtiles.PolynomialRegression;
@@ -56,7 +57,7 @@ public class ModeReglageActivity extends AppCompatActivity {
     TextView nomPeripheriqueBluetooth;
 
     //Création des bouttons de l'activité
-    Button boutonModeProduction,boutonPointPrecedent, boutonPointSuivant,boutonSupprimerPoint,boutonTransfererProfilAppli;
+    Button boutonModeProduction,boutonPointPrecedent, boutonPointSuivant,boutonSupprimerPoint,boutonTransfererProfilAppli,boutonFreiner;
     Button boutonReglageJauges;
     Button boutonMoins1Ampere,boutonPlus1Ampere,boutonMoins1DixiemeAmpere,boutonPlus1DixiemeAmpere,boutonAjouterPoint,boutonModeSuivant,boutonModifierPoint,boutonModePrecedent, boutonGenererProfilAppli, boutonGenererEquation;
 
@@ -83,6 +84,7 @@ public class ModeReglageActivity extends AppCompatActivity {
     ArrayList<Double> coefficientsDuPolynomeDansLOrdre = new ArrayList<>();
 
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -135,6 +137,7 @@ public class ModeReglageActivity extends AppCompatActivity {
         boutonGenererProfilAppli = findViewById(R.id.t_boutonGenererProfilAppli);
         boutonGenererEquation = findViewById(R.id.t_boutonGenererEquation);
         boutonReglageJauges = findViewById(R.id.t_boutonReglageActiviteReglage);
+        boutonFreiner = findViewById(R.id.t_boutonFreiner);
 
         //Lien entre le graphique de l'interface et l'activité
         graphique = findViewById(R.id.t_graphique);
@@ -343,6 +346,33 @@ public class ModeReglageActivity extends AppCompatActivity {
             }
         });
 
+
+        boutonFreiner.setOnTouchListener(new View.OnTouchListener(){
+            public boolean onTouch(View v, MotionEvent event) {
+                // Code here executes on main thread when user pressed button
+                if (modeReglage.getVitesseRotation().getValCourante() == 0) {
+                    Toast messageEoliennePasEnMarche = Toast.makeText(getApplicationContext(),
+                            "L'éolienne n'est pas activée, vous ne pouvez donc pas activer le freinage !",
+                            Toast.LENGTH_SHORT);
+                    messageEoliennePasEnMarche.show();
+                }
+                else{
+                    bluetooth.send("*"+String.valueOf(modeReglage.getCourantDeFreinage()+1));
+                    try {
+                        wait(1000);
+                    }
+                    catch(Exception erreur){
+                    }
+                    bluetooth.send("*"+String.valueOf(modeReglage.getCourantDeFreinage()-1));
+                    try {
+                        wait(1000);
+                    }
+                    catch(Exception erreur){
+                    }
+                }
+                return false;
+            }
+        });
 
         boutonGenererProfilAppli.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
