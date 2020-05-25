@@ -236,9 +236,10 @@ public class MainActivity extends AppCompatActivity {
         boutonReglageJauges.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
-                Intent reglageActivity = new Intent(MainActivity.this, ReglageJaugeActivity.class);
-                reglageActivity.putExtra("tabMinMax", modeProduction.getMinMaxDesJauges());
-                startActivityForResult(reglageActivity, 1);
+                Intent reglageJaugesActivity = new Intent(MainActivity.this, ReglageJaugeActivity.class);
+                reglageJaugesActivity.putExtra("tabMinMax", modeProduction.getMinMaxDesJauges());
+                reglageJaugesActivity.putExtra("courantDeFreinage", modeProduction.getCourantDeFreinage());
+                startActivityForResult(reglageJaugesActivity, 1);
             }
         });
 
@@ -253,9 +254,11 @@ public class MainActivity extends AppCompatActivity {
         boutonModeReglage.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
-                Intent intent = new Intent(MainActivity.this, ModeReglageActivity.class);
-                intent.putExtra("device", device);
-                startActivity(intent);
+                Intent modeReglageActivity = new Intent(MainActivity.this, ModeReglageActivity.class);
+                modeReglageActivity.putExtra("device", device);
+                modeReglageActivity.putExtra("tabMinMax", modeProduction.getMinMaxDesJauges());
+                modeReglageActivity.putExtra("courantDeFreinage", modeProduction.getCourantDeFreinage());
+                startActivity(modeReglageActivity);
                 finish();
             }
         });
@@ -270,6 +273,7 @@ public class MainActivity extends AppCompatActivity {
         if(requestCode==1)
         {
             modeProduction.setMinMaxDesJauges(data.getDoubleArrayExtra("tabMinMax"));
+            modeProduction.setCourantDeFreinage(data.getDoubleExtra("courantDeFreinage",0));
             changerMinMaxDesJauges();
         }
     }

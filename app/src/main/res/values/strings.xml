@@ -13,6 +13,7 @@
     <string name="boutonEnergieProduite"><u>Energie produite par l\'éolienne (J) :</u></string>
     <string name="boutonTemperatureAlternateur"><u>Température de l\'alternateur (°C) :</u></string>
     <string name="boutonTemperatureFrein"><u>Température du frein (°C) :</u></string>
+    <string name="courantDeFreinage"><u>Courant de freinage (A) :</u></string>
     <string name="remiseAZero">RAZ</string>
     <string name="nomJaugeVitesseDeRotation">Vitesse de rotation</string>
     <string name="nomJaugeTensionEnEntree">Tension en entrée du convertisseur</string>

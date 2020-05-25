@@ -22,6 +22,7 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dutinfo.gimeole.ClassesUtiles.ModeProduction;
 import com.dutinfo.gimeole.ClassesUtiles.ModeReglage;
 import com.dutinfo.gimeole.ClassesUtiles.Point;
 import com.dutinfo.gimeole.ClassesUtiles.PolynomialRegression;
@@ -56,6 +57,7 @@ public class ModeReglageActivity extends AppCompatActivity {
 
     //Création des bouttons de l'activité
     Button boutonModeProduction,boutonPointPrecedent, boutonPointSuivant,boutonSupprimerPoint,boutonTransfererProfilAppli;
+    Button boutonReglageJauges;
     Button boutonMoins1Ampere,boutonPlus1Ampere,boutonMoins1DixiemeAmpere,boutonPlus1DixiemeAmpere,boutonAjouterPoint,boutonModeSuivant,boutonModifierPoint,boutonModePrecedent, boutonGenererProfilAppli, boutonGenererEquation;
 
     //Création du graphique
@@ -85,6 +87,10 @@ public class ModeReglageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mode_reglage);
+
+        //Récupération des réglages du modeProduction
+        modeReglage.setMinMaxDesJauges(getIntent().getDoubleArrayExtra("tabMinMax"));
+        modeReglage.setCourantDeFreinage(getIntent().getDoubleExtra("courantDeFreinage",0));
 
         //Initialisation de la connexion Bluetooth
         device = getIntent().getParcelableExtra("device");
@@ -128,6 +134,7 @@ public class ModeReglageActivity extends AppCompatActivity {
         boutonTransfererProfilAppli = findViewById(R.id.t_boutonTransfererProfilAppli);
         boutonGenererProfilAppli = findViewById(R.id.t_boutonGenererProfilAppli);
         boutonGenererEquation = findViewById(R.id.t_boutonGenererEquation);
+        boutonReglageJauges = findViewById(R.id.t_boutonReglageActiviteReglage);
 
         //Lien entre le graphique de l'interface et l'activité
         graphique = findViewById(R.id.t_graphique);
@@ -160,10 +167,20 @@ public class ModeReglageActivity extends AppCompatActivity {
         boutonModeProduction.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
-                Intent intent = new Intent(ModeReglageActivity.this, MainActivity.class);
-                intent.putExtra("device", device);
-                startActivity(intent);
+                Intent modeProductionActivity = new Intent(ModeReglageActivity.this, MainActivity.class);
+                modeProductionActivity.putExtra("device", device);
+                startActivity(modeProductionActivity);
                 finish();
+            }
+        });
+
+        boutonReglageJauges.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Code here executes on main thread after user presses button
+                Intent reglageJaugesActivity = new Intent(ModeReglageActivity.this, ReglageJaugeActivity.class);
+                reglageJaugesActivity.putExtra("tabMinMax", modeReglage.getMinMaxDesJauges());
+                reglageJaugesActivity.putExtra("courantDeFreinage", modeReglage.getCourantDeFreinage());
+                startActivityForResult(reglageJaugesActivity, 1);
             }
         });
 

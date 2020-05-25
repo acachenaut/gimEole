@@ -6,9 +6,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,11 +15,12 @@ import java.util.List;
 
 public class ReglageJaugeActivity extends AppCompatActivity {
 
-    Spinner listeDeroulanteVitesseRotation, listeDeroulanteTensionEnEntree, listeDeroulanteCourantEnEntree, listeDeroulanteTensionEnSortie, listeDeroulanteCourantEnSortie, listeDeroulantePuissanceFournie, listeDeroulanteEnergiePorduite, listeDeroulanteTemperatureAlternateur, listeDeroulanteTemperatureFrein;
+    Spinner listeDeroulanteVitesseRotation, listeDeroulanteTensionEnEntree, listeDeroulanteCourantEnEntree, listeDeroulanteTensionEnSortie, listeDeroulanteCourantEnSortie, listeDeroulantePuissanceFournie, listeDeroulanteEnergiePorduite, listeDeroulanteTemperatureAlternateur, listeDeroulanteTemperatureFrein, listeDeroulanteCourantDeFreinage;
 
     Button boutonReglageJauges;
 
     double[] tabMinMax;
+    double courantDeFreinage;
 
 
     @Override
@@ -32,6 +31,7 @@ public class ReglageJaugeActivity extends AppCompatActivity {
         //Récupération des valeurs précédentes des jauges du ModeProduction
         Intent intent = getIntent();
         tabMinMax = intent.getDoubleArrayExtra("tabMinMax");
+        courantDeFreinage = intent.getDoubleExtra("courantDeFreinage",0);
 
 
         //Lien entre les listes déroulantes de l'interface et de l'activité
@@ -44,6 +44,7 @@ public class ReglageJaugeActivity extends AppCompatActivity {
         listeDeroulanteEnergiePorduite = findViewById(R.id.listeDeroulanteEnergieProduite);
         listeDeroulanteTemperatureAlternateur = findViewById(R.id.listeDeroulanteTemperatureAlternateur);
         listeDeroulanteTemperatureFrein=findViewById(R.id.listeDeroulanteTemperatureFrein);
+        listeDeroulanteCourantDeFreinage = findViewById(R.id.listeCourantDeFreinage);
 
 
         //Faire apparaître les différentes possibilités dans les listes déroulantes
@@ -56,9 +57,10 @@ public class ReglageJaugeActivity extends AppCompatActivity {
         chargerListeDeroulante(listeDeroulanteEnergiePorduite, 13, 100, 10000, 100);
         chargerListeDeroulante(listeDeroulanteTemperatureAlternateur, 15, 15, 30, 5);
         chargerListeDeroulante(listeDeroulanteTemperatureFrein, 17, 15, 30, 5);
+        chargerListeDeroulanteCourantDeFreinage(listeDeroulanteCourantDeFreinage, 10, 50, 5);
 
         //Lien entre le bouton de l'interface et de l'activité
-        boutonReglageJauges = findViewById(R.id.boutonReglageActiviteReglage);
+        boutonReglageJauges = findViewById(R.id.t_boutonReglageActiviteReglage);
 
         listeDeroulanteVitesseRotation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -168,12 +170,36 @@ public class ReglageJaugeActivity extends AppCompatActivity {
             }
         });
 
+        listeDeroulanteTemperatureFrein.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                tabMinMax[17] = Double.parseDouble(parent.getItemAtPosition(position).toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        listeDeroulanteCourantDeFreinage.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                courantDeFreinage = Double.parseDouble(parent.getItemAtPosition(position).toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         boutonReglageJauges.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
-
                 Intent modeProdActivity = new Intent();
                 modeProdActivity.putExtra("tabMinMax", tabMinMax);
+                modeProdActivity.putExtra("courantDeFreinage", courantDeFreinage);
                 setResult(1,modeProdActivity);
                 finish();
             }
@@ -189,6 +215,22 @@ public class ReglageJaugeActivity extends AppCompatActivity {
         int increment = pas;
         while(valMin<=valMaxDuMaxDeLaJauge){
             if (valMin!=tabMinMax[positionDuMaxDansLeTableau]){
+                list.add(String.valueOf(valMin));
+            }
+            valMin+=increment;
+        }
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        listeCourante.setAdapter(dataAdapter);
+    }
+
+    public void chargerListeDeroulanteCourantDeFreinage(Spinner listeCourante, int valMinDuCourantDeFreinage, int valMaxDuCourantDeFreinage, int pas){
+        List<String> list = new ArrayList<String>();
+        list.add(String.valueOf(courantDeFreinage));
+        int valMin = valMinDuCourantDeFreinage;
+        int increment = pas;
+        while(valMin<=valMaxDuCourantDeFreinage){
+            if (valMin!=courantDeFreinage){
                 list.add(String.valueOf(valMin));
             }
             valMin+=increment;

@@ -26,7 +26,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/boutonReglageActiviteReglage"
+        android:id="@+id/t_boutonReglageActiviteReglage"
         android:layout_width="44dp"
         android:layout_height="44dp"
         android:layout_marginEnd="3dp"
@@ -143,10 +143,20 @@
                 android:layout_width="252dp"
                 android:layout_height="wrap_content"
                 android:text="@string/boutonTemperatureFrein"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toBottomOf="@+id/courantDeFreinage"
                 app:layout_constraintEnd_toStartOf="@+id/listeDeroulanteTemperatureFrein"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/temperatureAlternateur" />
+
+            <TextView
+                android:id="@+id/courantDeFreinage"
+                android:layout_width="252dp"
+                android:layout_height="wrap_content"
+                android:text="@string/courantDeFreinage"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/listeCourantDeFreinage"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/temperatureFrein" />
 
             <Spinner
                 android:id="@+id/listeDeroulanteVitesseDeRotation"
@@ -221,13 +231,22 @@
                 app:layout_constraintTop_toBottomOf="@+id/listeDeroulanteEnergieProduite" />
 
             <Spinner
-                android:id="@+id/listeDeroulanteTemperatureFrein"
+            android:id="@+id/listeDeroulanteTemperatureFrein"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/listeCourantDeFreinage"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/temperatureFrein"
+            app:layout_constraintTop_toBottomOf="@+id/listeDeroulanteTemperatureAlternateur" />
+
+            <Spinner
+                android:id="@+id/listeCourantDeFreinage"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/temperatureFrein"
-                app:layout_constraintTop_toBottomOf="@+id/listeDeroulanteTemperatureAlternateur" />
+                app:layout_constraintStart_toEndOf="@+id/courantDeFreinage"
+                app:layout_constraintTop_toBottomOf="@+id/listeDeroulanteTemperatureFrein" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
