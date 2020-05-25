@@ -182,8 +182,8 @@
 
     <Button
         android:id="@+id/t_boutonMoins1Ampere"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:background="@drawable/precedent"
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/t_boutonMoins1DixiemeAmpere"
@@ -194,10 +194,10 @@
 
     <TextView
         android:id="@+id/t_affichageUniteAmpere"
-        android:layout_width="25dp"
-        android:layout_height="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:fontFamily="sans-serif-light"
-        android:text="20"
+        android:text="@string/valeurNulle"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/t_affichageDixiemeAmpere"
         app:layout_constraintEnd_toStartOf="@+id/t_boutonPlus1Ampere"
@@ -206,8 +206,8 @@
 
     <Button
         android:id="@+id/t_boutonPlus1Ampere"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:background="@drawable/suivant"
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/t_boutonPlus1DixiemeAmpere"
@@ -217,8 +217,8 @@
 
     <Button
         android:id="@+id/t_boutonMoins1DixiemeAmpere"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:background="@drawable/precedent"
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/t_boutonFreiner"
@@ -229,8 +229,8 @@
 
     <TextView
         android:id="@+id/t_affichageDixiemeAmpere"
-        android:layout_width="25dp"
-        android:layout_height="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:fontFamily="sans-serif-light"
         android:text="0"
         android:textSize="18sp"
@@ -241,8 +241,8 @@
 
     <Button
         android:id="@+id/t_boutonPlus1DixiemeAmpere"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:background="@drawable/suivant"
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/t_boutonFreiner"

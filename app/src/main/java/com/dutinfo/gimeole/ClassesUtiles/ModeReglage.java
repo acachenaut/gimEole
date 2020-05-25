@@ -1,13 +1,11 @@
 package com.dutinfo.gimeole.ClassesUtiles;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 
 public class ModeReglage extends ModeProduction {
 
     private ArrayList<Point> pointsDuProfilAppli;
-    private ArrayList<Point> pointsDuProfilConv;
     private int nombreDePointsDuProfilAppli;
     private int pointSelectionne;
     private double maxAbscisseDuGraphique;
@@ -20,6 +18,8 @@ public class ModeReglage extends ModeProduction {
     private double maxOrdonneeEquationGenere;
     private double abscisseDuPointDeFonctionnement;
     private double ordonneeDuPointDeFonctionnement;
+    private int courantEnEntreeReglageManuelUnite;
+    private int courantEnEntreeReglageManuelDixieme;
 
 
     public ModeReglage(){
@@ -27,8 +27,6 @@ public class ModeReglage extends ModeProduction {
         this.nombreDePointsDuProfilAppli = 1;
         this.pointsDuProfilAppli = new ArrayList<>();
         this.pointsDuProfilAppli.add(new Point(0,0));
-        this.pointsDuProfilConv = new ArrayList<>();
-        this.pointsDuProfilConv.add(new Point(0,0));
         this.pointSelectionne = 0;
         this.maxAbscisseDuProfilAppli = 0;
         this.maxOrdonneeDuProfilAppli = 0;
@@ -36,6 +34,8 @@ public class ModeReglage extends ModeProduction {
         this.maxOrdonneeDuProfilConv = 0;
         this.maxAbscisseEquationGenere = 0;
         this.maxOrdonneeEquationGenere = 0;
+        this.courantEnEntreeReglageManuelUnite = 20;
+        this.courantEnEntreeReglageManuelDixieme = 0;
 
 
     }
@@ -56,6 +56,16 @@ public class ModeReglage extends ModeProduction {
     public void ajouterUnPointAuProfilConvEtTrierTableau(double abscisse, double ordonnee, int positionDuPoint){
             pointsDuProfilConv.set(positionDuPoint,new Point(abscisse,ordonnee));
             modifierMaxAbscisseEtOrdonneeDuProfilConvEnFonctionDuNouveauPoint(abscisse,ordonnee);
+    }
+
+    public void setPointsDuProfilConvTableau(double[] pointsDuProfilConv) {
+        int i = 0;
+        int indiceArrayList = 0;
+        while (i<=pointsDuProfilConv.length-1){
+            ajouterUnPointAuProfilConvEtTrierTableau(pointsDuProfilConv[i],pointsDuProfilConv[i+1],indiceArrayList);
+            i = i+2;
+            indiceArrayList++;
+        }
     }
 
     public void adapterMaxAbscisseDuGraphique(){
@@ -236,7 +246,7 @@ public class ModeReglage extends ModeProduction {
         this.getPointsDuProfilConv().clear();
         this.setMaxAbscisseDuProfilConv(0);
         this.setMaxOrdonneeDuProfilConv(0);
-        this.getPointsDuProfilAppli().add(new Point(0,0));
+        this.getPointsDuProfilConv().add(new Point(0,0));
     }
 
     public void setMaxAbscisseDuProfilAppli(double maxAbscisseDuProfilAppli) {
@@ -305,14 +315,6 @@ public class ModeReglage extends ModeProduction {
         this.maxOrdonneeEquationGenere = maxOrdonneeEquationGenere;
     }
 
-    public ArrayList<Point> getPointsDuProfilConv() {
-        return pointsDuProfilConv;
-    }
-
-    public void setPointsDuProfilConv(ArrayList<Point> pointsDuProfilConv) {
-        this.pointsDuProfilConv = pointsDuProfilConv;
-    }
-
     public double getMaxAbscisseDuProfilConv() {
         return maxAbscisseDuProfilConv;
     }
@@ -327,5 +329,21 @@ public class ModeReglage extends ModeProduction {
 
     public void setMaxOrdonneeDuProfilConv(double maxOrdonneeDuProfilConv) {
         this.maxOrdonneeDuProfilConv = maxOrdonneeDuProfilConv;
+    }
+
+    public int getCourantEnEntreeReglageManuelUnite() {
+        return courantEnEntreeReglageManuelUnite;
+    }
+
+    public void setCourantEnEntreeReglageManuelUnite(int courantEnEntreeReglageManuelUnite) {
+        this.courantEnEntreeReglageManuelUnite = courantEnEntreeReglageManuelUnite;
+    }
+
+    public int getCourantEnEntreeReglageManuelDixieme() {
+        return courantEnEntreeReglageManuelDixieme;
+    }
+
+    public void setCourantEnEntreeReglageManuelDixieme(int courantEnEntreeReglageManuelDixieme) {
+        this.courantEnEntreeReglageManuelDixieme = courantEnEntreeReglageManuelDixieme;
     }
 }

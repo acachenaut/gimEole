@@ -13,6 +13,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -94,6 +95,7 @@ public class ModeReglageActivity extends AppCompatActivity {
         //Récupération des réglages du modeProduction
         modeReglage.setMinMaxDesJauges(getIntent().getDoubleArrayExtra("tabMinMax"));
         modeReglage.setCourantDeFreinage(getIntent().getDoubleExtra("courantDeFreinage",0));
+        modeReglage.setPointsDuProfilConvTableau(getIntent().getDoubleArrayExtra("profilConv"));
 
         //Initialisation de la connexion Bluetooth
         device = getIntent().getParcelableExtra("device");
@@ -148,6 +150,7 @@ public class ModeReglageActivity extends AppCompatActivity {
         ordonneeSaisie = findViewById(R.id.t_saiseOrdonnee);
 
         initialiserGraphique();
+        afficherChangementReglageManuelCourantEnEntree();
 
         boutonAjouterPoint.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -300,6 +303,80 @@ public class ModeReglageActivity extends AppCompatActivity {
 
             }
         });
+
+        boutonMoins1Ampere.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Code here executes on main thread after user presses button
+                if(modeReglage.getCourantEnEntreeReglageManuelUnite()>0){
+                    modeReglage.setCourantEnEntreeReglageManuelUnite(modeReglage.getCourantEnEntreeReglageManuelUnite()-1);
+                    afficherChangementReglageManuelCourantEnEntree();
+                    envoyerCourantEnEntreeALEolienne();
+                }
+                else{
+                    Toast messagePasEnDessousDeZero = Toast.makeText(getApplicationContext(),
+                            "Vous ne pouvez plus diminuer les unités !",
+                            Toast.LENGTH_SHORT);
+                    messagePasEnDessousDeZero.show();
+                }
+
+            }
+        });
+
+        boutonPlus1Ampere.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Code here executes on main thread after user presses button
+                if(modeReglage.getCourantEnEntreeReglageManuelUnite()<modeReglage.getCourantEnEntree().getValMaxJauge()){
+                    modeReglage.setCourantEnEntreeReglageManuelUnite(modeReglage.getCourantEnEntreeReglageManuelUnite()+1);
+                    afficherChangementReglageManuelCourantEnEntree();
+                    envoyerCourantEnEntreeALEolienne();
+                }
+                else{
+                    Toast messagePasEnDessousDeZero = Toast.makeText(getApplicationContext(),
+                            "Vous ne pouvez plus augmenter les unités !",
+                            Toast.LENGTH_SHORT);
+                    messagePasEnDessousDeZero.show();
+                }
+
+            }
+        });
+
+        boutonMoins1DixiemeAmpere.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Code here executes on main thread after user presses button
+                if(modeReglage.getCourantEnEntreeReglageManuelDixieme()>0){
+                    modeReglage.setCourantEnEntreeReglageManuelDixieme(modeReglage.getCourantEnEntreeReglageManuelDixieme()-1);
+                    afficherChangementReglageManuelCourantEnEntree();
+                    envoyerCourantEnEntreeALEolienne();
+                }
+                else{
+                    Toast messagePasEnDessousDeZero = Toast.makeText(getApplicationContext(),
+                            "Vous ne pouvez plus diminuer les dixièmes !",
+                            Toast.LENGTH_SHORT);
+                    messagePasEnDessousDeZero.show();
+                }
+
+            }
+        });
+
+        boutonPlus1DixiemeAmpere.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Code here executes on main thread after user presses button
+                if(modeReglage.getCourantEnEntreeReglageManuelDixieme()<9){
+                    modeReglage.setCourantEnEntreeReglageManuelDixieme(modeReglage.getCourantEnEntreeReglageManuelDixieme()+1);
+                    afficherChangementReglageManuelCourantEnEntree();
+                    envoyerCourantEnEntreeALEolienne();
+                }
+                else{
+                    Toast messagePasEnDessousDeZero = Toast.makeText(getApplicationContext(),
+                            "Vous ne pouvez plus augmenter les dixièmes !",
+                            Toast.LENGTH_SHORT);
+                    messagePasEnDessousDeZero.show();
+                }
+
+            }
+        });
+
+
 
 
         boutonModeSuivant.setOnClickListener(new View.OnClickListener() {
@@ -567,6 +644,16 @@ public class ModeReglageActivity extends AppCompatActivity {
 
     }
 
+    private void afficherChangementReglageManuelCourantEnEntree() {
+        affichageUniteAmpere.setText(String.valueOf(modeReglage.getCourantEnEntreeReglageManuelUnite()));
+        affichageDixiemeAmpere.setText(String.valueOf("0."+modeReglage.getCourantEnEntreeReglageManuelDixieme()));
+        affichageAmpere.setText(modeReglage.getCourantEnEntreeReglageManuelUnite()+"."+modeReglage.getCourantEnEntreeReglageManuelDixieme());
+    }
+
+    public void envoyerCourantEnEntreeALEolienne(){
+        bluetooth.send("*"modeReglage.getCourantEnEntreeReglageManuelUnite()+"."+modeReglage.getCourantEnEntreeReglageManuelDixieme());
+    }
+
     public void afficherValeur (String chaineRecuParBluetooth){
         String premierCaractere = (chaineRecuParBluetooth.substring(0,1));
         String valeurCourante = (chaineRecuParBluetooth.substring(1));
@@ -606,11 +693,11 @@ public class ModeReglageActivity extends AppCompatActivity {
                 break;
             case "N":
                 enregistrerLeProfilConv(valeurCourante);
+                break;
             default:
                 break;
         }
     }
-
 
     public void enregistrerLeProfilConv(String points){
         String indice = points.substring(0,1);
