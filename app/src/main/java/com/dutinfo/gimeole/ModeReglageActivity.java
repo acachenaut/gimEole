@@ -68,6 +68,7 @@ public class ModeReglageActivity extends AppCompatActivity {
 
     //Série de points affichés actuellement
     LineGraphSeries<DataPoint> profilAppli = new LineGraphSeries<>();
+    LineGraphSeries<DataPoint> profilConv = new LineGraphSeries<>();
     PointsGraphSeries<DataPoint> pointDeFonctionnement = null;
     PointsGraphSeries<DataPoint> pointSelectionne = new PointsGraphSeries<>();
     LineGraphSeries<DataPoint> regressionPolynomial = null;
@@ -153,7 +154,7 @@ public class ModeReglageActivity extends AppCompatActivity {
                 // Code here executes on main thread after user presses button
                 if (pointDeFonctionnement!=null){
                     boolean estAjoute;
-                    estAjoute= modeReglage.ajouterUnPointEtTrierTableau(pointDeFonctionnement.getHighestValueX(), pointDeFonctionnement.getHighestValueY());
+                    estAjoute= modeReglage.ajouterUnPointAuProfilAppliEtTrierTableau(pointDeFonctionnement.getHighestValueX(), pointDeFonctionnement.getHighestValueY());
                     if(estAjoute){
                         afficherLesPointsSurLeGraphique();
                     }
@@ -258,7 +259,6 @@ public class ModeReglageActivity extends AppCompatActivity {
                     if (!(abscisse.matches("") || ordonnee.matches("")))
                     {
                         modeReglage.modifierPointDuProfilAppli(Double.parseDouble(abscisse),Double.parseDouble(ordonnee),modeReglage.getPointSelectionne());
-                        afficherLesPointsSurLeGraphique();
                         afficherPointSelectionne(modeReglage.getPointSelectionne());
                     }
                     else
@@ -407,10 +407,10 @@ public class ModeReglageActivity extends AppCompatActivity {
                                     double coefficient;
                                     coefficient = modeReglage.getPointsDuProfilAppli().get(modeReglage.getPointSelectionne()).getOrdonnee()/Math.pow(modeReglage.getPointsDuProfilAppli().get(modeReglage.getPointSelectionne()).getAbscisse(),2);
                                     modeReglage.supprimerProfilAppli();
-                                    modeReglage.ajouterUnPointEtTrierTableau(0,0);
+                                    modeReglage.ajouterUnPointAuProfilAppliEtTrierTableau(0,0);
                                     double abscisseCourante = modeReglage.getVitesseRotation().getValMaxJauge()/10;
                                     while(abscisseCourante<=modeReglage.getVitesseRotation().getValMaxJauge()){
-                                        modeReglage.ajouterUnPointEtTrierTableau(abscisseCourante,(coefficient*Math.pow(abscisseCourante,2)));
+                                        modeReglage.ajouterUnPointAuProfilAppliEtTrierTableau(abscisseCourante,(coefficient*Math.pow(abscisseCourante,2)));
                                         abscisseCourante += modeReglage.getVitesseRotation().getValMaxJauge()/10;
                                     }
                                     pointSelectionne=null;
@@ -429,7 +429,7 @@ public class ModeReglageActivity extends AppCompatActivity {
                             case aPartinDeLEnsembleDesPoints:
                                 if (regressionPolynomial!=null){
                                     modeReglage.supprimerProfilAppli();
-                                    modeReglage.ajouterUnPointEtTrierTableau(0,0);
+                                    modeReglage.ajouterUnPointAuProfilAppliEtTrierTableau(0,0);
                                     double abscisseCourante = modeReglage.getVitesseRotation().getValMaxJauge()/10;
                                     while(abscisseCourante<=modeReglage.getVitesseRotation().getValMaxJauge()){
                                         double ordonnee = 0;
@@ -438,7 +438,7 @@ public class ModeReglageActivity extends AppCompatActivity {
                                             ordonnee += coefficient * Math.pow(abscisseCourante, degre);
                                             degre++;
                                         }
-                                        modeReglage.ajouterUnPointEtTrierTableau(abscisseCourante,ordonnee);
+                                        modeReglage.ajouterUnPointAuProfilAppliEtTrierTableau(abscisseCourante,ordonnee);
                                         abscisseCourante += modeReglage.getVitesseRotation().getValMaxJauge()/10;
                                     }
                                     pointSelectionne=null;
@@ -604,9 +604,30 @@ public class ModeReglageActivity extends AppCompatActivity {
             case ")" :
                 modeReglage.getTemperatureFrein().setValCourante(Double.parseDouble(valeurCourante));
                 break;
+            case "N":
+                enregistrerLeProfilConv(valeurCourante);
             default:
                 break;
         }
+    }
+
+
+    public void enregistrerLeProfilConv(String points){
+        String indice = points.substring(0,1);
+        String abscisse = points.substring(1,points.indexOf(";"));
+        String ordonnee = points.substring(points.indexOf(";")+1);
+        if (indice == "1"){
+            String indiceVerif = points.substring(0,2);
+            if(indiceVerif=="10") {
+                indice = indiceVerif;
+                abscisse = points.substring(2, points.indexOf(";"));
+            }
+            else {
+                modeReglage.supprimerProfilConv();
+            }
+        }
+        modeReglage.ajouterUnPointAuProfilConvEtTrierTableau(Double.valueOf(abscisse),Double.valueOf(ordonnee), Integer.valueOf(indice));
+        afficherLesPointsSurLeGraphique();
     }
 
     public void afficherPointSelectionne(int positionDuPoint){
@@ -615,32 +636,45 @@ public class ModeReglageActivity extends AppCompatActivity {
     });
         pointSelectionne = point;
         pointSelectionne.setShape(PointsGraphSeries.Shape.POINT);
-        pointSelectionne.setColor(Color.RED);
+        pointSelectionne.setColor(Color.YELLOW);
         pointSelectionne.setShape(PointsGraphSeries.Shape.POINT);
-        graphique.removeAllSeries();
-        graphique.addSeries(profilAppli);
-        graphique.addSeries(pointSelectionne);
-        graphique.addSeries(pointDeFonctionnement);
+        afficherLesPointsSurLeGraphique();
     }
 
     public void afficherLesPointsSurLeGraphique(){
-        LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
+        LineGraphSeries<DataPoint> seriesProfilAppli = new LineGraphSeries<>();
         for(Point pointCourant : modeReglage.getPointsDuProfilAppli()){
-            series.appendData(new DataPoint(pointCourant.getAbscisse(),pointCourant.getOrdonnee()),true,11);
+            seriesProfilAppli.appendData(new DataPoint(pointCourant.getAbscisse(),pointCourant.getOrdonnee()),true,11);
         }
-        profilAppli =series;
-        graphique.removeAllSeries();
+        LineGraphSeries<DataPoint> seriesProfilConv = new LineGraphSeries<>();
+        for(Point pointCourant : modeReglage.getPointsDuProfilConv()){
+            seriesProfilConv.appendData(new DataPoint(pointCourant.getAbscisse(),pointCourant.getOrdonnee()),true,11);
+        }
+
+        profilAppli = seriesProfilAppli;
         profilAppli.setDrawDataPoints(true);
         profilAppli.setDataPointsRadius(10);
         profilAppli.setThickness(8);
+
+        profilConv = seriesProfilConv;
+        profilConv.setColor(Color.RED);
+        profilConv.setDrawDataPoints(true);
+        profilConv.setDataPointsRadius(10);
+        profilConv.setThickness(8);
+
+        graphique.removeAllSeries();
         adapterEchelleDuGraphqiue();
+        graphique.addSeries(profilConv);
         graphique.addSeries(profilAppli);
-        graphique.addSeries(pointDeFonctionnement);
+
         if(pointSelectionne!=null){
             graphique.addSeries(pointSelectionne);
         }
         if(regressionPolynomial!=null){
             graphique.addSeries(regressionPolynomial);
+        }
+        if(pointDeFonctionnement!=null){
+            graphique.addSeries(pointDeFonctionnement);
         }
     }
 
@@ -669,16 +703,7 @@ public class ModeReglageActivity extends AppCompatActivity {
                 canvas.drawLine(x+20, y-20, x-20, y+20, paint);
             }
         });
-        graphique.removeAllSeries();
-        adapterEchelleDuGraphqiue();
-        graphique.addSeries(profilAppli);
-        graphique.addSeries(pointDeFonctionnement);
-        if(pointSelectionne!=null){
-            graphique.addSeries(pointSelectionne);
-        }
-        if(regressionPolynomial!=null){
-            graphique.addSeries(regressionPolynomial);
-        }
+        afficherLesPointsSurLeGraphique();
     }
 
     public void adapterEchelleDuGraphqiue(){

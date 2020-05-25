@@ -7,12 +7,15 @@ import java.util.Collections;
 public class ModeReglage extends ModeProduction {
 
     private ArrayList<Point> pointsDuProfilAppli;
+    private ArrayList<Point> pointsDuProfilConv;
     private int nombreDePointsDuProfilAppli;
     private int pointSelectionne;
     private double maxAbscisseDuGraphique;
     private double maxOrdonneeDuGraphique;
     private double maxAbscisseDuProfilAppli;
     private double maxOrdonneeDuProfilAppli;
+    private double maxAbscisseDuProfilConv;
+    private double maxOrdonneeDuProfilConv;
     private double maxAbscisseEquationGenere;
     private double maxOrdonneeEquationGenere;
     private double abscisseDuPointDeFonctionnement;
@@ -24,16 +27,20 @@ public class ModeReglage extends ModeProduction {
         this.nombreDePointsDuProfilAppli = 1;
         this.pointsDuProfilAppli = new ArrayList<>();
         this.pointsDuProfilAppli.add(new Point(0,0));
+        this.pointsDuProfilConv = new ArrayList<>();
+        this.pointsDuProfilConv.add(new Point(0,0));
         this.pointSelectionne = 0;
         this.maxAbscisseDuProfilAppli = 0;
         this.maxOrdonneeDuProfilAppli = 0;
+        this.maxAbscisseDuProfilConv = 0;
+        this.maxOrdonneeDuProfilConv = 0;
         this.maxAbscisseEquationGenere = 0;
         this.maxOrdonneeEquationGenere = 0;
 
 
     }
 
-    public boolean ajouterUnPointEtTrierTableau(double abscisse, double ordonnee){
+    public boolean ajouterUnPointAuProfilAppliEtTrierTableau(double abscisse, double ordonnee){
         if(this.getNombreDePointsDuProfilAppli()<11){
             pointsDuProfilAppli.add(new Point(abscisse,ordonnee));
             this.setNombreDePointsDuProfilAppli(this.getNombreDePointsDuProfilAppli()+1);
@@ -46,21 +53,47 @@ public class ModeReglage extends ModeProduction {
         }
     }
 
+    public void ajouterUnPointAuProfilConvEtTrierTableau(double abscisse, double ordonnee, int positionDuPoint){
+            pointsDuProfilConv.set(positionDuPoint,new Point(abscisse,ordonnee));
+            modifierMaxAbscisseEtOrdonneeDuProfilConvEnFonctionDuNouveauPoint(abscisse,ordonnee);
+    }
+
     public void adapterMaxAbscisseDuGraphique(){
         if (this.getMaxAbscisseDuProfilAppli()>this.getAbscisseDuPointDeFonctionnement()){
             if(this.getMaxAbscisseDuProfilAppli()>this.getMaxAbscisseEquationGenere()){
-                this.setMaxAbscisseDuGraphique(this.getMaxAbscisseDuProfilAppli());
+                if (this.getMaxAbscisseDuProfilAppli()>this.getMaxAbscisseDuProfilConv()){
+                    this.setMaxAbscisseDuGraphique(this.getMaxAbscisseDuProfilAppli());
+                }
+                else {
+                    this.setMaxAbscisseDuGraphique(this.getMaxAbscisseDuProfilConv());
+                }
             }
             else {
-                this.setMaxAbscisseDuGraphique(this.getMaxAbscisseEquationGenere());
+                if (this.getMaxAbscisseEquationGenere()>this.getMaxAbscisseDuProfilConv()){
+                    this.setMaxAbscisseDuGraphique(this.getMaxAbscisseEquationGenere());
+                }
+                else{
+                    this.setMaxAbscisseDuGraphique(this.getMaxAbscisseDuProfilConv());
+                }
             }
         }
         else{
             if(this.getAbscisseDuPointDeFonctionnement()>this.getMaxAbscisseEquationGenere()){
-                this.setMaxAbscisseDuGraphique(this.getAbscisseDuPointDeFonctionnement());
+                if(this.getAbscisseDuPointDeFonctionnement()>this.getMaxAbscisseDuProfilConv()){
+                    this.setMaxAbscisseDuGraphique(this.getAbscisseDuPointDeFonctionnement());
+                }
+                else {
+                    this.setMaxAbscisseDuGraphique(this.getMaxAbscisseDuProfilConv());
+                }
             }
             else {
-                this.setMaxAbscisseDuGraphique(this.getMaxAbscisseEquationGenere());
+                if (this.getMaxAbscisseEquationGenere()>this.getMaxAbscisseDuProfilConv()){
+                    this.setMaxAbscisseDuGraphique(this.getMaxAbscisseEquationGenere());
+                }
+                else{
+                    this.setMaxAbscisseDuGraphique(this.getMaxAbscisseDuProfilConv());
+                }
+
             }
         }
     }
@@ -68,18 +101,38 @@ public class ModeReglage extends ModeProduction {
     public void adapterMaxOrdonneeDuGraphique(){
         if (this.getMaxOrdonneeDuProfilAppli()>this.getOrdonneeDuPointDeFonctionnement()){
             if(this.getMaxOrdonneeDuProfilAppli()>this.getMaxOrdonneeEquationGenere()){
-                this.setMaxOrdonneeDuGraphique(this.getMaxOrdonneeDuProfilAppli());
+                if (this.getMaxOrdonneeDuProfilAppli()>this.getMaxOrdonneeDuProfilConv()){
+                    this.setMaxOrdonneeDuGraphique(this.getMaxOrdonneeDuProfilAppli());
+                }
+                else{
+                    this.setMaxOrdonneeDuGraphique(this.getMaxOrdonneeDuProfilConv());
+                }
             }
             else {
-                this.setMaxOrdonneeDuGraphique(this.getMaxOrdonneeEquationGenere());
+                if (this.getMaxOrdonneeEquationGenere()>this.getMaxOrdonneeDuProfilConv()){
+                    this.setMaxOrdonneeDuGraphique(this.getMaxOrdonneeEquationGenere());
+                }
+                else {
+                    this.setMaxOrdonneeDuGraphique(this.getMaxOrdonneeDuProfilConv());
+                }
             }
         }
         else{
             if(this.getOrdonneeDuPointDeFonctionnement()>this.getMaxOrdonneeEquationGenere()){
-                this.setMaxOrdonneeDuGraphique(this.getOrdonneeDuPointDeFonctionnement());
+                if (this.getOrdonneeDuPointDeFonctionnement()>this.getMaxOrdonneeDuProfilConv()){
+                    this.setMaxOrdonneeDuGraphique(this.getOrdonneeDuPointDeFonctionnement());
+                }
+                else {
+                    this.setMaxOrdonneeDuGraphique(this.getMaxOrdonneeDuProfilConv());
+                }
             }
             else {
-                this.setMaxOrdonneeDuGraphique(this.getMaxOrdonneeEquationGenere());
+                if (this.getMaxOrdonneeEquationGenere()>this.getMaxOrdonneeDuProfilConv()){
+                    this.setMaxOrdonneeDuGraphique(this.getMaxOrdonneeEquationGenere());
+                }
+                else {
+                    this.setMaxOrdonneeDuGraphique(this.getMaxOrdonneeDuProfilConv());
+                }
             }
         }
     }
@@ -90,6 +143,15 @@ public class ModeReglage extends ModeProduction {
         }
         if(this.getMaxOrdonneeDuProfilAppli()<ordonnee){
             this.setMaxOrdonneeDuProfilAppli(ordonnee);
+        }
+    }
+
+    public void modifierMaxAbscisseEtOrdonneeDuProfilConvEnFonctionDuNouveauPoint(double abscisse, double ordonnee){
+        if(this.getMaxAbscisseDuProfilConv()<abscisse){
+            this.setMaxAbscisseDuProfilConv(abscisse);
+        }
+        if(this.getMaxOrdonneeDuProfilConv()<ordonnee){
+            this.setMaxOrdonneeDuProfilConv(ordonnee);
         }
     }
 
@@ -170,6 +232,13 @@ public class ModeReglage extends ModeProduction {
         this.setMaxOrdonneeDuProfilAppli(0);
     }
 
+    public void supprimerProfilConv(){
+        this.getPointsDuProfilConv().clear();
+        this.setMaxAbscisseDuProfilConv(0);
+        this.setMaxOrdonneeDuProfilConv(0);
+        this.getPointsDuProfilAppli().add(new Point(0,0));
+    }
+
     public void setMaxAbscisseDuProfilAppli(double maxAbscisseDuProfilAppli) {
         this.maxAbscisseDuProfilAppli = maxAbscisseDuProfilAppli;
     }
@@ -234,5 +303,29 @@ public class ModeReglage extends ModeProduction {
 
     public void setMaxOrdonneeEquationGenere(double maxOrdonneeEquationGenere) {
         this.maxOrdonneeEquationGenere = maxOrdonneeEquationGenere;
+    }
+
+    public ArrayList<Point> getPointsDuProfilConv() {
+        return pointsDuProfilConv;
+    }
+
+    public void setPointsDuProfilConv(ArrayList<Point> pointsDuProfilConv) {
+        this.pointsDuProfilConv = pointsDuProfilConv;
+    }
+
+    public double getMaxAbscisseDuProfilConv() {
+        return maxAbscisseDuProfilConv;
+    }
+
+    public void setMaxAbscisseDuProfilConv(double maxAbscisseDuProfilConv) {
+        this.maxAbscisseDuProfilConv = maxAbscisseDuProfilConv;
+    }
+
+    public double getMaxOrdonneeDuProfilConv() {
+        return maxOrdonneeDuProfilConv;
+    }
+
+    public void setMaxOrdonneeDuProfilConv(double maxOrdonneeDuProfilConv) {
+        this.maxOrdonneeDuProfilConv = maxOrdonneeDuProfilConv;
     }
 }

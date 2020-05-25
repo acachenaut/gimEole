@@ -1,13 +1,7 @@
 package com.dutinfo.gimeole.ClassesUtiles;
 
 public class ModeProduction {
-    public double getCourantDeFreinage() {
-        return courantDeFreinage;
-    }
 
-    public void setCourantDeFreinage(double courantDeFreinage) {
-        this.courantDeFreinage = courantDeFreinage;
-    }
 
     public enum UnEtat {jaugeVitesseRotation, jaugeTensionEnEntree, jaugeCourantEnEntree, jaugeTensionEnSortie, jaugeCourantEnSortie, jaugePuissanceFournie, jaugeEnergieProduite, jaugeTemperatureAlternateur, jaugeTemperatureFrein}
     private UnEtat etatModeProduction;
@@ -43,6 +37,14 @@ public class ModeProduction {
 
     public void setEtatModeProduction(UnEtat etatModeProduction) {
         this.etatModeProduction = etatModeProduction;
+    }
+
+    public double getCourantDeFreinage() {
+        return courantDeFreinage;
+    }
+
+    public void setCourantDeFreinage(double courantDeFreinage) {
+        this.courantDeFreinage = courantDeFreinage;
     }
 
     public Element_A_Afficher getCourantEnEntree() {
