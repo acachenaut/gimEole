@@ -55,8 +55,8 @@ public class ReglageJaugeActivity extends AppCompatActivity {
         chargerListeDeroulante(listeDeroulanteCourantEnSortie, 9, 10, 50, 5);
         chargerListeDeroulante(listeDeroulantePuissanceFournie, 11, 200, 1500, 100);
         chargerListeDeroulante(listeDeroulanteEnergiePorduite, 13, 100, 10000, 100);
-        chargerListeDeroulante(listeDeroulanteTemperatureAlternateur, 15, 15, 30, 5);
-        chargerListeDeroulante(listeDeroulanteTemperatureFrein, 17, 15, 30, 5);
+        chargerListeDeroulanteDesTemperatures(listeDeroulanteTemperatureAlternateur, 15, 15, 30, 5);
+        chargerListeDeroulanteDesTemperatures(listeDeroulanteTemperatureFrein, 17, 15, 30, 5);
         chargerListeDeroulanteCourantDeFreinage(listeDeroulanteCourantDeFreinage, 10, 50, 5);
 
         //Lien entre le bouton de l'interface et de l'activité
@@ -149,7 +149,7 @@ public class ReglageJaugeActivity extends AppCompatActivity {
         listeDeroulanteTemperatureAlternateur.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                tabMinMax[15] = Double.parseDouble(parent.getItemAtPosition(position).toString());
+                tabMinMax[15] = tabMinMax[14]+Double.parseDouble(parent.getItemAtPosition(position).toString());
             }
 
             @Override
@@ -161,19 +161,7 @@ public class ReglageJaugeActivity extends AppCompatActivity {
         listeDeroulanteTemperatureFrein.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                tabMinMax[17] = Double.parseDouble(parent.getItemAtPosition(position).toString());
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        listeDeroulanteTemperatureFrein.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                tabMinMax[17] = Double.parseDouble(parent.getItemAtPosition(position).toString());
+                tabMinMax[17] = tabMinMax[16]+Double.parseDouble(parent.getItemAtPosition(position).toString());
             }
 
             @Override
@@ -215,6 +203,22 @@ public class ReglageJaugeActivity extends AppCompatActivity {
         int increment = pas;
         while(valMin<=valMaxDuMaxDeLaJauge){
             if (valMin!=tabMinMax[positionDuMaxDansLeTableau]){
+                list.add(String.valueOf(valMin));
+            }
+            valMin+=increment;
+        }
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        listeCourante.setAdapter(dataAdapter);
+    }
+
+    public void chargerListeDeroulanteDesTemperatures(Spinner listeCourante, int positionDuMaxDansLeTableau, int valMinDuMaxDeLaJauge, int valMaxDuMaxDeLaJauge, int pas){
+        List<String> list = new ArrayList<String>();
+        list.add(String.valueOf((int) (tabMinMax[positionDuMaxDansLeTableau]-tabMinMax[positionDuMaxDansLeTableau-1])));
+        int valMin = valMinDuMaxDeLaJauge;
+        int increment = pas;
+        while(valMin<=valMaxDuMaxDeLaJauge){
+            if (valMin!=(tabMinMax[positionDuMaxDansLeTableau]-tabMinMax[positionDuMaxDansLeTableau-1])){
                 list.add(String.valueOf(valMin));
             }
             valMin+=increment;

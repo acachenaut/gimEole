@@ -174,9 +174,11 @@ public class ModeReglageActivity extends AppCompatActivity {
         boutonModeProduction.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
-                Intent modeProductionActivity = new Intent(ModeReglageActivity.this, MainActivity.class);
+                Intent modeProductionActivity = new Intent();
                 modeProductionActivity.putExtra("device", device);
-                startActivity(modeProductionActivity);
+                modeProductionActivity.putExtra("tabMinMax",modeReglage.getMinMaxDesJauges());
+                modeProductionActivity.putExtra("courantDeFreinage",modeReglage.getCourantDeFreinage());
+                setResult(2,modeProductionActivity);
                 finish();
             }
         });
@@ -535,6 +537,19 @@ public class ModeReglageActivity extends AppCompatActivity {
                                 }
                                 break;
                             case aPartirDuPorfilConv:
+                                if (modeReglage.getPointsDuProfilConv().size()>1){
+                                    modeReglage.supprimerProfilAppli();
+                                    for (Point point : modeReglage.getPointsDuProfilConv()){
+                                        modeReglage.ajouterUnPointAuProfilAppliEtTrierTableau(point.getAbscisse(),point.getOrdonnee());
+                                    }
+                                }
+                                else {
+                                    Toast aucunProfilConvEnregistre = Toast.makeText(getApplicationContext(),
+                                            "Aucun profilConv n'a été enregistré !",
+                                            Toast.LENGTH_SHORT);
+                                    aucunProfilConvEnregistre.show();
+                                }
+
                                 break;
                             case aPartirDUnFichierCSV:
                                 break;
@@ -651,7 +666,7 @@ public class ModeReglageActivity extends AppCompatActivity {
     }
 
     public void envoyerCourantEnEntreeALEolienne(){
-        bluetooth.send("*"modeReglage.getCourantEnEntreeReglageManuelUnite()+"."+modeReglage.getCourantEnEntreeReglageManuelDixieme());
+        bluetooth.send("*"+modeReglage.getCourantEnEntreeReglageManuelUnite()+"."+modeReglage.getCourantEnEntreeReglageManuelDixieme());
     }
 
     public void afficherValeur (String chaineRecuParBluetooth){
@@ -801,6 +816,17 @@ public class ModeReglageActivity extends AppCompatActivity {
         graphique.getViewport().setMinY(0);
         graphique.getViewport().setMaxY(modeReglage.getMaxOrdonneeDuGraphique());
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==1)
+        {
+            modeReglage.setMinMaxDesJauges(data.getDoubleArrayExtra("tabMinMax"));
+            modeReglage.setCourantDeFreinage(data.getDoubleExtra("courantDeFreinage",0));
+        }
     }
 
 
