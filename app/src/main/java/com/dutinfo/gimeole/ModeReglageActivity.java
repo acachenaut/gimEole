@@ -659,6 +659,26 @@ public class ModeReglageActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onPause(){
+        super.onPause();
+        if(!estDeconnecteDuBluetoothCarChangementDActivite){
+            bluetooth.onStop();
+            bluetooth.disconnect();
+        }
+        estDeconnecteDuBluetoothCarChangementDActivite=true;
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        if(estDeconnecteDuBluetoothCarChangementDActivite){
+            bluetooth.onStart();
+            bluetooth.connectToDevice(device);
+        }
+        estDeconnecteDuBluetoothCarChangementDActivite=false;
+    }
+
     private void afficherChangementReglageManuelCourantEnEntree() {
         affichageUniteAmpere.setText(String.valueOf(modeReglage.getCourantEnEntreeReglageManuelUnite()));
         affichageDixiemeAmpere.setText(String.valueOf("0."+modeReglage.getCourantEnEntreeReglageManuelDixieme()));
@@ -889,8 +909,8 @@ public class ModeReglageActivity extends AppCompatActivity {
     @Override
     public void finish() {
         super.finish();
-        bluetooth.onStop();
         estDeconnecteDuBluetoothCarChangementDActivite = true;
+        bluetooth.onStop();
         bluetooth.disconnect();
 
     }

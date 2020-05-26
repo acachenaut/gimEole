@@ -260,8 +260,6 @@ public class MainActivity extends AppCompatActivity {
                 modeReglageActivity.putExtra("courantDeFreinage", modeProduction.getCourantDeFreinage());
                 modeReglageActivity.putExtra("profilConv",modeProduction.getPointsDuProfilConvTableau());
                 startActivityForResult(modeReglageActivity,2);
-                estDeconnecteDuBluetoothCarChangementDActivite = true;
-                bluetooth.disconnect();
             }
         });
 
@@ -283,9 +281,25 @@ public class MainActivity extends AppCompatActivity {
             modeProduction.setMinMaxDesJauges(data.getDoubleArrayExtra("tabMinMax"));
             modeProduction.setCourantDeFreinage(data.getDoubleExtra("courantDeFreinage",0));
             changerMinMaxDesJauges();
-            estDeconnecteDuBluetoothCarChangementDActivite = false;
+        }
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        bluetooth.onStop();
+        bluetooth.disconnect();
+        estDeconnecteDuBluetoothCarChangementDActivite=true;
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        if(estDeconnecteDuBluetoothCarChangementDActivite){
+            bluetooth.onStart();
             bluetooth.connectToDevice(device);
         }
+        estDeconnecteDuBluetoothCarChangementDActivite=false;
     }
 
 
