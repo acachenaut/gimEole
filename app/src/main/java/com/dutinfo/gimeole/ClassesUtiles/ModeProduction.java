@@ -17,7 +17,7 @@ public class ModeProduction {
     private Element_A_Afficher temperatureAlternateur;
     private Element_A_Afficher temperatureFrein;
     private double courantDeFreinage;
-    protected ArrayList<Point> pointsDuProfilConv;
+
 
     public ModeProduction (){
          vitesseRotation = new Element_A_Afficher(0,500);
@@ -31,8 +31,6 @@ public class ModeProduction {
          temperatureFrein = new Element_A_Afficher(0,15);
          this.etatModeProduction=UnEtat.jaugeVitesseRotation;
          this.courantDeFreinage=20;
-        this.pointsDuProfilConv = new ArrayList<>();
-        this.pointsDuProfilConv.add(new Point(0,0));
 
     }
 
@@ -136,34 +134,12 @@ public class ModeProduction {
         this.getTemperatureFrein().setValMaxJauge(tab[17]);
     }
 
-    public ArrayList<Point> getPointsDuProfilConv() {
-        return pointsDuProfilConv;
-    }
-
-    public double[] getPointsDuProfilConvTableau() {
-        double [] tableau = new double[this.getPointsDuProfilConv().size()*2];
-        int i = 0;
-        for (Point point : this.getPointsDuProfilConv()){
-            tableau[i]=point.getAbscisse();
-            tableau[i+1]=point.getOrdonnee();
-            i = i+2;
-        }
-        return tableau;
-    }
 
 
-    public void setPointsDuProfilConv(ArrayList<Point> pointsDuProfilConv) {
-        this.pointsDuProfilConv = pointsDuProfilConv;
-    }
 
 
-    public void ajouterUnPointAuProfilConvEtTrierTableau(double abscisse, double ordonnee, int positionDuPoint){
-        pointsDuProfilConv.set(positionDuPoint,new Point(abscisse,ordonnee));
-    }
 
-    public void supprimerProfilConv(){
-        this.getPointsDuProfilConv().clear();
-        this.getPointsDuProfilConv().add(new Point(0,0));
-    }
+
+
 
 }

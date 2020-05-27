@@ -72,5 +72,13 @@ public class BoiteAOutils {
 
     }
 
+    public static double arrondirChiffreEnFonctionDuNombreDeChiffresApresLaVrigule (int nombreDeChiffresApresLaVirgule, double chiffreATransformer){
+        double valeur = chiffreATransformer;
+        valeur = valeur*Math.pow(10,nombreDeChiffresApresLaVirgule);
+        valeur = Math.round(valeur);
+        valeur  = valeur/Math.pow(10,nombreDeChiffresApresLaVirgule);
+        return valeur;
+    }
+
 
 }

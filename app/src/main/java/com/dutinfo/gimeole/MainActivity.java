@@ -258,7 +258,6 @@ public class MainActivity extends AppCompatActivity {
                 modeReglageActivity.putExtra("device", device);
                 modeReglageActivity.putExtra("tabMinMax", modeProduction.getMinMaxDesJauges());
                 modeReglageActivity.putExtra("courantDeFreinage", modeProduction.getCourantDeFreinage());
-                modeReglageActivity.putExtra("profilConv",modeProduction.getPointsDuProfilConvTableau());
                 startActivityForResult(modeReglageActivity,2);
             }
         });
@@ -390,9 +389,6 @@ public class MainActivity extends AppCompatActivity {
                     thermometreFrein.setValueAndStartAnim((float) modeProduction.getTemperatureFrein().getValCourante());
                     temperatureFrein.setText(BoiteAOutils.arrondirChiffreEnFonctionDuNombreDeChiffresSignificatifs(3,modeProduction.getTemperatureFrein().getValCourante()));
                     break;
-                case "N":
-                    enregistrerLeProfilConv(valeurCourante);
-                    break;
                 default:
                     break;
             }
@@ -485,23 +481,6 @@ public class MainActivity extends AppCompatActivity {
             default:
                 break;
         }
-    }
-
-    public void enregistrerLeProfilConv(String points){
-        String indice = points.substring(0,1);
-        String abscisse = points.substring(1,points.indexOf(";"));
-        String ordonnee = points.substring(points.indexOf(";")+1);
-        if (indice == "1"){
-            String indiceVerif = points.substring(0,2);
-            if(indiceVerif=="10") {
-                indice = indiceVerif;
-                abscisse = points.substring(2, points.indexOf(";"));
-            }
-            else {
-                modeProduction.supprimerProfilConv();
-            }
-        }
-        modeProduction.ajouterUnPointAuProfilConvEtTrierTableau(Double.valueOf(abscisse),Double.valueOf(ordonnee), Integer.valueOf(indice));
     }
 
     public void afficherNouvelleJauge(){

@@ -257,7 +257,7 @@
         android:fontFamily="sans-serif-light"
         android:text="0"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/t_boutonTransfererProfilAppli"
+        app:layout_constraintBottom_toTopOf="@+id/t_boutonTransfererProfil"
         app:layout_constraintEnd_toStartOf="@+id/t_boutonAjouterPoint"
         app:layout_constraintStart_toEndOf="@+id/t_boutonPlus1DixiemeAmpere"
         app:layout_constraintTop_toBottomOf="@+id/t_boutonPuissanceFournie" />
@@ -270,7 +270,7 @@
         android:text="@string/validerPoint"
         android:textAllCaps="false"
         android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@+id/t_boutonTransfererProfilAppli"
+        app:layout_constraintBottom_toTopOf="@+id/t_boutonTransfererProfil"
         app:layout_constraintEnd_toStartOf="@+id/t_boutonModeSuivant"
         app:layout_constraintStart_toEndOf="@id/t_affichageAmpere"
         app:layout_constraintTop_toBottomOf="@+id/t_boutonPuissanceFournie" />
@@ -283,7 +283,7 @@
         android:text="@string/modeSuivant"
         android:textAllCaps="false"
         android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@+id/t_boutonTransfererProfilAppli"
+        app:layout_constraintBottom_toTopOf="@+id/t_boutonTransfererProfil"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/t_boutonAjouterPoint"
         app:layout_constraintTop_toBottomOf="@+id/t_boutonPuissanceFournie" />
@@ -298,16 +298,16 @@
         android:textAllCaps="false"
         android:textSize="15sp"
         app:layout_constraintBottom_toTopOf="@+id/t_boutonGenererProfilAppli"
-        app:layout_constraintEnd_toStartOf="@+id/t_boutonTransfererProfilAppli"
+        app:layout_constraintEnd_toStartOf="@+id/t_boutonTransfererProfil"
         app:layout_constraintStart_toEndOf="@+id/barreSeparationVerticale"
         app:layout_constraintTop_toBottomOf="@+id/t_boutonPlus1DixiemeAmpere" />
 
     <Button
-        android:id="@+id/t_boutonTransfererProfilAppli"
+        android:id="@+id/t_boutonTransfererProfil"
         android:layout_width="165dp"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-light"
-        android:text="@string/transfererProfilAppli"
+        android:text="@string/transfererProfil"
         android:textAllCaps="false"
         android:textSize="15sp"
         app:layout_constraintBottom_toTopOf="@+id/t_boutonGenererEquation"
@@ -339,7 +339,7 @@
         app:layout_constraintBottom_toTopOf="@+id/t_boutonGererProfilAppli"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/t_boutonGenererProfilAppli"
-        app:layout_constraintTop_toBottomOf="@+id/t_boutonTransfererProfilAppli" />
+        app:layout_constraintTop_toBottomOf="@+id/t_boutonTransfererProfil" />
 
     <Button
         android:id="@+id/t_boutonEnregistrerProfilAppli"
@@ -436,7 +436,7 @@
         android:textAllCaps="false"
         android:textSize="15sp"
         android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/t_boutonTransfererProfilAppli"
+        app:layout_constraintBottom_toTopOf="@+id/t_boutonTransfererProfil"
         app:layout_constraintEnd_toStartOf="@+id/t_boutonModeSuivant"
         app:layout_constraintStart_toEndOf="@id/t_boutonPointSuivant"
         app:layout_constraintTop_toBottomOf="@id/t_boutonModifierPoint" />
@@ -450,7 +450,7 @@
         android:textAllCaps="false"
         android:textSize="15sp"
         android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/t_boutonTransfererProfilAppli"
+        app:layout_constraintBottom_toTopOf="@+id/t_boutonTransfererProfil"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/t_boutonAjouterPoint"
         app:layout_constraintTop_toBottomOf="@+id/t_boutonPuissanceFournie"/>

@@ -40,6 +40,7 @@ import java.util.List;
 import me.aflak.bluetooth.Bluetooth;
 import me.aflak.bluetooth.interfaces.DeviceCallback;
 
+import static com.dutinfo.gimeole.ClassesUtiles.BoiteAOutils.arrondirChiffreEnFonctionDuNombreDeChiffresApresLaVrigule;
 import static com.dutinfo.gimeole.ClassesUtiles.BoiteAOutils.arrondirChiffreEnFonctionDuNombreDeChiffresSignificatifs;
 
 public class ModeReglageActivity extends AppCompatActivity {
@@ -58,7 +59,7 @@ public class ModeReglageActivity extends AppCompatActivity {
     TextView nomPeripheriqueBluetooth;
 
     //Création des bouttons de l'activité
-    Button boutonModeProduction,boutonPointPrecedent, boutonPointSuivant,boutonSupprimerPoint,boutonTransfererProfilAppli,boutonFreiner;
+    Button boutonModeProduction,boutonPointPrecedent, boutonPointSuivant,boutonSupprimerPoint, boutonTransfererProfil,boutonFreiner;
     Button boutonReglageJauges;
     Button boutonMoins1Ampere,boutonPlus1Ampere,boutonMoins1DixiemeAmpere,boutonPlus1DixiemeAmpere,boutonAjouterPoint,boutonModeSuivant,boutonModifierPoint,boutonModePrecedent, boutonGenererProfilAppli, boutonGenererEquation;
 
@@ -81,6 +82,8 @@ public class ModeReglageActivity extends AppCompatActivity {
 
     enum choixGenererProfilAppli {aPartirDUnPoint,aPartinDeLEnsembleDesPoints,aPartirDuPorfilConv,aPartirDUnFichierCSV}
     choixGenererProfilAppli choixUtilisateurGenererProfilAppli;
+    enum choixTransfererProfil {envoyerProfilAppli,recevoirProfilConv}
+    choixTransfererProfil choixUtilisateurTransfererProfil;
     int degreDuPolynome;
     ArrayList<Double> coefficientsDuPolynome = new ArrayList<>();
     ArrayList<Double> coefficientsDuPolynomeDansLOrdre = new ArrayList<>();
@@ -95,7 +98,6 @@ public class ModeReglageActivity extends AppCompatActivity {
         //Récupération des réglages du modeProduction
         modeReglage.setMinMaxDesJauges(getIntent().getDoubleArrayExtra("tabMinMax"));
         modeReglage.setCourantDeFreinage(getIntent().getDoubleExtra("courantDeFreinage",0));
-        modeReglage.setPointsDuProfilConvTableau(getIntent().getDoubleArrayExtra("profilConv"));
 
         //Initialisation de la connexion Bluetooth
         device = getIntent().getParcelableExtra("device");
@@ -136,7 +138,7 @@ public class ModeReglageActivity extends AppCompatActivity {
         boutonModeSuivant = findViewById(R.id.t_boutonModeSuivant);
         boutonModifierPoint = findViewById(R.id.t_boutonModifierPoint);
         boutonModePrecedent = findViewById(R.id.t_boutonModePrecedent);
-        boutonTransfererProfilAppli = findViewById(R.id.t_boutonTransfererProfilAppli);
+        boutonTransfererProfil = findViewById(R.id.t_boutonTransfererProfil);
         boutonGenererProfilAppli = findViewById(R.id.t_boutonGenererProfilAppli);
         boutonGenererEquation = findViewById(R.id.t_boutonGenererEquation);
         boutonReglageJauges = findViewById(R.id.t_boutonReglageActiviteReglage);
@@ -157,7 +159,7 @@ public class ModeReglageActivity extends AppCompatActivity {
                 // Code here executes on main thread after user presses button
                 if (pointDeFonctionnement!=null){
                     boolean estAjoute;
-                    estAjoute= modeReglage.ajouterUnPointAuProfilAppliEtTrierTableau(pointDeFonctionnement.getHighestValueX(), pointDeFonctionnement.getHighestValueY());
+                    estAjoute= modeReglage.ajouterUnPointAuProfilAppliEtTrierArrayList(pointDeFonctionnement.getHighestValueX(), pointDeFonctionnement.getHighestValueY());
                     if(estAjoute){
                         afficherLesPointsSurLeGraphique();
                     }
@@ -486,10 +488,10 @@ public class ModeReglageActivity extends AppCompatActivity {
                                     double coefficient;
                                     coefficient = modeReglage.getPointsDuProfilAppli().get(modeReglage.getPointSelectionne()).getOrdonnee()/Math.pow(modeReglage.getPointsDuProfilAppli().get(modeReglage.getPointSelectionne()).getAbscisse(),2);
                                     modeReglage.supprimerProfilAppli();
-                                    modeReglage.ajouterUnPointAuProfilAppliEtTrierTableau(0,0);
+
                                     double abscisseCourante = modeReglage.getVitesseRotation().getValMaxJauge()/10;
                                     while(abscisseCourante<=modeReglage.getVitesseRotation().getValMaxJauge()){
-                                        modeReglage.ajouterUnPointAuProfilAppliEtTrierTableau(abscisseCourante,(coefficient*Math.pow(abscisseCourante,2)));
+                                        modeReglage.ajouterUnPointAuProfilAppliEtTrierArrayList(abscisseCourante,(coefficient*Math.pow(abscisseCourante,2)));
                                         abscisseCourante += modeReglage.getVitesseRotation().getValMaxJauge()/10;
                                     }
                                     pointSelectionne=null;
@@ -508,7 +510,6 @@ public class ModeReglageActivity extends AppCompatActivity {
                             case aPartinDeLEnsembleDesPoints:
                                 if (regressionPolynomial!=null){
                                     modeReglage.supprimerProfilAppli();
-                                    modeReglage.ajouterUnPointAuProfilAppliEtTrierTableau(0,0);
                                     double abscisseCourante = modeReglage.getVitesseRotation().getValMaxJauge()/10;
                                     while(abscisseCourante<=modeReglage.getVitesseRotation().getValMaxJauge()){
                                         double ordonnee = 0;
@@ -517,7 +518,7 @@ public class ModeReglageActivity extends AppCompatActivity {
                                             ordonnee += coefficient * Math.pow(abscisseCourante, degre);
                                             degre++;
                                         }
-                                        modeReglage.ajouterUnPointAuProfilAppliEtTrierTableau(abscisseCourante,ordonnee);
+                                        modeReglage.ajouterUnPointAuProfilAppliEtTrierArrayList(abscisseCourante,ordonnee);
                                         abscisseCourante += modeReglage.getVitesseRotation().getValMaxJauge()/10;
                                     }
                                     pointSelectionne=null;
@@ -539,9 +540,7 @@ public class ModeReglageActivity extends AppCompatActivity {
                             case aPartirDuPorfilConv:
                                 if (modeReglage.getPointsDuProfilConv().size()>1){
                                     modeReglage.supprimerProfilAppli();
-                                    for (Point point : modeReglage.getPointsDuProfilConv()){
-                                        modeReglage.ajouterUnPointAuProfilAppliEtTrierTableau(point.getAbscisse(),point.getOrdonnee());
-                                    }
+                                    modeReglage.setPointsDuProfilAppli(modeReglage.getPointsDuProfilConv());
                                 }
                                 else {
                                     Toast aucunProfilConvEnregistre = Toast.makeText(getApplicationContext(),
@@ -604,7 +603,7 @@ public class ModeReglageActivity extends AppCompatActivity {
                         }
 
 
-                        int abscisseCourante = 0;
+                        int abscisseCourante = 1;
                         LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
                         while(abscisseCourante<=modeReglage.getVitesseRotation().getValMaxJauge()){
                             double ordonneeCalculee = 0;
@@ -652,6 +651,74 @@ public class ModeReglageActivity extends AppCompatActivity {
                 });
                 AlertDialog genererEquationAlertDialog = builder.create();
                 genererEquationAlertDialog.show();
+
+            }
+        });
+
+        boutonTransfererProfil.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Code here executes on main thread after user presses button
+                AlertDialog.Builder builder = new AlertDialog.Builder(ModeReglageActivity.this);
+                builder.setTitle(R.string.transfererProfil);
+                builder.setSingleChoiceItems(R.array.transfererProfilAlertDialog,-1, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case 0:
+                                choixUtilisateurTransfererProfil = choixTransfererProfil.envoyerProfilAppli;
+                                break;
+                            case 1:
+                                choixUtilisateurTransfererProfil = choixTransfererProfil.recevoirProfilConv;
+                                break;
+                        }
+                    }
+                });
+                builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User clicked OK button
+                        if(modeReglage.getVitesseRotation().getValCourante()==0) {
+                            switch (choixUtilisateurTransfererProfil) {
+                                case envoyerProfilAppli:
+                                    if (modeReglage.getPointsDuProfilAppli().size()==11){
+                                        int i = 1;
+                                        while (i<=modeReglage.getPointsDuProfilAppli().size()-1){
+                                            bluetooth.send("N"+i+Math.round(modeReglage.getPointsDuProfilAppli().get(i).getAbscisse())+";Ie"+i+arrondirChiffreEnFonctionDuNombreDeChiffresApresLaVrigule(1,modeReglage.getPointsDuProfilAppli().get(i).getOrdonnee()));
+                                            i++;
+                                        }
+                                    }
+                                    else {
+                                        Toast profilAppliIncomplet = Toast.makeText(getApplicationContext(),
+                                                "Le profilAppli ne contient pas les 10 points, veuillez générer un profil complet !",
+                                                Toast.LENGTH_SHORT);
+                                        profilAppliIncomplet.show();
+                                    }
+                                    break;
+                                case recevoirProfilConv:
+                                    bluetooth.send("**");
+                                    break;
+                                default:
+                                    Toast aucuneChoixeffectue = Toast.makeText(getApplicationContext(),
+                                            "Vous n'avez rien sélectionné !",
+                                            Toast.LENGTH_SHORT);
+                                    aucuneChoixeffectue.show();
+                                    break;
+                            }
+                        }
+                        else {
+                            Toast eolienneEnFonctionnement = Toast.makeText(getApplicationContext(),
+                                    "Vous ne pouvez pas effectuer de transfert tant que l'éolienne est en fonctionnement",
+                                    Toast.LENGTH_SHORT);
+                            eolienneEnFonctionnement.show();
+                        }
+                    }
+                });
+                builder.setNegativeButton(R.string.annuler, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User cancelled the dialog
+                    }
+                });
+                AlertDialog genererProfilAppliAlertDialog = builder.create();
+                genererProfilAppliAlertDialog.show();
 
             }
         });
@@ -748,7 +815,7 @@ public class ModeReglageActivity extends AppCompatActivity {
                 modeReglage.supprimerProfilConv();
             }
         }
-        modeReglage.ajouterUnPointAuProfilConvEtTrierTableau(Double.valueOf(abscisse),Double.valueOf(ordonnee), Integer.valueOf(indice));
+        modeReglage.ajouterUnPointAuProfilConvEtTrierArrayList(Double.valueOf(abscisse),Double.valueOf(ordonnee), Integer.valueOf(indice));
         afficherLesPointsSurLeGraphique();
     }
 

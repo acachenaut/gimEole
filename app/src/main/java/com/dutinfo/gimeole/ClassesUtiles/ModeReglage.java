@@ -6,6 +6,7 @@ import java.util.Collections;
 public class ModeReglage extends ModeProduction {
 
     private ArrayList<Point> pointsDuProfilAppli;
+    private ArrayList<Point> pointsDuProfilConv;
     private int nombreDePointsDuProfilAppli;
     private int pointSelectionne;
     private double maxAbscisseDuGraphique;
@@ -36,11 +37,13 @@ public class ModeReglage extends ModeProduction {
         this.maxOrdonneeEquationGenere = 0;
         this.courantEnEntreeReglageManuelUnite = 20;
         this.courantEnEntreeReglageManuelDixieme = 0;
+        this.pointsDuProfilConv = new ArrayList<>();
+        this.pointsDuProfilConv.add(new Point(0,0));
 
 
     }
 
-    public boolean ajouterUnPointAuProfilAppliEtTrierTableau(double abscisse, double ordonnee){
+    public boolean ajouterUnPointAuProfilAppliEtTrierArrayList(double abscisse, double ordonnee){
         if(this.getNombreDePointsDuProfilAppli()<11){
             pointsDuProfilAppli.add(new Point(abscisse,ordonnee));
             this.setNombreDePointsDuProfilAppli(this.getNombreDePointsDuProfilAppli()+1);
@@ -53,19 +56,9 @@ public class ModeReglage extends ModeProduction {
         }
     }
 
-    public void ajouterUnPointAuProfilConvEtTrierTableau(double abscisse, double ordonnee, int positionDuPoint){
+    public void ajouterUnPointAuProfilConvEtTrierArrayList(double abscisse, double ordonnee, int positionDuPoint){
             pointsDuProfilConv.set(positionDuPoint,new Point(abscisse,ordonnee));
             modifierMaxAbscisseEtOrdonneeDuProfilConvEnFonctionDuNouveauPoint(abscisse,ordonnee);
-    }
-
-    public void setPointsDuProfilConvTableau(double[] pointsDuProfilConv) {
-        int i = 0;
-        int indiceArrayList = 0;
-        while (i<=pointsDuProfilConv.length-1){
-            ajouterUnPointAuProfilConvEtTrierTableau(pointsDuProfilConv[i],pointsDuProfilConv[i+1],indiceArrayList);
-            i = i+2;
-            indiceArrayList++;
-        }
     }
 
     public void adapterMaxAbscisseDuGraphique(){
@@ -240,6 +233,7 @@ public class ModeReglage extends ModeProduction {
         this.setNombreDePointsDuProfilAppli(0);
         this.setMaxAbscisseDuProfilAppli(0);
         this.setMaxOrdonneeDuProfilAppli(0);
+        this.ajouterUnPointAuProfilAppliEtTrierArrayList(0,0);
     }
 
     public void supprimerProfilConv(){
@@ -346,4 +340,17 @@ public class ModeReglage extends ModeProduction {
     public void setCourantEnEntreeReglageManuelDixieme(int courantEnEntreeReglageManuelDixieme) {
         this.courantEnEntreeReglageManuelDixieme = courantEnEntreeReglageManuelDixieme;
     }
+
+    public ArrayList<Point> getPointsDuProfilConv() {
+        return pointsDuProfilConv;
+    }
+
+    public void setPointsDuProfilConv(ArrayList<Point> pointsDuProfilConv) {
+        this.pointsDuProfilConv = pointsDuProfilConv;
+    }
+
+    public void setPointsDuProfilAppli(ArrayList<Point> pointsDuProfilAppli) {
+        this.pointsDuProfilAppli = pointsDuProfilAppli;
+    }
+
 }

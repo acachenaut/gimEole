@@ -57,7 +57,7 @@
     <string name="modeSuivant">Suivant</string>
     <string name="modePrecedent">Precedent</string>
     <string name="freiner">Freiner</string>
-    <string name="transfererProfilAppli">Transférer profilAppli</string>
+    <string name="transfererProfil">Transférer profil</string>
     <string name="genererProfilAppli">Générer profilAppli</string>
     <string name="genererEquation">Générer équation</string>
     <string name="enregistrerProfilAppli">Enregistrer profilAppli</string>
@@ -70,6 +70,11 @@
     </string-array>
     <string name="ok">OK</string>
     <string name="annuler">Annuler</string>
+
+    <string-array name="transfererProfilAlertDialog">
+        <item>Envoyer le profilAppli</item>
+        <item>Recevoir le profilConv</item>
+    </string-array>
 
     <!--Réglage des jauges-->
 
