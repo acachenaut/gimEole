@@ -56,8 +56,9 @@ public class ModeReglage extends ModeProduction {
         }
     }
 
-    public void ajouterUnPointAuProfilConvEtTrierArrayList(double abscisse, double ordonnee, int positionDuPoint){
-            pointsDuProfilConv.set(positionDuPoint,new Point(abscisse,ordonnee));
+    public void ajouterUnPointAuProfilConvEtTrierArrayList(double abscisse, double ordonnee){
+            pointsDuProfilConv.add(new Point(abscisse,ordonnee));
+            Collections.sort(this.getPointsDuProfilAppli());
             modifierMaxAbscisseEtOrdonneeDuProfilConvEnFonctionDuNouveauPoint(abscisse,ordonnee);
     }
 

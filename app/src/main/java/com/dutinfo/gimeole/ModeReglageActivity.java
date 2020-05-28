@@ -84,6 +84,8 @@ public class ModeReglageActivity extends AppCompatActivity {
     choixGenererProfilAppli choixUtilisateurGenererProfilAppli;
     enum choixTransfererProfil {envoyerProfilAppli,recevoirProfilConv}
     choixTransfererProfil choixUtilisateurTransfererProfil;
+    enum choixAdapterMaximumOuAnnulerTransfertDuProfilConv {adapterMaximum, annulerTransfert}
+    choixAdapterMaximumOuAnnulerTransfertDuProfilConv choixUtilisateurAdapterOuAnnuler = choixAdapterMaximumOuAnnulerTransfertDuProfilConv.adapterMaximum;
     int degreDuPolynome;
     ArrayList<Double> coefficientsDuPolynome = new ArrayList<>();
     ArrayList<Double> coefficientsDuPolynomeDansLOrdre = new ArrayList<>();
@@ -153,6 +155,9 @@ public class ModeReglageActivity extends AppCompatActivity {
 
         initialiserGraphique();
         afficherChangementReglageManuelCourantEnEntree();
+        enregistrerLeProfilConv("N1200;Ie115");
+        enregistrerLeProfilConv("N3300;Ie10.8");
+        enregistrerLeProfilConv("N101350;Ie1030");
 
         boutonAjouterPoint.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -460,7 +465,7 @@ public class ModeReglageActivity extends AppCompatActivity {
                 // Code here executes on main thread after user presses button
                 AlertDialog.Builder builder = new AlertDialog.Builder(ModeReglageActivity.this);
                 builder.setTitle(R.string.genererProfilAppli);
-                builder.setSingleChoiceItems(R.array.genererProfilAppliAlertDialog,-1, new DialogInterface.OnClickListener() {
+                builder.setSingleChoiceItems(R.array.genererProfilAppliAlertDialog,0, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
@@ -660,7 +665,7 @@ public class ModeReglageActivity extends AppCompatActivity {
                 // Code here executes on main thread after user presses button
                 AlertDialog.Builder builder = new AlertDialog.Builder(ModeReglageActivity.this);
                 builder.setTitle(R.string.transfererProfil);
-                builder.setSingleChoiceItems(R.array.transfererProfilAlertDialog,-1, new DialogInterface.OnClickListener() {
+                builder.setSingleChoiceItems(R.array.transfererProfilAlertDialog,0, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
@@ -802,21 +807,153 @@ public class ModeReglageActivity extends AppCompatActivity {
     }
 
     public void enregistrerLeProfilConv(String points){
-        String indice = points.substring(0,1);
-        String abscisse = points.substring(1,points.indexOf(";"));
-        String ordonnee = points.substring(points.indexOf(";")+1);
-        if (indice == "1"){
-            String indiceVerif = points.substring(0,2);
-            if(indiceVerif=="10") {
-                indice = indiceVerif;
-                abscisse = points.substring(2, points.indexOf(";"));
+        String indice = points.substring(1,2);
+        String abscisse;
+        String ordonnee = points.substring(points.indexOf(";")+3);
+        if (indice.equals("1")){
+            String indiceVerif = points.substring(1,3);
+            if(indiceVerif.equals("10")) {
+                abscisse = points.substring(3, points.indexOf(";"));
             }
             else {
                 modeReglage.supprimerProfilConv();
+                abscisse=points.substring(2,points.indexOf(";"));
             }
         }
-        modeReglage.ajouterUnPointAuProfilConvEtTrierArrayList(Double.valueOf(abscisse),Double.valueOf(ordonnee), Integer.valueOf(indice));
-        afficherLesPointsSurLeGraphique();
+        else{
+            abscisse=points.substring(2,points.indexOf(";"));
+        }
+
+        if (ordonnee.substring(0,1).equals("1")){
+            String indiceVerif = ordonnee.substring(0,2);
+            if(indiceVerif.equals("10")) {
+                indiceVerif = ordonnee.substring(0,3);
+                if (indiceVerif.equals("100")){
+                    ordonnee = ordonnee.substring(2);
+                }
+                else if (indiceVerif.equals("10.")){
+                    ordonnee = ordonnee.substring(1);
+                }
+                else{
+                    ordonnee = ordonnee.substring(2);
+                }
+            }
+            else {
+                ordonnee = ordonnee.substring(1);
+            }
+        }
+        else{
+            ordonnee = ordonnee.substring(1);
+        }
+
+        boolean estProblemeVitesse = false, estProblemeCourant = false;
+        String finalAbscisse = abscisse;
+        String finalOrdonnee = ordonnee;
+        double nouveauReglageMaxVitesse;
+        double nouveauReglageMaxCourant;
+
+        if ((Double.valueOf(abscisse)>modeReglage.getVitesseRotation().getValMaxJauge() || Double.valueOf(ordonnee)>modeReglage.getCourantEnEntree().getValMaxJauge()) && choixUtilisateurAdapterOuAnnuler==choixAdapterMaximumOuAnnulerTransfertDuProfilConv.adapterMaximum){
+            if((Double.valueOf(abscisse)>modeReglage.getVitesseRotation().getValMaxJauge())){
+                AlertDialog.Builder builder = new AlertDialog.Builder(ModeReglageActivity.this);
+                String [] choixAdapterOuAnnuler = new String[2];
+                choixAdapterOuAnnuler[1]="Annuler le transfert du profilConv";
+                builder.setTitle("Le réglage max de la vitesse de rotation est trop bas pour le transfert");
+                nouveauReglageMaxVitesse = 500;
+                while(nouveauReglageMaxVitesse<Double.valueOf(abscisse)){
+                    nouveauReglageMaxVitesse += 500;
+                }
+                choixAdapterOuAnnuler[0]= "Adapter le max à "+nouveauReglageMaxVitesse+ " tr/min";
+                estProblemeVitesse = true;
+                builder.setSingleChoiceItems(choixAdapterOuAnnuler,0, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case 0:
+                                choixUtilisateurAdapterOuAnnuler = choixAdapterMaximumOuAnnulerTransfertDuProfilConv.adapterMaximum;
+                                break;
+                            case 1:
+                                choixUtilisateurAdapterOuAnnuler = choixAdapterMaximumOuAnnulerTransfertDuProfilConv.annulerTransfert;
+                                break;
+                        }
+                    }
+                });
+
+                double finalNouveauReglageMaxVitesse = nouveauReglageMaxVitesse;
+                boolean finalEstProblemeCourant = estProblemeCourant;
+                builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User clicked OK button
+                        switch (choixUtilisateurAdapterOuAnnuler){
+                            case adapterMaximum:
+                                modeReglage.getVitesseRotation().setValMaxJauge(finalNouveauReglageMaxVitesse);
+                                if(!finalEstProblemeCourant){
+                                    modeReglage.ajouterUnPointAuProfilConvEtTrierArrayList(Double.valueOf(finalAbscisse),Double.valueOf(finalOrdonnee));
+                                }
+                                break;
+                            case annulerTransfert:
+                                modeReglage.supprimerProfilConv();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                });
+                AlertDialog adapterMaximumVitesseOuAnnulerTransfertAlertDialog = builder.create();
+                adapterMaximumVitesseOuAnnulerTransfertAlertDialog.show();
+            }
+            if(Double.valueOf(ordonnee)>modeReglage.getCourantEnEntree().getValMaxJauge()) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(ModeReglageActivity.this);
+                String [] choixAdapterOuAnnuler = new String[2];
+                choixAdapterOuAnnuler[1]="Annuler le transfert du profilConv";
+                estProblemeCourant=true;
+                builder.setTitle("Le réglage max du courant en entrée est trop bas pour le transfert");
+                nouveauReglageMaxCourant = 5;
+                while(nouveauReglageMaxCourant<Double.valueOf(ordonnee)){
+                    nouveauReglageMaxCourant += 5;
+                }
+                choixAdapterOuAnnuler[0]= "Adapter le max à "+nouveauReglageMaxCourant+ " A";
+                builder.setSingleChoiceItems(choixAdapterOuAnnuler,0, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case 0:
+                                choixUtilisateurAdapterOuAnnuler = choixAdapterMaximumOuAnnulerTransfertDuProfilConv.adapterMaximum;
+                                break;
+                            case 1:
+                                choixUtilisateurAdapterOuAnnuler = choixAdapterMaximumOuAnnulerTransfertDuProfilConv.annulerTransfert;
+                                break;
+                        }
+                    }
+                });
+                boolean finalEstProblemeVitesse = estProblemeVitesse;
+                double finalNouveauReglageMaxCourant = nouveauReglageMaxCourant;
+                builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User clicked OK button
+                        switch (choixUtilisateurAdapterOuAnnuler){
+                            case adapterMaximum:
+                                modeReglage.getCourantEnEntree().setValMaxJauge(finalNouveauReglageMaxCourant);
+                                if(!finalEstProblemeVitesse){
+                                    modeReglage.ajouterUnPointAuProfilConvEtTrierArrayList(Double.valueOf(finalAbscisse),Double.valueOf(finalOrdonnee));
+                                }
+                                break;
+                            case annulerTransfert:
+                                modeReglage.supprimerProfilConv();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                });
+                AlertDialog adapterMaximumCourantOuAnnulerTransfertAlertDialog = builder.create();
+                adapterMaximumCourantOuAnnulerTransfertAlertDialog.show();
+            }
+        }
+        else if (choixUtilisateurAdapterOuAnnuler!=choixAdapterMaximumOuAnnulerTransfertDuProfilConv.annulerTransfert) {
+            modeReglage.ajouterUnPointAuProfilConvEtTrierArrayList(Double.valueOf(abscisse), Double.valueOf(ordonnee));
+            afficherLesPointsSurLeGraphique();
+        }
+
     }
 
     public void afficherPointSelectionne(int positionDuPoint){
