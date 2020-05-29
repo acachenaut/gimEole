@@ -64,8 +64,8 @@
     <string name="gererProfilAppli">Gérer profilAppli</string>
     <string-array name="genererProfilAppliAlertDialog">
         <item>A partir d\'un point</item>
-        <item>A partir de l\'ensemble des points</item>
-        <item>A partir du profilConv</item>
+        <item>Sur l\'ensemble des points</item>
+        <item>Faire une copie du profilConv</item>
         <item>A partir d\'un fichier csv</item>
     </string-array>
     <string name="ok">OK</string>
