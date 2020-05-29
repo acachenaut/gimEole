@@ -163,7 +163,7 @@ public class ModeReglageActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
                 if (pointDeFonctionnement!=null){
-                    if (pointDeFonctionnement.getHighestValueX()<=modeReglage.getVitesseRotation().getValMaxJauge() || pointDeFonctionnement.getHighestValueY()<=modeReglage.getVitesseRotation().getValMaxJauge()){
+                    if (pointDeFonctionnement.getHighestValueX()<=modeReglage.getVitesseRotation().getValMaxJauge() && pointDeFonctionnement.getHighestValueY()<=modeReglage.getCourantEnEntree().getValMaxJauge()){
                         boolean estAjoute;
                         estAjoute= modeReglage.ajouterUnPointAuProfilAppliEtTrierArrayList(pointDeFonctionnement.getHighestValueX(), pointDeFonctionnement.getHighestValueY());
                         if(estAjoute){
@@ -279,7 +279,7 @@ public class ModeReglageActivity extends AppCompatActivity {
                 if (modeReglage.getPointSelectionne()!=0){
                     if (!(abscisse.matches("") || ordonnee.matches("")))
                     {
-                        if (Double.parseDouble(abscisse)<=modeReglage.getVitesseRotation().getValMaxJauge() || Double.parseDouble(ordonnee)<=modeReglage.getCourantEnEntree().getValMaxJauge()){
+                        if (Double.parseDouble(abscisse)<=modeReglage.getVitesseRotation().getValMaxJauge() && Double.parseDouble(ordonnee)<=modeReglage.getCourantEnEntree().getValMaxJauge()){
                             modeReglage.modifierPointDuProfilAppli(Double.parseDouble(abscisse),Double.parseDouble(ordonnee),modeReglage.getPointSelectionne());
                             afficherPointSelectionne(modeReglage.getPointSelectionne());
                         }
