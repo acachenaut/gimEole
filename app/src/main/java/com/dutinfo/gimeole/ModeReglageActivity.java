@@ -163,17 +163,26 @@ public class ModeReglageActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
                 if (pointDeFonctionnement!=null){
-                    boolean estAjoute;
-                    estAjoute= modeReglage.ajouterUnPointAuProfilAppliEtTrierArrayList(pointDeFonctionnement.getHighestValueX(), pointDeFonctionnement.getHighestValueY());
-                    if(estAjoute){
-                        afficherLesPointsSurLeGraphique();
+                    if (pointDeFonctionnement.getHighestValueX()<=modeReglage.getVitesseRotation().getValMaxJauge() || pointDeFonctionnement.getHighestValueY()<=modeReglage.getVitesseRotation().getValMaxJauge()){
+                        boolean estAjoute;
+                        estAjoute= modeReglage.ajouterUnPointAuProfilAppliEtTrierArrayList(pointDeFonctionnement.getHighestValueX(), pointDeFonctionnement.getHighestValueY());
+                        if(estAjoute){
+                            afficherLesPointsSurLeGraphique();
+                        }
+                        else{
+                            Toast messageTableauComplet = Toast.makeText(getApplicationContext(),
+                                    "Vous avez déjà saisi vos 11 points",
+                                    Toast.LENGTH_SHORT);
+                            messageTableauComplet.show();
+                        }
                     }
-                    else{
-                        Toast messageTableauComplet = Toast.makeText(getApplicationContext(),
-                                "Vous avez déjà saisi vos 11 points",
+                    else {
+                        Toast messagePointTropGrand = Toast.makeText(getApplicationContext(),
+                                "Le point est en dehors des maximums de Vitesse ou de Courant !",
                                 Toast.LENGTH_SHORT);
-                        messageTableauComplet.show();
+                        messagePointTropGrand.show();
                     }
+
                 }
             }
         });
@@ -270,8 +279,17 @@ public class ModeReglageActivity extends AppCompatActivity {
                 if (modeReglage.getPointSelectionne()!=0){
                     if (!(abscisse.matches("") || ordonnee.matches("")))
                     {
-                        modeReglage.modifierPointDuProfilAppli(Double.parseDouble(abscisse),Double.parseDouble(ordonnee),modeReglage.getPointSelectionne());
-                        afficherPointSelectionne(modeReglage.getPointSelectionne());
+                        if (Double.parseDouble(abscisse)<=modeReglage.getVitesseRotation().getValMaxJauge() || Double.parseDouble(ordonnee)<=modeReglage.getCourantEnEntree().getValMaxJauge()){
+                            modeReglage.modifierPointDuProfilAppli(Double.parseDouble(abscisse),Double.parseDouble(ordonnee),modeReglage.getPointSelectionne());
+                            afficherPointSelectionne(modeReglage.getPointSelectionne());
+                        }
+                        else {
+                            Toast messagePointTropGrand = Toast.makeText(getApplicationContext(),
+                                    "Le point est en dehors des maximums de Vitesse ou de Courant !",
+                                    Toast.LENGTH_SHORT);
+                            messagePointTropGrand.show();
+                        }
+
                     }
                     else
                     {
