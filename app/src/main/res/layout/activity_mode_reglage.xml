@@ -467,10 +467,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/barreSeparationHorizontale" />
 
-    <TextView
-        android:id="@+id/t_affichageFonctionGenere"
+    <Button
+        android:id="@+id/t_boutonAffichageFonctionGenere"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="20dp"
+        android:background="@null"
         android:fontFamily="sans-serif-light"
         android:textSize="15sp"
         app:layout_constraintStart_toStartOf="parent"

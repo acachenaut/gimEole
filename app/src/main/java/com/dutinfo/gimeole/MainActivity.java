@@ -375,7 +375,7 @@ public class MainActivity extends AppCompatActivity {
             case "!" :
                 modeProduction.getEnergieProduite().setValCourante(Double.parseDouble(valeurCourante));
                 jaugeEnergieProduite.setProgress((float) modeProduction.getEnergieProduite().pourcentageRempliDeLaJauge());
-                energieProduite.setText(BoiteAOutils.obtenirEcritureScientifiqueAvecChiffresSignificatifs(3,modeProduction.getEnergieProduite().getValCourante()));
+                energieProduite.setText(BoiteAOutils.obtenirEcritureScientifiqueEnFonctionDuNombreDeChiffresApresLaVirgule(3,modeProduction.getEnergieProduite().getValCourante()));
                 break;
             case "(" :
                 modeProduction.getTemperatureAlternateur().setValCourante(Double.parseDouble(valeurCourante));
@@ -411,7 +411,7 @@ public class MainActivity extends AppCompatActivity {
                 valeurMax.setText(getResources().getString(R.string.valeurPuissanceMax)+ modeProduction.getPuissanceFournie().getValMaxCourante());
                 break;
             case jaugeEnergieProduite:
-                valeurEnergie.setText(getResources().getString(R.string.valeurEnergieProduite)+BoiteAOutils.obtenirEcritureScientifiqueAvecChiffresSignificatifs(3, modeProduction.getEnergieProduite().getValCourante()));
+                valeurEnergie.setText(getResources().getString(R.string.valeurEnergieProduite)+BoiteAOutils.obtenirEcritureScientifiqueEnFonctionDuNombreDeChiffresApresLaVirgule(3, modeProduction.getEnergieProduite().getValCourante()));
                 break;
             case jaugeTemperatureAlternateur:
                 valeurMoyenne.setText(getResources().getString(R.string.valeurTemperatureMoyenne)+ modeProduction.getTemperatureAlternateur().getValMoyenne());

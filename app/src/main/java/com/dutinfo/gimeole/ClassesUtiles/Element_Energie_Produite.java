@@ -32,10 +32,10 @@ public class Element_Energie_Produite extends Element_A_Afficher {
         valeurQuartEchelle = Math.pow(getValMaxJauge(),0.25);
         valeurMoitieEchelle = Math.pow(getValMaxJauge(),0.5);
         valeurTroisQuartsEchelle = Math.pow(getValMaxJauge(),0.75);
-        echelle[1]= BoiteAOutils.obtenirEcritureScientifiqueAvecChiffresSignificatifs(2,valeurQuartEchelle);
-        echelle[2]= BoiteAOutils.obtenirEcritureScientifiqueAvecChiffresSignificatifs(2,valeurMoitieEchelle);
-        echelle[3]= BoiteAOutils.obtenirEcritureScientifiqueAvecChiffresSignificatifs(2,valeurTroisQuartsEchelle);
-        echelle[4]= (getValMaxJauge()>10000000 ? Double.toString(getValMaxJauge()) : BoiteAOutils.obtenirEcritureScientifiqueAvecChiffresSignificatifs(2,getValMaxJauge()));
+        echelle[1]= BoiteAOutils.obtenirEcritureScientifiqueEnFonctionDuNombreDeChiffresApresLaVirgule(2,valeurQuartEchelle);
+        echelle[2]= BoiteAOutils.obtenirEcritureScientifiqueEnFonctionDuNombreDeChiffresApresLaVirgule(2,valeurMoitieEchelle);
+        echelle[3]= BoiteAOutils.obtenirEcritureScientifiqueEnFonctionDuNombreDeChiffresApresLaVirgule(2,valeurTroisQuartsEchelle);
+        echelle[4]= (getValMaxJauge()>10000000 ? Double.toString(getValMaxJauge()) : BoiteAOutils.obtenirEcritureScientifiqueEnFonctionDuNombreDeChiffresApresLaVirgule(2,getValMaxJauge()));
 
         return echelle;
     }

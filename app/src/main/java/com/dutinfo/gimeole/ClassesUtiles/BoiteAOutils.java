@@ -4,25 +4,40 @@ import java.text.DecimalFormat;
 
 public class BoiteAOutils {
 
-    public static String obtenirEcritureScientifiqueAvecChiffresSignificatifs(int nombreDeChiffresApresLaVirgule, Double chiffreATransfromer){
-        String chiffreAAfficher=Double.toString(chiffreATransfromer) ;
+    public static String obtenirEcritureScientifiqueEnFonctionDuNombreDeChiffresApresLaVirgule(int nombreDeChiffresApresLaVirgule, Double chiffreATransfromer){
         int puissanceDe10 = 0;
-        if (chiffreATransfromer<10000000){
-            while (chiffreAAfficher.indexOf(".")>1){
-                chiffreATransfromer=chiffreATransfromer/10;
-                puissanceDe10++;
-                chiffreAAfficher=Double.toString(chiffreATransfromer);
+        boolean estPuissanceNegative = false, estChiffreNegatif = false;
+        String chiffreAAfficher = "";
+        if (!chiffreATransfromer.equals(0.0) && !chiffreATransfromer.equals(-0.0) ){
+            if (chiffreATransfromer.compareTo(0.0)<0){
+                estChiffreNegatif=true;
+                chiffreATransfromer=Math.abs(chiffreATransfromer);
             }
-            String nbDeChiffreSignificatif="";
-            for (int i = 0 ; i<nombreDeChiffresApresLaVirgule;i++){
-                nbDeChiffreSignificatif+="0";
+            if (chiffreATransfromer.compareTo(10.0)>0){
+                do{
+                    chiffreATransfromer=chiffreATransfromer/10;
+                    puissanceDe10++;
+                }while (chiffreATransfromer.compareTo(10.0)>0);
             }
-            DecimalFormat df = new DecimalFormat("0."+nbDeChiffreSignificatif);
-            chiffreAAfficher=df.format(chiffreATransfromer);
-            chiffreAAfficher+="E"+puissanceDe10;
+            else if (chiffreATransfromer.compareTo(1.0)<0){
+                do {
+                    chiffreATransfromer=chiffreATransfromer*10;
+                    puissanceDe10++;
+                }while (chiffreATransfromer.compareTo(1.0)<0);
+                estPuissanceNegative = true;
+            }
+            if (estChiffreNegatif){
+                chiffreAAfficher+="-";
+            }
+            chiffreAAfficher += String.valueOf(arrondirChiffreEnFonctionDuNombreDeChiffresApresLaVrigule(nombreDeChiffresApresLaVirgule,chiffreATransfromer));
+            chiffreAAfficher+="E";
+            if (estPuissanceNegative){
+                chiffreAAfficher+="-";
+            }
+            chiffreAAfficher+=puissanceDe10;
         }
         else{
-            chiffreAAfficher=chiffreAAfficher.substring(0,4)+chiffreAAfficher.substring(chiffreAAfficher.length()-3);
+            chiffreAAfficher = "0";
         }
 
         return chiffreAAfficher;

@@ -75,6 +75,7 @@
         <item>Envoyer le profilAppli</item>
         <item>Recevoir le profilConv</item>
     </string-array>
+    <string name="coefficientsDuPolynome">Les coefficients de la fonction sont :</string>
 
     <!--Réglage des jauges-->
 

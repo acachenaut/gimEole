@@ -42,6 +42,7 @@ import me.aflak.bluetooth.interfaces.DeviceCallback;
 
 import static com.dutinfo.gimeole.ClassesUtiles.BoiteAOutils.arrondirChiffreEnFonctionDuNombreDeChiffresApresLaVrigule;
 import static com.dutinfo.gimeole.ClassesUtiles.BoiteAOutils.arrondirChiffreEnFonctionDuNombreDeChiffresSignificatifs;
+import static com.dutinfo.gimeole.ClassesUtiles.BoiteAOutils.obtenirEcritureScientifiqueEnFonctionDuNombreDeChiffresApresLaVirgule;
 
 public class ModeReglageActivity extends AppCompatActivity {
 
@@ -53,7 +54,7 @@ public class ModeReglageActivity extends AppCompatActivity {
     private BluetoothDevice device;
 
     //Création valeurs à afficher
-    TextView vitesseRotation, tensionEnEntree, courantEnEntree, puissanceFournie, affichageUniteAmpere,affichageDixiemeAmpere,affichageAmpere, affichageFonctionGenere;
+    TextView vitesseRotation, tensionEnEntree, courantEnEntree, puissanceFournie, affichageUniteAmpere,affichageDixiemeAmpere,affichageAmpere;
     //Création de l'indicateur Bluetooth et de du nom du périphérique connecté
     ImageView logoBluetooth;
     TextView nomPeripheriqueBluetooth;
@@ -61,7 +62,7 @@ public class ModeReglageActivity extends AppCompatActivity {
     //Création des bouttons de l'activité
     Button boutonModeProduction,boutonPointPrecedent, boutonPointSuivant,boutonSupprimerPoint, boutonTransfererProfil,boutonFreiner;
     Button boutonReglageJauges;
-    Button boutonMoins1Ampere,boutonPlus1Ampere,boutonMoins1DixiemeAmpere,boutonPlus1DixiemeAmpere,boutonAjouterPoint,boutonModeSuivant,boutonModifierPoint,boutonModePrecedent, boutonGenererProfilAppli, boutonGenererEquation;
+    Button boutonMoins1Ampere,boutonPlus1Ampere,boutonMoins1DixiemeAmpere,boutonPlus1DixiemeAmpere,boutonAjouterPoint,boutonModeSuivant,boutonModifierPoint,boutonModePrecedent, boutonGenererProfilAppli, boutonGenererEquation, boutonAffichageFonctionGenere;
 
     //Création du graphique
     GraphView graphique;
@@ -117,7 +118,7 @@ public class ModeReglageActivity extends AppCompatActivity {
         affichageUniteAmpere = findViewById(R.id.t_affichageUniteAmpere);
         affichageDixiemeAmpere = findViewById(R.id.t_affichageDixiemeAmpere);
         affichageAmpere = findViewById(R.id.t_affichageAmpere);
-        affichageFonctionGenere = findViewById(R.id.t_affichageFonctionGenere);
+        boutonAffichageFonctionGenere = findViewById(R.id.t_boutonAffichageFonctionGenere);
 
 
         //Lien entre l'indicateur Bluetooth/nom du périphérique de l'interface et l'activité
@@ -522,7 +523,7 @@ public class ModeReglageActivity extends AppCompatActivity {
                                         ordonneeSaisie.setText(null);
                                         modeReglage.setPointSelectionne(0);
                                         regressionPolynomial=null;
-                                        affichageFonctionGenere.setText(null);
+                                        boutonAffichageFonctionGenere.setText(null);
                                         modeReglage.reinitialiserMaxAbscisseEtOrdonneeDeLEquationGenere();
                                         afficherLesPointsSurLeGraphique();
                                     }
@@ -565,7 +566,7 @@ public class ModeReglageActivity extends AppCompatActivity {
                                         modeReglage.supprimerProfilAppli();
                                         modeReglage.setPointsDuProfilAppli(modeReglage.getPointsDuProfilConv());
                                         regressionPolynomial=null;
-                                        affichageFonctionGenere.setText(null);
+                                        boutonAffichageFonctionGenere.setText(null);
                                         modeReglage.reinitialiserMaxAbscisseEtOrdonneeDeLEquationGenere();
                                         modeReglage.setPointSelectionne(0);
                                         afficherLesPointsSurLeGraphique();
@@ -674,7 +675,8 @@ public class ModeReglageActivity extends AppCompatActivity {
                                 }
                                 degre--;
                             }
-                            affichageFonctionGenere.setText(fonctionGenere);
+                            boutonAffichageFonctionGenere.setPaintFlags(boutonAffichageFonctionGenere.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                            boutonAffichageFonctionGenere.setText(fonctionGenere);
 
 
                         }
@@ -774,6 +776,29 @@ public class ModeReglageActivity extends AppCompatActivity {
 
             }
         });
+
+        boutonAffichageFonctionGenere.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Code here executes on main thread after user presses button
+                if (regressionPolynomial != null) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ModeReglageActivity.this);
+                    builder.setTitle(R.string.coefficientsDuPolynome);
+                    String affichageDesCoefficients = "";
+                    for (int i = 0; i <= coefficientsDuPolynomeDansLOrdre.size() - 1; i++) {
+                        affichageDesCoefficients += (char) (97 + i) + " : " + obtenirEcritureScientifiqueEnFonctionDuNombreDeChiffresApresLaVirgule(3, coefficientsDuPolynomeDansLOrdre.get(i)) + "\n";
+                    }
+                    builder.setMessage(affichageDesCoefficients);
+                    builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // User clicked OK button
+                        }
+                    });
+                    AlertDialog afficherCoefficientsAlertDialog = builder.create();
+                    afficherCoefficientsAlertDialog.show();
+                }
+            }
+        });
+
 
 
     }
@@ -1038,13 +1063,12 @@ public class ModeReglageActivity extends AppCompatActivity {
         graphique.removeAllSeries();
         adapterEchelleDuGraphqiue();
         graphique.addSeries(profilConv);
-        graphique.addSeries(profilAppli);
-
-        if(pointSelectionne!=null){
-            graphique.addSeries(pointSelectionne);
-        }
         if(regressionPolynomial!=null){
             graphique.addSeries(regressionPolynomial);
+        }
+        graphique.addSeries(profilAppli);
+        if(pointSelectionne!=null){
+            graphique.addSeries(pointSelectionne);
         }
         if(pointDeFonctionnement!=null){
             graphique.addSeries(pointDeFonctionnement);
