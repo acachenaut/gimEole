@@ -336,62 +336,62 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-        public void afficherValeur (String chaineRecuParBluetooth){
-            String premierCaractere = (chaineRecuParBluetooth.substring(0,1));
-            String valeurCourante = (chaineRecuParBluetooth.substring(1));
-            switch (premierCaractere){
-                case "$" :
-                    modeProduction.getVitesseRotation().setValCourante(Double.parseDouble(valeurCourante));
-                    jaugeVitesseRotation.setValue(modeProduction.getVitesseRotation().getValCourante());
-                    vitesseRotation.setText(BoiteAOutils.arrondirChiffreEnFonctionDuNombreDeChiffresSignificatifs(4,modeProduction.getVitesseRotation().getValCourante()));
-                    break;
-                case ":" :
-                    modeProduction.getTensionEnEntree().setValCourante(Double.parseDouble(valeurCourante));
-                    jaugeTensionEnEntree.setValue(modeProduction.getTensionEnEntree().getValCourante());
-                    tensionEnEntree.setText(BoiteAOutils.arrondirChiffreEnFonctionDuNombreDeChiffresSignificatifs(3,modeProduction.getTensionEnEntree().getValCourante()));
+    public void afficherValeur (String chaineRecuParBluetooth){
+        String premierCaractere = (chaineRecuParBluetooth.substring(0,1));
+        String valeurCourante = (chaineRecuParBluetooth.substring(1));
+        switch (premierCaractere){
+            case "$" :
+                modeProduction.getVitesseRotation().setValCourante(Double.parseDouble(valeurCourante));
+                jaugeVitesseRotation.setValue(modeProduction.getVitesseRotation().getValCourante());
+                vitesseRotation.setText(BoiteAOutils.arrondirChiffreEnFonctionDuNombreDeChiffresSignificatifs(4,modeProduction.getVitesseRotation().getValCourante()));
+                break;
+            case ":" :
+                modeProduction.getTensionEnEntree().setValCourante(Double.parseDouble(valeurCourante));
+                jaugeTensionEnEntree.setValue(modeProduction.getTensionEnEntree().getValCourante());
+                tensionEnEntree.setText(BoiteAOutils.arrondirChiffreEnFonctionDuNombreDeChiffresSignificatifs(3,modeProduction.getTensionEnEntree().getValCourante()));
 
-                    break;
-                case ";" :
-                    modeProduction.getCourantEnEntree().setValCourante(Double.parseDouble(valeurCourante));
-                    jaugeCourantEnEntree.setValue(modeProduction.getCourantEnEntree().getValCourante());
-                    courantEnEntree.setText(BoiteAOutils.arrondirChiffreEnFonctionDuNombreDeChiffresSignificatifs(3,modeProduction.getCourantEnEntree().getValCourante()));
-                    break;
-                case "[" :
-                    modeProduction.getTensionEnSortie().setValCourante(Double.parseDouble(valeurCourante));
-                    jaugeTensionEnSortie.setValue(modeProduction.getTensionEnSortie().getValCourante());
-                    tensionEnSortie.setText(BoiteAOutils.arrondirChiffreEnFonctionDuNombreDeChiffresSignificatifs(3,modeProduction.getTensionEnSortie().getValCourante()));
+                break;
+            case ";" :
+                modeProduction.getCourantEnEntree().setValCourante(Double.parseDouble(valeurCourante));
+                jaugeCourantEnEntree.setValue(modeProduction.getCourantEnEntree().getValCourante());
+                courantEnEntree.setText(BoiteAOutils.arrondirChiffreEnFonctionDuNombreDeChiffresSignificatifs(3,modeProduction.getCourantEnEntree().getValCourante()));
+                break;
+            case "[" :
+                modeProduction.getTensionEnSortie().setValCourante(Double.parseDouble(valeurCourante));
+                jaugeTensionEnSortie.setValue(modeProduction.getTensionEnSortie().getValCourante());
+                tensionEnSortie.setText(BoiteAOutils.arrondirChiffreEnFonctionDuNombreDeChiffresSignificatifs(3,modeProduction.getTensionEnSortie().getValCourante()));
 
-                    break;
-                case "]" :
-                    modeProduction.getCourantEnSortie().setValCourante(Double.parseDouble(valeurCourante));
-                    jaugeCourantEnSortie.setValue(modeProduction.getCourantEnSortie().getValCourante());
-                    courantEnSortie.setText(BoiteAOutils.arrondirChiffreEnFonctionDuNombreDeChiffresSignificatifs(3,modeProduction.getCourantEnSortie().getValCourante()));
-                    break;
-                case "%" :
-                    modeProduction.getPuissanceFournie().setValCourante(Double.parseDouble(valeurCourante));
-                    jaugePuissanceFournie.setValue(modeProduction.getPuissanceFournie().getValCourante());
-                    puissanceFournie.setText(BoiteAOutils.arrondirChiffreEnFonctionDuNombreDeChiffresSignificatifs(3,modeProduction.getPuissanceFournie().getValCourante()));
-                    break;
-                case "!" :
-                    modeProduction.getEnergieProduite().setValCourante(Double.parseDouble(valeurCourante));
-                    jaugeEnergieProduite.setProgress((float) modeProduction.getEnergieProduite().pourcentageRempliDeLaJauge());
-                    energieProduite.setText(BoiteAOutils.obtenirEcritureScientifiqueAvecChiffresSignificatifs(3,modeProduction.getEnergieProduite().getValCourante()));
-                    break;
-                case "(" :
-                    modeProduction.getTemperatureAlternateur().setValCourante(Double.parseDouble(valeurCourante));
-                    changerMinMaxDuThermometreAlternateurCarValeurCouranteTropBasseOuTropElevee();
-                    thermometreAlternateur.setValueAndStartAnim((float) modeProduction.getTemperatureAlternateur().getValCourante());
-                    temperatureAlternateur.setText(BoiteAOutils.arrondirChiffreEnFonctionDuNombreDeChiffresSignificatifs(3,modeProduction.getTemperatureAlternateur().getValCourante()));
-                    break;
-                case ")" :
-                    modeProduction.getTemperatureFrein().setValCourante(Double.parseDouble(valeurCourante));
-                    changerMinMaxDuThermometreFreinCarValeurCouranteTropBasseOuTropElevee();
-                    thermometreFrein.setValueAndStartAnim((float) modeProduction.getTemperatureFrein().getValCourante());
-                    temperatureFrein.setText(BoiteAOutils.arrondirChiffreEnFonctionDuNombreDeChiffresSignificatifs(3,modeProduction.getTemperatureFrein().getValCourante()));
-                    break;
-                default:
-                    break;
-            }
+                break;
+            case "]" :
+                modeProduction.getCourantEnSortie().setValCourante(Double.parseDouble(valeurCourante));
+                jaugeCourantEnSortie.setValue(modeProduction.getCourantEnSortie().getValCourante());
+                courantEnSortie.setText(BoiteAOutils.arrondirChiffreEnFonctionDuNombreDeChiffresSignificatifs(3,modeProduction.getCourantEnSortie().getValCourante()));
+                break;
+            case "%" :
+                modeProduction.getPuissanceFournie().setValCourante(Double.parseDouble(valeurCourante));
+                jaugePuissanceFournie.setValue(modeProduction.getPuissanceFournie().getValCourante());
+                puissanceFournie.setText(BoiteAOutils.arrondirChiffreEnFonctionDuNombreDeChiffresSignificatifs(3,modeProduction.getPuissanceFournie().getValCourante()));
+                break;
+            case "!" :
+                modeProduction.getEnergieProduite().setValCourante(Double.parseDouble(valeurCourante));
+                jaugeEnergieProduite.setProgress((float) modeProduction.getEnergieProduite().pourcentageRempliDeLaJauge());
+                energieProduite.setText(BoiteAOutils.obtenirEcritureScientifiqueAvecChiffresSignificatifs(3,modeProduction.getEnergieProduite().getValCourante()));
+                break;
+            case "(" :
+                modeProduction.getTemperatureAlternateur().setValCourante(Double.parseDouble(valeurCourante));
+                changerMinMaxDuThermometreAlternateurCarValeurCouranteTropBasseOuTropElevee();
+                thermometreAlternateur.setValueAndStartAnim((float) modeProduction.getTemperatureAlternateur().getValCourante());
+                temperatureAlternateur.setText(BoiteAOutils.arrondirChiffreEnFonctionDuNombreDeChiffresSignificatifs(3,modeProduction.getTemperatureAlternateur().getValCourante()));
+                break;
+            case ")" :
+                modeProduction.getTemperatureFrein().setValCourante(Double.parseDouble(valeurCourante));
+                changerMinMaxDuThermometreFreinCarValeurCouranteTropBasseOuTropElevee();
+                thermometreFrein.setValueAndStartAnim((float) modeProduction.getTemperatureFrein().getValCourante());
+                temperatureFrein.setText(BoiteAOutils.arrondirChiffreEnFonctionDuNombreDeChiffresSignificatifs(3,modeProduction.getTemperatureFrein().getValCourante()));
+                break;
+            default:
+                break;
+        }
 
         switch (modeProduction.getEtatModeProduction()) {
             case jaugeVitesseRotation:

@@ -155,9 +155,6 @@ public class ModeReglageActivity extends AppCompatActivity {
 
         initialiserGraphique();
         afficherChangementReglageManuelCourantEnEntree();
-        enregistrerLeProfilConv("N1200;Ie115");
-        enregistrerLeProfilConv("N3300;Ie10.8");
-        enregistrerLeProfilConv("N101350;Ie1030");
 
         boutonAjouterPoint.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -483,7 +480,7 @@ public class ModeReglageActivity extends AppCompatActivity {
                 // Code here executes on main thread after user presses button
                 AlertDialog.Builder builder = new AlertDialog.Builder(ModeReglageActivity.this);
                 builder.setTitle(R.string.genererProfilAppli);
-                builder.setSingleChoiceItems(R.array.genererProfilAppliAlertDialog,0, new DialogInterface.OnClickListener() {
+                builder.setSingleChoiceItems(R.array.genererProfilAppliAlertDialog,-1, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
@@ -499,89 +496,102 @@ public class ModeReglageActivity extends AppCompatActivity {
                             case 3:
                                 choixUtilisateurGenererProfilAppli = choixGenererProfilAppli.aPartirDUnFichierCSV;
                                 break;
+                            default:
+                                break;
                         }
                     }
                 });
                 builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // User clicked OK button
-                        switch (choixUtilisateurGenererProfilAppli){
-                            case aPartirDUnPoint:
-                                if(modeReglage.getPointSelectionne()!=0){
-                                    double coefficient;
-                                    coefficient = modeReglage.getPointsDuProfilAppli().get(modeReglage.getPointSelectionne()).getOrdonnee()/Math.pow(modeReglage.getPointsDuProfilAppli().get(modeReglage.getPointSelectionne()).getAbscisse(),2);
-                                    modeReglage.supprimerProfilAppli();
+                        if (choixUtilisateurGenererProfilAppli!=null){
+                            switch (choixUtilisateurGenererProfilAppli){
+                                case aPartirDUnPoint:
+                                    if(modeReglage.getPointSelectionne()!=0){
+                                        double coefficient;
+                                        coefficient = modeReglage.getPointsDuProfilAppli().get(modeReglage.getPointSelectionne()).getOrdonnee()/Math.pow(modeReglage.getPointsDuProfilAppli().get(modeReglage.getPointSelectionne()).getAbscisse(),2);
+                                        modeReglage.supprimerProfilAppli();
 
-                                    double abscisseCourante = modeReglage.getVitesseRotation().getValMaxJauge()/10;
-                                    while(abscisseCourante<=modeReglage.getVitesseRotation().getValMaxJauge()){
-                                        modeReglage.ajouterUnPointAuProfilAppliEtTrierArrayList(abscisseCourante,(coefficient*Math.pow(abscisseCourante,2)));
-                                        abscisseCourante += modeReglage.getVitesseRotation().getValMaxJauge()/10;
-                                    }
-                                    pointSelectionne=null;
-                                    abscisseSaisie.setText(null);
-                                    ordonneeSaisie.setText(null);
-                                    modeReglage.setPointSelectionne(0);
-                                    afficherLesPointsSurLeGraphique();
-                                }
-                                else{
-                                    Toast messagePasDePointSelectionne = Toast.makeText(getApplicationContext(),
-                                            "Aucun point n'a été selectionné !",
-                                            Toast.LENGTH_SHORT);
-                                    messagePasDePointSelectionne.show();
-                                }
-                                break;
-                            case aPartinDeLEnsembleDesPoints:
-                                if (regressionPolynomial!=null){
-                                    modeReglage.supprimerProfilAppli();
-                                    double abscisseCourante = modeReglage.getVitesseRotation().getValMaxJauge()/10;
-                                    while(abscisseCourante<=modeReglage.getVitesseRotation().getValMaxJauge()){
-                                        double ordonnee = 0;
-                                        int degre = 0;
-                                        for(Double coefficient : coefficientsDuPolynome) {
-                                            ordonnee += coefficient * Math.pow(abscisseCourante, degre);
-                                            degre++;
+                                        double abscisseCourante = modeReglage.getVitesseRotation().getValMaxJauge()/10;
+                                        while(abscisseCourante<=modeReglage.getVitesseRotation().getValMaxJauge()){
+                                            modeReglage.ajouterUnPointAuProfilAppliEtTrierArrayList(abscisseCourante,(coefficient*Math.pow(abscisseCourante,2)));
+                                            abscisseCourante += modeReglage.getVitesseRotation().getValMaxJauge()/10;
                                         }
-                                        modeReglage.ajouterUnPointAuProfilAppliEtTrierArrayList(abscisseCourante,ordonnee);
-                                        abscisseCourante += modeReglage.getVitesseRotation().getValMaxJauge()/10;
+                                        pointSelectionne=null;
+                                        abscisseSaisie.setText(null);
+                                        ordonneeSaisie.setText(null);
+                                        modeReglage.setPointSelectionne(0);
+                                        regressionPolynomial=null;
+                                        affichageFonctionGenere.setText(null);
+                                        modeReglage.reinitialiserMaxAbscisseEtOrdonneeDeLEquationGenere();
+                                        afficherLesPointsSurLeGraphique();
                                     }
-                                    pointSelectionne=null;
-                                    abscisseSaisie.setText(null);
-                                    ordonneeSaisie.setText(null);
-                                    regressionPolynomial=null;
-                                    affichageFonctionGenere.setText(null);
-                                    modeReglage.reinitialiserMaxAbscisseEtOrdonneeDeLEquationGenere();
-                                    modeReglage.setPointSelectionne(0);
-                                    afficherLesPointsSurLeGraphique();
-                                }
-                                else {
-                                    Toast messagePasDEquationGenere = Toast.makeText(getApplicationContext(),
-                                            "Vous n'avez généré aucune équation !",
-                                            Toast.LENGTH_SHORT);
-                                    messagePasDEquationGenere.show();
-                                }
-                                break;
-                            case aPartirDuPorfilConv:
-                                if (modeReglage.getPointsDuProfilConv().size()>1){
-                                    modeReglage.supprimerProfilAppli();
-                                    modeReglage.setPointsDuProfilAppli(modeReglage.getPointsDuProfilConv());
-                                }
-                                else {
-                                    Toast aucunProfilConvEnregistre = Toast.makeText(getApplicationContext(),
-                                            "Aucun profilConv n'a été enregistré !",
-                                            Toast.LENGTH_SHORT);
-                                    aucunProfilConvEnregistre.show();
-                                }
+                                    else{
+                                        Toast messagePasDePointSelectionne = Toast.makeText(getApplicationContext(),
+                                                "Aucun point n'a été selectionné !",
+                                                Toast.LENGTH_SHORT);
+                                        messagePasDePointSelectionne.show();
+                                    }
+                                    break;
+                                case aPartinDeLEnsembleDesPoints:
+                                    if (regressionPolynomial!=null){
+                                        modeReglage.supprimerProfilAppli();
+                                        double abscisseCourante = modeReglage.getVitesseRotation().getValMaxJauge()/10;
+                                        while(abscisseCourante<=modeReglage.getVitesseRotation().getValMaxJauge()){
+                                            double ordonnee = 0;
+                                            int degre = 0;
+                                            for(Double coefficient : coefficientsDuPolynome) {
+                                                ordonnee += coefficient * Math.pow(abscisseCourante, degre);
+                                                degre++;
+                                            }
+                                            modeReglage.ajouterUnPointAuProfilAppliEtTrierArrayList(abscisseCourante,ordonnee);
+                                            abscisseCourante += modeReglage.getVitesseRotation().getValMaxJauge()/10;
+                                        }
+                                        pointSelectionne=null;
+                                        abscisseSaisie.setText(null);
+                                        ordonneeSaisie.setText(null);
+                                        modeReglage.setPointSelectionne(0);
+                                        afficherLesPointsSurLeGraphique();
+                                    }
+                                    else {
+                                        Toast messagePasDEquationGenere = Toast.makeText(getApplicationContext(),
+                                                "Vous n'avez généré aucune équation !",
+                                                Toast.LENGTH_SHORT);
+                                        messagePasDEquationGenere.show();
+                                    }
+                                    break;
+                                case aPartirDuPorfilConv:
+                                    if (modeReglage.getPointsDuProfilConv().size()>1){
+                                        modeReglage.supprimerProfilAppli();
+                                        modeReglage.setPointsDuProfilAppli(modeReglage.getPointsDuProfilConv());
+                                        regressionPolynomial=null;
+                                        affichageFonctionGenere.setText(null);
+                                        modeReglage.reinitialiserMaxAbscisseEtOrdonneeDeLEquationGenere();
+                                        modeReglage.setPointSelectionne(0);
+                                        afficherLesPointsSurLeGraphique();
 
-                                break;
-                            case aPartirDUnFichierCSV:
-                                break;
-                            default:
-                                Toast aucuneChoixeffectue = Toast.makeText(getApplicationContext(),
-                                        "Vous n'avez rien sélectionné !",
-                                        Toast.LENGTH_SHORT);
-                                aucuneChoixeffectue.show();
-                                break;
+                                    }
+                                    else {
+                                        Toast aucunProfilConvEnregistre = Toast.makeText(getApplicationContext(),
+                                                "Aucun profilConv n'a été enregistré !",
+                                                Toast.LENGTH_SHORT);
+                                        aucunProfilConvEnregistre.show();
+                                    }
+                                    break;
+                                case aPartirDUnFichierCSV:
+                                    break;
+                                default:
+                                    break;
+                            }
+                            choixUtilisateurGenererProfilAppli = null;
                         }
+                        else{
+                            Toast aucuneChoixeffectue = Toast.makeText(getApplicationContext(),
+                                    "Vous n'avez rien sélectionné !",
+                                    Toast.LENGTH_SHORT);
+                            aucuneChoixeffectue.show();
+                        }
+
                     }
                 });
                 builder.setNegativeButton(R.string.annuler, new DialogInterface.OnClickListener() {
@@ -610,62 +620,72 @@ public class ModeReglageActivity extends AppCompatActivity {
                 builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // User clicked OK button
-                        coefficientsDuPolynome.clear();
-                        coefficientsDuPolynomeDansLOrdre.clear();
-                        degreDuPolynome=choixDuDegreDuPolynome.getValue();
+                        if (modeReglage.getPointsDuProfilAppli().size()!=1){
+                            coefficientsDuPolynome.clear();
+                            modeReglage.reinitialiserMaxAbscisseEtOrdonneeDeLEquationGenere();
+                            coefficientsDuPolynomeDansLOrdre.clear();
+                            degreDuPolynome=choixDuDegreDuPolynome.getValue();
 
-                        List<Utils.Point> points = new ArrayList<>();
-                        for(Point pointCourant : modeReglage.getPointsDuProfilAppli()){
-                            points.add(new Utils.Point(pointCourant.getAbscisse(),pointCourant.getOrdonnee()));
-                        }
-                        PolynomialRegression polynomialRegression = new PolynomialRegression(points,degreDuPolynome);
-                        for (int i = 0; i < polynomialRegression.getCoefficients().length; i++) {
-                            for (int j = 0; j < polynomialRegression.getCoefficients()[i].length; j++) {
-                                coefficientsDuPolynome.add(polynomialRegression.getCoefficients()[i][j]);
+                            List<Utils.Point> points = new ArrayList<>();
+                            for(Point pointCourant : modeReglage.getPointsDuProfilAppli()){
+                                points.add(new Utils.Point(pointCourant.getAbscisse(),pointCourant.getOrdonnee()));
                             }
-                        }
-
-
-                        int abscisseCourante = 1;
-                        LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
-                        while(abscisseCourante<=modeReglage.getVitesseRotation().getValMaxJauge()){
-                            double ordonneeCalculee = 0;
-                            int degre = 0;
-                            for(Double coefficient : coefficientsDuPolynome) {
-                                ordonneeCalculee += coefficient * Math.pow(abscisseCourante, degre);
-                                degre++;
-                            }
-                            series.appendData(new DataPoint(abscisseCourante,ordonneeCalculee),true,10000);
-                            modeReglage.modifierMaxAbscisseEtOrdonneeDeLEquationGenereEnFonctionDuNouveauPoint(abscisseCourante,ordonneeCalculee);
-                            abscisseCourante ++;
-                        }
-                        regressionPolynomial=series;
-                        regressionPolynomial.setDrawDataPoints(false);
-                        regressionPolynomial.setThickness(5);
-                        regressionPolynomial.setColor(Color.GREEN);
-                        afficherLesPointsSurLeGraphique();
-
-                        for (Double coefficient : coefficientsDuPolynome){
-                            coefficientsDuPolynomeDansLOrdre.add(coefficient);
-                        }
-                        String fonctionGenere = "f(x)=";
-                        int degre = coefficientsDuPolynomeDansLOrdre.size()-1;
-                        for (Double coefficient : coefficientsDuPolynomeDansLOrdre){
-                            if(coefficient>0 || coefficient==0){
-                                if (coefficientsDuPolynomeDansLOrdre.size()-1!=degre){
-                                    fonctionGenere+="+";
+                            PolynomialRegression polynomialRegression = new PolynomialRegression(points,degreDuPolynome);
+                            for (int i = 0; i < polynomialRegression.getCoefficients().length; i++) {
+                                for (int j = 0; j < polynomialRegression.getCoefficients()[i].length; j++) {
+                                    coefficientsDuPolynome.add(polynomialRegression.getCoefficients()[i][j]);
                                 }
                             }
-                            fonctionGenere+=arrondirChiffreEnFonctionDuNombreDeChiffresSignificatifs(3,coefficient);
-                            if (degre!=0){
-                                fonctionGenere+="*X^"+degre;
+
+
+                            int abscisseCourante = 1;
+                            LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
+                            while(abscisseCourante<=modeReglage.getVitesseRotation().getValMaxJauge()){
+                                double ordonneeCalculee = 0;
+                                int degre = 0;
+                                for(Double coefficient : coefficientsDuPolynome) {
+                                    ordonneeCalculee += coefficient * Math.pow(abscisseCourante, degre);
+                                    degre++;
+                                }
+                                series.appendData(new DataPoint(abscisseCourante,ordonneeCalculee),true,10000);
+                                modeReglage.modifierMaxAbscisseEtOrdonneeDeLEquationGenereEnFonctionDuNouveauPoint(abscisseCourante,ordonneeCalculee);
+                                abscisseCourante ++;
                             }
-                            degre--;
+                            regressionPolynomial=series;
+                            regressionPolynomial.setDrawDataPoints(false);
+                            regressionPolynomial.setThickness(5);
+                            regressionPolynomial.setColor(Color.GREEN);
+                            afficherLesPointsSurLeGraphique();
+
+                            for (Double coefficient : coefficientsDuPolynome){
+                                coefficientsDuPolynomeDansLOrdre.add(coefficient);
+                            }
+                            String fonctionGenere = "f(x)=";
+                            int degre = coefficientsDuPolynomeDansLOrdre.size()-1;
+                            for (Double coefficient : coefficientsDuPolynomeDansLOrdre){
+                                if(coefficient>0 || coefficient==0){
+                                    if (coefficientsDuPolynomeDansLOrdre.size()-1!=degre){
+                                        fonctionGenere+="+";
+                                    }
+                                }
+                                fonctionGenere+=arrondirChiffreEnFonctionDuNombreDeChiffresSignificatifs(3,coefficient);
+                                if (degre!=0){
+                                    fonctionGenere+="*X^"+degre;
+                                }
+                                degre--;
+                            }
+                            affichageFonctionGenere.setText(fonctionGenere);
+
+
                         }
-                        affichageFonctionGenere.setText(fonctionGenere);
-
-
+                        else {
+                            Toast messageAucunPointSaisi = Toast.makeText(getApplicationContext(),
+                                    "Aucun point n'a été ajouté !",
+                                    Toast.LENGTH_SHORT);
+                            messageAucunPointSaisi.show();
+                        }
                     }
+
                 });
                 builder.setNegativeButton(R.string.annuler, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -683,7 +703,7 @@ public class ModeReglageActivity extends AppCompatActivity {
                 // Code here executes on main thread after user presses button
                 AlertDialog.Builder builder = new AlertDialog.Builder(ModeReglageActivity.this);
                 builder.setTitle(R.string.transfererProfil);
-                builder.setSingleChoiceItems(R.array.transfererProfilAlertDialog,0, new DialogInterface.OnClickListener() {
+                builder.setSingleChoiceItems(R.array.transfererProfilAlertDialog,-1, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
@@ -699,40 +719,49 @@ public class ModeReglageActivity extends AppCompatActivity {
                 builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // User clicked OK button
-                        if(modeReglage.getVitesseRotation().getValCourante()==0) {
-                            switch (choixUtilisateurTransfererProfil) {
-                                case envoyerProfilAppli:
-                                    if (modeReglage.getPointsDuProfilAppli().size()==11){
-                                        int i = 1;
-                                        while (i<=modeReglage.getPointsDuProfilAppli().size()-1){
-                                            bluetooth.send("N"+i+Math.round(modeReglage.getPointsDuProfilAppli().get(i).getAbscisse())+";Ie"+i+arrondirChiffreEnFonctionDuNombreDeChiffresApresLaVrigule(1,modeReglage.getPointsDuProfilAppli().get(i).getOrdonnee()));
-                                            i++;
+                        if (choixUtilisateurTransfererProfil!=null){
+                            if(modeReglage.getVitesseRotation().getValCourante()==0) {
+                                switch (choixUtilisateurTransfererProfil) {
+                                    case envoyerProfilAppli:
+                                        if (modeReglage.getPointsDuProfilAppli().size()==11){
+                                            int i = 1;
+                                            while (i<=modeReglage.getPointsDuProfilAppli().size()-1){
+                                                bluetooth.send("N"+i+Math.round(modeReglage.getPointsDuProfilAppli().get(i).getAbscisse())+";Ie"+i+arrondirChiffreEnFonctionDuNombreDeChiffresApresLaVrigule(1,modeReglage.getPointsDuProfilAppli().get(i).getOrdonnee()));
+                                                i++;
+                                            }
                                         }
-                                    }
-                                    else {
-                                        Toast profilAppliIncomplet = Toast.makeText(getApplicationContext(),
-                                                "Le profilAppli ne contient pas les 10 points, veuillez générer un profil complet !",
+                                        else {
+                                            Toast profilAppliIncomplet = Toast.makeText(getApplicationContext(),
+                                                    "Le profilAppli ne contient pas les 10 points, veuillez générer un profil complet !",
+                                                    Toast.LENGTH_SHORT);
+                                            profilAppliIncomplet.show();
+                                        }
+                                        break;
+                                    case recevoirProfilConv:
+                                        bluetooth.send("**");
+                                        break;
+                                    default:
+                                        Toast aucuneChoixeffectue = Toast.makeText(getApplicationContext(),
+                                                "Vous n'avez rien sélectionné !",
                                                 Toast.LENGTH_SHORT);
-                                        profilAppliIncomplet.show();
-                                    }
-                                    break;
-                                case recevoirProfilConv:
-                                    bluetooth.send("**");
-                                    break;
-                                default:
-                                    Toast aucuneChoixeffectue = Toast.makeText(getApplicationContext(),
-                                            "Vous n'avez rien sélectionné !",
-                                            Toast.LENGTH_SHORT);
-                                    aucuneChoixeffectue.show();
-                                    break;
+                                        aucuneChoixeffectue.show();
+                                        break;
+                                }
+                            }
+                            else {
+                                Toast eolienneEnFonctionnement = Toast.makeText(getApplicationContext(),
+                                        "Vous ne pouvez pas effectuer de transfert tant que l'éolienne est en fonctionnement",
+                                        Toast.LENGTH_SHORT);
+                                eolienneEnFonctionnement.show();
                             }
                         }
                         else {
-                            Toast eolienneEnFonctionnement = Toast.makeText(getApplicationContext(),
-                                    "Vous ne pouvez pas effectuer de transfert tant que l'éolienne est en fonctionnement",
+                            Toast aucuneChoixeffectue = Toast.makeText(getApplicationContext(),
+                                    "Vous n'avez rien sélectionné !",
                                     Toast.LENGTH_SHORT);
-                            eolienneEnFonctionnement.show();
+                            aucuneChoixeffectue.show();
                         }
+
                     }
                 });
                 builder.setNegativeButton(R.string.annuler, new DialogInterface.OnClickListener() {
