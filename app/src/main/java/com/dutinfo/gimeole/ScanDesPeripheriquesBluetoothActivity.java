@@ -22,11 +22,30 @@ import me.aflak.bluetooth.Bluetooth;
 import me.aflak.bluetooth.interfaces.BluetoothCallback;
 import me.aflak.bluetooth.interfaces.DiscoveryCallback;
 
+/**
+ * Activité qui permet d'effectuer un scan des périphériques Bluetooth et de sélectionner celui auquel on veut se connecter.
+ * Après avoir choisi le périphérique l'application rentre en mode production (MainActivity.java).
+ */
 public class ScanDesPeripheriquesBluetoothActivity extends AppCompatActivity {
+    /**
+     * The Paired device list.
+     */
     ListView pairedDeviceList;
+    /**
+     * The Device list.
+     */
     ListView deviceList;
+    /**
+     * The State.
+     */
     TextView state;
+    /**
+     * The Progress.
+     */
     ProgressBar progress;
+    /**
+     * The Scan button.
+     */
     Button scanButton;
 
     private Bluetooth bluetooth;

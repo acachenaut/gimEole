@@ -1,35 +1,45 @@
 package com.dutinfo.gimeole.ClassesUtiles;
 
-import java.text.DecimalFormat;
-
+/**
+ * Boite à outils est une classe regroupant un ensemble de fonctions utiles au fonctionnement de l'application GimEole.
+ * Elle permet principalement de traiter des nombres afin de les arrondir ou de les écrire sous une forme différente.
+ */
 public class BoiteAOutils {
 
-    public static String obtenirEcritureScientifiqueEnFonctionDuNombreDeChiffresApresLaVirgule(int nombreDeChiffresApresLaVirgule, Double chiffreATransfromer){
+    /**
+     * Fonction permettant d'btenir l'écriture scientifique d'un nombre en choisissant le nombre de chiffres après la virgule.
+     * Les puissance de 10 sont représenté par le carctère E suivi du nombre de la puissance.
+     *
+     * @param nombreDeChiffresApresLaVirgule le nombre chiffres après la vrigule qu'il faut obtenir
+     * @param nombreATransfromer            le nombre à traiter
+     * @return Retourne le nombre sous forme d'une chaîne de carctère.
+     */
+    public static String obtenirEcritureScientifiqueEnFonctionDuNombreDeChiffresApresLaVirgule(int nombreDeChiffresApresLaVirgule, Double nombreATransfromer){
         int puissanceDe10 = 0;
         boolean estPuissanceNegative = false, estChiffreNegatif = false;
         String chiffreAAfficher = "";
-        if (!chiffreATransfromer.equals(0.0) && !chiffreATransfromer.equals(-0.0) ){
-            if (chiffreATransfromer.compareTo(0.0)<0){
+        if (!nombreATransfromer.equals(0.0) && !nombreATransfromer.equals(-0.0) ){
+            if (nombreATransfromer.compareTo(0.0)<0){
                 estChiffreNegatif=true;
-                chiffreATransfromer=Math.abs(chiffreATransfromer);
+                nombreATransfromer=Math.abs(nombreATransfromer);
             }
-            if (chiffreATransfromer.compareTo(10.0)>0){
+            if (nombreATransfromer.compareTo(10.0)>0){
                 do{
-                    chiffreATransfromer=chiffreATransfromer/10;
+                    nombreATransfromer=nombreATransfromer/10;
                     puissanceDe10++;
-                }while (chiffreATransfromer.compareTo(10.0)>0);
+                }while (nombreATransfromer.compareTo(10.0)>0);
             }
-            else if (chiffreATransfromer.compareTo(1.0)<0){
+            else if (nombreATransfromer.compareTo(1.0)<0){
                 do {
-                    chiffreATransfromer=chiffreATransfromer*10;
+                    nombreATransfromer=nombreATransfromer*10;
                     puissanceDe10++;
-                }while (chiffreATransfromer.compareTo(1.0)<0);
+                }while (nombreATransfromer.compareTo(1.0)<0);
                 estPuissanceNegative = true;
             }
             if (estChiffreNegatif){
                 chiffreAAfficher+="-";
             }
-            chiffreAAfficher += String.valueOf(arrondirChiffreEnFonctionDuNombreDeChiffresApresLaVrigule(nombreDeChiffresApresLaVirgule,chiffreATransfromer));
+            chiffreAAfficher += String.valueOf(arrondirNombreEnFonctionDuNombreDeChiffresApresLaVrigule(nombreDeChiffresApresLaVirgule,nombreATransfromer));
             chiffreAAfficher+="E";
             if (estPuissanceNegative){
                 chiffreAAfficher+="-";
@@ -43,9 +53,16 @@ public class BoiteAOutils {
         return chiffreAAfficher;
     }
 
-    public static String arrondirChiffreEnFonctionDuNombreDeChiffresSignificatifs(int nombreDeChiffresSignificatifs, Double chiffreATransformer){
+    /**
+     * Fonction permettant d'arrondir un nombre en choisissant le nombre de chiffres significatifs qu'il doit contenir.
+     *
+     * @param nombreDeChiffresSignificatifs le nombre de chiffres significatifs
+     * @param nombreATransformer           le nombre à traiter
+     * @return Retourne le nombre sous forme d'une chaîne de carctère.
+     */
+    public static String arrondirNombreEnFonctionDuNombreDeChiffresSignificatifs(int nombreDeChiffresSignificatifs, Double nombreATransformer){
 
-        double valeur = chiffreATransformer;
+        double valeur = nombreATransformer;
         int nombreDeChiffreAvantLaVirgule;
         boolean estNegatif = false;
         if (valeur<0){
@@ -87,8 +104,15 @@ public class BoiteAOutils {
 
     }
 
-    public static double arrondirChiffreEnFonctionDuNombreDeChiffresApresLaVrigule (int nombreDeChiffresApresLaVirgule, double chiffreATransformer){
-        double valeur = chiffreATransformer;
+    /**
+     * Fonction permettant d'arrondir un nombre en choisissant le nombre de chiffres après la virgule.
+     *
+     * @param nombreDeChiffresApresLaVirgule le nombre de chiffres après la virgule
+     * @param nombreATransformer            le nombre à traiter
+     * @return Retourne le nombre sous forme décimale.
+     */
+    public static double arrondirNombreEnFonctionDuNombreDeChiffresApresLaVrigule(int nombreDeChiffresApresLaVirgule, double nombreATransformer){
+        double valeur = nombreATransformer;
         valeur = valeur*Math.pow(10,nombreDeChiffresApresLaVirgule);
         valeur = Math.round(valeur);
         valeur  = valeur/Math.pow(10,nombreDeChiffresApresLaVirgule);

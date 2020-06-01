@@ -13,13 +13,55 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Activité de paramètrage de l'application. Ici l'utilsateur pourra paramétrer les maximums des jauges et le courant de freinage.
+ */
 public class ReglageJaugeActivity extends AppCompatActivity {
 
-    Spinner listeDeroulanteVitesseRotation, listeDeroulanteTensionEnEntree, listeDeroulanteCourantEnEntree, listeDeroulanteTensionEnSortie, listeDeroulanteCourantEnSortie, listeDeroulantePuissanceFournie, listeDeroulanteEnergiePorduite, listeDeroulanteTemperatureAlternateur, listeDeroulanteTemperatureFrein, listeDeroulanteCourantDeFreinage;
+    /**
+     * The Liste deroulante vitesse rotation.
+     */
+    Spinner listeDeroulanteVitesseRotation, /**
+     * The Liste deroulante tension en entree.
+     */
+    listeDeroulanteTensionEnEntree, /**
+     * The Liste deroulante courant en entree.
+     */
+    listeDeroulanteCourantEnEntree, /**
+     * The Liste deroulante tension en sortie.
+     */
+    listeDeroulanteTensionEnSortie, /**
+     * The Liste deroulante courant en sortie.
+     */
+    listeDeroulanteCourantEnSortie, /**
+     * The Liste deroulante puissance fournie.
+     */
+    listeDeroulantePuissanceFournie, /**
+     * The Liste deroulante energie porduite.
+     */
+    listeDeroulanteEnergiePorduite, /**
+     * The Liste deroulante temperature alternateur.
+     */
+    listeDeroulanteTemperatureAlternateur, /**
+     * The Liste deroulante temperature frein.
+     */
+    listeDeroulanteTemperatureFrein, /**
+     * The Liste deroulante courant de freinage.
+     */
+    listeDeroulanteCourantDeFreinage;
 
+    /**
+     * The Bouton reglage jauges.
+     */
     Button boutonReglageJauges;
 
+    /**
+     * Tableau de double qui contient le min et max des valeurs. Il contiendra les valeurs envoyées depuis le modeProduction.
+     */
     double[] tabMinMax;
+    /**
+     * The Courant de freinage.
+     */
     double courantDeFreinage;
 
 
@@ -196,6 +238,15 @@ public class ReglageJaugeActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Méthode qui permet d'intialiser la liste déroulante des paramètre pour les jauges.
+     *
+     * @param listeCourante              la liste à initialiser
+     * @param positionDuMaxDansLeTableau la position du maximum actuel contenu dans le tableau
+     * @param valMinDuMaxDeLaJauge       la valeur minimale du maximum que l'on peut paramétrer
+     * @param valMaxDuMaxDeLaJauge       la valeur maximale du maximum que l'on peut paramétrer
+     * @param pas                        le pas entre chaque réglage
+     */
     public void chargerListeDeroulante(Spinner listeCourante, int positionDuMaxDansLeTableau, int valMinDuMaxDeLaJauge, int valMaxDuMaxDeLaJauge, int pas){
         List<String> list = new ArrayList<String>();
         list.add(String.valueOf((int) tabMinMax[positionDuMaxDansLeTableau]));
@@ -212,12 +263,23 @@ public class ReglageJaugeActivity extends AppCompatActivity {
         listeCourante.setAdapter(dataAdapter);
     }
 
-    public void chargerListeDeroulanteDesTemperatures(Spinner listeCourante, int positionDuMaxDansLeTableau, int valMinDuMaxDeLaJauge, int valMaxDuMaxDeLaJauge, int pas){
+    /**
+     * Méthode qui permet d'intialiser la liste déroulante des paramètre pour les thermomètres/températures.
+     * Elle est différent de chargerListeDeroulante car les thermomètres ne peuvent pas avoir un trop grand écart entre le min et le max.
+     * Les réglages générés permettent donc de sélectionner la différence entre le min et le max du thermomètre.
+     *
+     * @param listeCourante              la liste à initialiser
+     * @param positionDuMaxDansLeTableau la position du maximum actuel contenu dans le tableau
+     * @param valMinDeLIntervalle       la valeur minimale de l'intervalle min-max
+     * @param valMaxDeLIntervalle       la valeur maximale de l'intervalle min-max
+     * @param pas                        le pas entre chaque réglage
+     */
+    public void chargerListeDeroulanteDesTemperatures(Spinner listeCourante, int positionDuMaxDansLeTableau, int valMinDeLIntervalle, int valMaxDeLIntervalle, int pas){
         List<String> list = new ArrayList<String>();
         list.add(String.valueOf((int) (tabMinMax[positionDuMaxDansLeTableau]-tabMinMax[positionDuMaxDansLeTableau-1])));
-        int valMin = valMinDuMaxDeLaJauge;
+        int valMin = valMinDeLIntervalle;
         int increment = pas;
-        while(valMin<=valMaxDuMaxDeLaJauge){
+        while(valMin<=valMaxDeLIntervalle){
             if (valMin!=(tabMinMax[positionDuMaxDansLeTableau]-tabMinMax[positionDuMaxDansLeTableau-1])){
                 list.add(String.valueOf(valMin));
             }
@@ -228,6 +290,14 @@ public class ReglageJaugeActivity extends AppCompatActivity {
         listeCourante.setAdapter(dataAdapter);
     }
 
+    /**
+     * Méthode qui permet d'intialiser la liste déroulante du courant de freinage étant donné que sa valeur n'est pas contenu dans le tableau tabMinMax.
+     *
+     * @param listeCourante              la liste à initialiser
+     * @param valMinDuCourantDeFreinage la val min du courant de freinage
+     * @param valMaxDuCourantDeFreinage la val max du courant de freinage
+     * @param pas                        le pas entre chaque réglage
+     */
     public void chargerListeDeroulanteCourantDeFreinage(Spinner listeCourante, int valMinDuCourantDeFreinage, int valMaxDuCourantDeFreinage, int pas){
         List<String> list = new ArrayList<String>();
         list.add(String.valueOf(courantDeFreinage));

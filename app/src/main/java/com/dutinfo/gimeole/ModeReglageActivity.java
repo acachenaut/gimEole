@@ -13,7 +13,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -40,55 +39,232 @@ import java.util.List;
 import me.aflak.bluetooth.Bluetooth;
 import me.aflak.bluetooth.interfaces.DeviceCallback;
 
-import static com.dutinfo.gimeole.ClassesUtiles.BoiteAOutils.arrondirChiffreEnFonctionDuNombreDeChiffresApresLaVrigule;
-import static com.dutinfo.gimeole.ClassesUtiles.BoiteAOutils.arrondirChiffreEnFonctionDuNombreDeChiffresSignificatifs;
+import static com.dutinfo.gimeole.ClassesUtiles.BoiteAOutils.arrondirNombreEnFonctionDuNombreDeChiffresApresLaVrigule;
+import static com.dutinfo.gimeole.ClassesUtiles.BoiteAOutils.arrondirNombreEnFonctionDuNombreDeChiffresSignificatifs;
 import static com.dutinfo.gimeole.ClassesUtiles.BoiteAOutils.obtenirEcritureScientifiqueEnFonctionDuNombreDeChiffresApresLaVirgule;
 
+/**
+ * Seconde activité principale de l'application. Elle correspond au mode réglage.
+ */
 public class ModeReglageActivity extends AppCompatActivity {
 
-    //Création du modeProduction
+    /**
+     * The Mode reglage.
+     */
+//Création du modeProduction
     final ModeReglage modeReglage = new ModeReglage();
 
     //Nécessaire à la connexion Bluetooth
     private Bluetooth bluetooth;
     private BluetoothDevice device;
 
-    //Création valeurs à afficher
-    TextView vitesseRotation, tensionEnEntree, courantEnEntree, puissanceFournie, affichageUniteAmpere,affichageDixiemeAmpere,affichageAmpere;
-    //Création de l'indicateur Bluetooth et de du nom du périphérique connecté
+    /**
+     * The Vitesse rotation.
+     */
+//Création valeurs à afficher
+    TextView vitesseRotation, /**
+     * The Tension en entree.
+     */
+    tensionEnEntree, /**
+     * The Courant en entree.
+     */
+    courantEnEntree, /**
+     * The Puissance fournie.
+     */
+    puissanceFournie, /**
+     * The Affichage unite ampere.
+     */
+    affichageUniteAmpere, /**
+     * The Affichage dixieme ampere.
+     */
+    affichageDixiemeAmpere, /**
+     * The Affichage ampere.
+     */
+    affichageAmpere;
+    /**
+     * The Logo bluetooth.
+     */
+//Création de l'indicateur Bluetooth et de du nom du périphérique connecté
     ImageView logoBluetooth;
+    /**
+     * The Nom peripherique bluetooth.
+     */
     TextView nomPeripheriqueBluetooth;
 
-    //Création des bouttons de l'activité
-    Button boutonModeProduction,boutonPointPrecedent, boutonPointSuivant,boutonSupprimerPoint, boutonTransfererProfil,boutonFreiner;
+    /**
+     * The Bouton mode production.
+     */
+//Création des bouttons de l'activité
+    Button boutonModeProduction, /**
+     * The Bouton point precedent.
+     */
+    boutonPointPrecedent, /**
+     * The Bouton point suivant.
+     */
+    boutonPointSuivant, /**
+     * The Bouton supprimer point.
+     */
+    boutonSupprimerPoint, /**
+     * The Bouton transferer profil.
+     */
+    boutonTransfererProfil, /**
+     * The Bouton freiner.
+     */
+    boutonFreiner;
+    /**
+     * The Bouton reglage jauges.
+     */
     Button boutonReglageJauges;
-    Button boutonMoins1Ampere,boutonPlus1Ampere,boutonMoins1DixiemeAmpere,boutonPlus1DixiemeAmpere,boutonAjouterPoint,boutonModeSuivant,boutonModifierPoint,boutonModePrecedent, boutonGenererProfilAppli, boutonGenererEquation, boutonAffichageFonctionGenere;
+    /**
+     * The Bouton moins 1 ampere.
+     */
+    Button boutonMoins1Ampere, /**
+     * The Bouton plus 1 ampere.
+     */
+    boutonPlus1Ampere, /**
+     * The Bouton moins 1 dixieme ampere.
+     */
+    boutonMoins1DixiemeAmpere, /**
+     * The Bouton plus 1 dixieme ampere.
+     */
+    boutonPlus1DixiemeAmpere, /**
+     * The Bouton ajouter point.
+     */
+    boutonAjouterPoint, /**
+     * The Bouton mode suivant.
+     */
+    boutonModeSuivant, /**
+     * The Bouton modifier point.
+     */
+    boutonModifierPoint, /**
+     * The Bouton mode precedent.
+     */
+    boutonModePrecedent, /**
+     * The Bouton generer profil appli.
+     */
+    boutonGenererProfilAppli, /**
+     * The Bouton generer equation.
+     */
+    boutonGenererEquation, /**
+     * The Bouton affichage fonction genere.
+     */
+    boutonAffichageFonctionGenere;
 
-    //Création du graphique
+    /**
+     * The Graphique.
+     */
+//Création du graphique
     GraphView graphique;
 
-    EditText abscisseSaisie,ordonneeSaisie;
+    /**
+     * The Abscisse saisie.
+     */
+    EditText abscisseSaisie, /**
+     * The Ordonnee saisie.
+     */
+    ordonneeSaisie;
 
-    //Série de points affichés actuellement
+    /**
+     * Série contenant les points du profilAppli affichés sur le graphique
+     */
     LineGraphSeries<DataPoint> profilAppli = new LineGraphSeries<>();
+    /**
+     * Série contenant les points du profilConv affichés sur le graphique
+     */
     LineGraphSeries<DataPoint> profilConv = new LineGraphSeries<>();
+    /**
+     * Série de points contenant le point de fonctionnement affiché sur le graphique
+     */
     PointsGraphSeries<DataPoint> pointDeFonctionnement = null;
+    /**
+     * Série de points contenant le point selectionné par l'utilisateur affiché sur le graphique
+     */
     PointsGraphSeries<DataPoint> pointSelectionne = new PointsGraphSeries<>();
+    /**
+     * Série contenant les points de la regressionPolynomial affichés sur le graphique
+     */
     LineGraphSeries<DataPoint> regressionPolynomial = null;
 
 
-    //indicateur permettant de savoir si le bluetooth a été deconnecté à cause d'un changement d'activité
+    /**
+     * The Est deconnecte du bluetooth car changement d activite.
+     */
+//indicateur permettant de savoir si le bluetooth a été deconnecté à cause d'un changement d'activité
     boolean estDeconnecteDuBluetoothCarChangementDActivite;
 
 
-    enum choixGenererProfilAppli {aPartirDUnPoint,aPartinDeLEnsembleDesPoints,aPartirDuPorfilConv,aPartirDUnFichierCSV}
+    /**
+     * The enum Choix generer profil appli.
+     */
+    enum choixGenererProfilAppli {
+        /**
+         * A partir d un point choix generer profil appli.
+         */
+        aPartirDUnPoint,
+        /**
+         * A partin de l ensemble des points choix generer profil appli.
+         */
+        aPartinDeLEnsembleDesPoints,
+        /**
+         * A partir du porfil conv choix generer profil appli.
+         */
+        aPartirDuPorfilConv,
+        /**
+         * A partir d un fichier csv choix generer profil appli.
+         */
+        aPartirDUnFichierCSV}
+
+    /**
+     * The Choix utilisateur generer profil appli.
+     */
     choixGenererProfilAppli choixUtilisateurGenererProfilAppli;
-    enum choixTransfererProfil {envoyerProfilAppli,recevoirProfilConv}
+
+    /**
+     * The enum Choix transferer profil.
+     */
+    enum choixTransfererProfil {
+        /**
+         * Envoyer profil appli choix transferer profil.
+         */
+        envoyerProfilAppli,
+        /**
+         * Recevoir profil conv choix transferer profil.
+         */
+        recevoirProfilConv}
+
+    /**
+     * The Choix utilisateur transferer profil.
+     */
     choixTransfererProfil choixUtilisateurTransfererProfil;
-    enum choixAdapterMaximumOuAnnulerTransfertDuProfilConv {adapterMaximum, annulerTransfert}
+
+    /**
+     * The enum Choix adapter maximum ou annuler transfert du profil conv.
+     */
+    enum choixAdapterMaximumOuAnnulerTransfertDuProfilConv {
+        /**
+         * Adapter maximum choix adapter maximum ou annuler transfert du profil conv.
+         */
+        adapterMaximum,
+        /**
+         * Annuler transfert choix adapter maximum ou annuler transfert du profil conv.
+         */
+        annulerTransfert}
+
+    /**
+     * The Choix utilisateur adapter ou annuler.
+     */
     choixAdapterMaximumOuAnnulerTransfertDuProfilConv choixUtilisateurAdapterOuAnnuler = choixAdapterMaximumOuAnnulerTransfertDuProfilConv.adapterMaximum;
+    /**
+     * The Degre du polynome.
+     */
     int degreDuPolynome;
+    /**
+     * The Coefficients du polynome.
+     */
     ArrayList<Double> coefficientsDuPolynome = new ArrayList<>();
+    /**
+     * The Coefficients du polynome dans l ordre.
+     */
     ArrayList<Double> coefficientsDuPolynomeDansLOrdre = new ArrayList<>();
 
 
@@ -130,7 +306,7 @@ public class ModeReglageActivity extends AppCompatActivity {
 
         //Lien entre les boutons de l'interface et l'activité
         boutonModeProduction = findViewById(R.id.t_boutonModeProd);
-        boutonPointPrecedent = findViewById(R.id.t_boutonPointPrécédent);
+        boutonPointPrecedent = findViewById(R.id.t_boutonPointPrecedent);
         boutonPointSuivant = findViewById(R.id.t_boutonPointSuivant);
         boutonSupprimerPoint = findViewById(R.id.t_boutonSupprimerPoint);
         boutonMoins1Ampere = findViewById(R.id.t_boutonMoins1Ampere);
@@ -669,7 +845,7 @@ public class ModeReglageActivity extends AppCompatActivity {
                                         fonctionGenere+="+";
                                     }
                                 }
-                                fonctionGenere+=arrondirChiffreEnFonctionDuNombreDeChiffresSignificatifs(3,coefficient);
+                                fonctionGenere+= arrondirNombreEnFonctionDuNombreDeChiffresSignificatifs(3,coefficient);
                                 if (degre!=0){
                                     fonctionGenere+="*X^"+degre;
                                 }
@@ -728,7 +904,7 @@ public class ModeReglageActivity extends AppCompatActivity {
                                         if (modeReglage.getPointsDuProfilAppli().size()==11){
                                             int i = 1;
                                             while (i<=modeReglage.getPointsDuProfilAppli().size()-1){
-                                                bluetooth.send("N"+i+Math.round(modeReglage.getPointsDuProfilAppli().get(i).getAbscisse())+";Ie"+i+arrondirChiffreEnFonctionDuNombreDeChiffresApresLaVrigule(1,modeReglage.getPointsDuProfilAppli().get(i).getOrdonnee()));
+                                                bluetooth.send("N"+i+Math.round(modeReglage.getPointsDuProfilAppli().get(i).getAbscisse())+";Ie"+i+ arrondirNombreEnFonctionDuNombreDeChiffresApresLaVrigule(1,modeReglage.getPointsDuProfilAppli().get(i).getOrdonnee()));
                                                 i++;
                                             }
                                         }
@@ -823,33 +999,47 @@ public class ModeReglageActivity extends AppCompatActivity {
         estDeconnecteDuBluetoothCarChangementDActivite=false;
     }
 
+    /**
+     * Méthode qui permet de mettre à jour les TextView affichants les valeurs du réglage manuel du courant en entrée
+     */
     private void afficherChangementReglageManuelCourantEnEntree() {
         affichageUniteAmpere.setText(String.valueOf(modeReglage.getCourantEnEntreeReglageManuelUnite()));
         affichageDixiemeAmpere.setText(String.valueOf("0."+modeReglage.getCourantEnEntreeReglageManuelDixieme()));
         affichageAmpere.setText(modeReglage.getCourantEnEntreeReglageManuelUnite()+"."+modeReglage.getCourantEnEntreeReglageManuelDixieme());
     }
 
+    /**
+     * Envoyer courant en entrée à l éolienne à partir de la valeur paramétrée dans le modeReglage
+     */
     public void envoyerCourantEnEntreeALEolienne(){
         bluetooth.send("*"+modeReglage.getCourantEnEntreeReglageManuelUnite()+"."+modeReglage.getCourantEnEntreeReglageManuelDixieme());
     }
 
+    /**
+     * Cette méthode est appelé lorsque l'application reçoit une donnée envoyée par l'éolienne.
+     * La donnée est traitée en fonction de son premier caractère. C'est cela qui permet de savoir à quelle valeur elle correspond.
+     * Les valeurs sont affcihées dans des TextView pour seulement 4 éléments (vitesse de rotation, tention en entrée, courant en entrée et puissance fournie).
+     * Permet également de traiter la réception du prfilConv
+     *
+     * @param chaineRecuParBluetooth donnée reçue par bluetooth
+     */
     public void afficherValeur (String chaineRecuParBluetooth){
         String premierCaractere = (chaineRecuParBluetooth.substring(0,1));
         String valeurCourante = (chaineRecuParBluetooth.substring(1));
         switch (premierCaractere){
             case "$" :
                 modeReglage.getVitesseRotation().setValCourante(Double.parseDouble(valeurCourante));
-                vitesseRotation.setText(arrondirChiffreEnFonctionDuNombreDeChiffresSignificatifs(4,modeReglage.getVitesseRotation().getValCourante()));
+                vitesseRotation.setText(arrondirNombreEnFonctionDuNombreDeChiffresSignificatifs(4,modeReglage.getVitesseRotation().getValCourante()));
                 afficherPointDeFonctionnement();
                 break;
             case ":" :
                 modeReglage.getTensionEnEntree().setValCourante(Double.parseDouble(valeurCourante));
-                tensionEnEntree.setText(arrondirChiffreEnFonctionDuNombreDeChiffresSignificatifs(3,modeReglage.getTensionEnEntree().getValCourante()));
+                tensionEnEntree.setText(arrondirNombreEnFonctionDuNombreDeChiffresSignificatifs(3,modeReglage.getTensionEnEntree().getValCourante()));
                 afficherPointDeFonctionnement();
                 break;
             case ";" :
                 modeReglage.getCourantEnEntree().setValCourante(Double.parseDouble(valeurCourante));
-                courantEnEntree.setText(arrondirChiffreEnFonctionDuNombreDeChiffresSignificatifs(3,modeReglage.getCourantEnEntree().getValCourante()));
+                courantEnEntree.setText(arrondirNombreEnFonctionDuNombreDeChiffresSignificatifs(3,modeReglage.getCourantEnEntree().getValCourante()));
                 break;
             case "[" :
                 modeReglage.getTensionEnSortie().setValCourante(Double.parseDouble(valeurCourante));
@@ -859,7 +1049,7 @@ public class ModeReglageActivity extends AppCompatActivity {
                 break;
             case "%" :
                 modeReglage.getPuissanceFournie().setValCourante(Double.parseDouble(valeurCourante));
-                puissanceFournie.setText(arrondirChiffreEnFonctionDuNombreDeChiffresSignificatifs(3,modeReglage.getPuissanceFournie().getValCourante()));
+                puissanceFournie.setText(arrondirNombreEnFonctionDuNombreDeChiffresSignificatifs(3,modeReglage.getPuissanceFournie().getValCourante()));
                 break;
             case "!" :
                 modeReglage.getEnergieProduite().setValCourante(Double.parseDouble(valeurCourante));
@@ -878,6 +1068,12 @@ public class ModeReglageActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Méthode qui permet d'enregistrer le profilConv dans le modeProduction. Chaque point est traité en fonction de son indice.
+     * Si les coordonnées de l'un des points reçus est supérieur au maximum paramétré dans le modeReglage une fênetre pop-up apparît afin de demander si l'utilisateur veut modifier le maximum de l'élément qui pose problème.
+     *
+     * @param points the points
+     */
     public void enregistrerLeProfilConv(String points){
         String indice = points.substring(1,2);
         String abscisse;
@@ -1028,6 +1224,11 @@ public class ModeReglageActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Permet d'afficher le point sélectionné par l'utilisateur sur le graphique.
+     *
+     * @param positionDuPoint the position du point
+     */
     public void afficherPointSelectionne(int positionDuPoint){
         PointsGraphSeries<DataPoint> point = new PointsGraphSeries<>(new DataPoint[] {
                 new DataPoint(modeReglage.getPointsDuProfilAppli().get(positionDuPoint).getAbscisse(), modeReglage.getPointsDuProfilAppli().get(positionDuPoint).getOrdonnee())
@@ -1039,6 +1240,9 @@ public class ModeReglageActivity extends AppCompatActivity {
         afficherLesPointsSurLeGraphique();
     }
 
+    /**
+     * Permet d'afficher tous les points de toutes les séries sur le graphique.
+     */
     public void afficherLesPointsSurLeGraphique(){
         LineGraphSeries<DataPoint> seriesProfilAppli = new LineGraphSeries<>();
         for(Point pointCourant : modeReglage.getPointsDuProfilAppli()){
@@ -1061,7 +1265,7 @@ public class ModeReglageActivity extends AppCompatActivity {
         profilConv.setThickness(8);
 
         graphique.removeAllSeries();
-        adapterEchelleDuGraphqiue();
+        adapterEchelleDuGraphique();
         graphique.addSeries(profilConv);
         if(regressionPolynomial!=null){
             graphique.addSeries(regressionPolynomial);
@@ -1075,6 +1279,9 @@ public class ModeReglageActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Initialiser le graphique.
+     */
     public void initialiserGraphique(){
         graphique.getViewport().setYAxisBoundsManual(true);
         graphique.getViewport().setMinY(0);
@@ -1084,6 +1291,9 @@ public class ModeReglageActivity extends AppCompatActivity {
         graphique.getViewport().setMaxX(modeReglage.getVitesseRotation().getValMaxJauge());
     }
 
+    /**
+     * Afficher point de fonctionnement.
+     */
     public void afficherPointDeFonctionnement(){
         PointsGraphSeries<DataPoint> point = new PointsGraphSeries<>(new DataPoint[] {
                 new DataPoint(modeReglage.getVitesseRotation().getValCourante(), modeReglage.getCourantEnEntree().getValCourante())
@@ -1103,7 +1313,10 @@ public class ModeReglageActivity extends AppCompatActivity {
         afficherLesPointsSurLeGraphique();
     }
 
-    public void adapterEchelleDuGraphqiue(){
+    /**
+     * Adapter l'échelle du graphique en fonction des coordonnées du plus grand point.
+     */
+    public void adapterEchelleDuGraphique(){
         graphique.getViewport().setXAxisBoundsManual(true);
         graphique.getViewport().setMinX(0);
         graphique.getViewport().setMaxX(modeReglage.getMaxAbscisseDuGraphique());

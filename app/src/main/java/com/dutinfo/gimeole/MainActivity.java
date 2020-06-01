@@ -27,43 +27,199 @@ import me.aflak.bluetooth.Bluetooth;
 import me.aflak.bluetooth.interfaces.DeviceCallback;
 
 
+/**
+ * Activité principale de l'application. Elle correspond au mode production.
+ */
 public class MainActivity extends AppCompatActivity {
 
-    //Création du modeProduction
+    /**
+     * The Mode production.
+     */
+//Création du modeProduction
     final ModeProduction modeProduction = new ModeProduction();
 
-    //Création des jauges
-    GR008 jaugeVitesseRotation, jaugeTensionEnEntree, jaugeCourantEnEntree, jaugeTensionEnSortie, jaugeCourantEnSortie, jaugePuissanceFournie;
+    /**
+     * The Jauge vitesse rotation.
+     */
+//Création des jauges
+    GR008 jaugeVitesseRotation, /**
+     * The Jauge tension en entree.
+     */
+    jaugeTensionEnEntree, /**
+     * The Jauge courant en entree.
+     */
+    jaugeCourantEnEntree, /**
+     * The Jauge tension en sortie.
+     */
+    jaugeTensionEnSortie, /**
+     * The Jauge courant en sortie.
+     */
+    jaugeCourantEnSortie, /**
+     * The Jauge puissance fournie.
+     */
+    jaugePuissanceFournie;
+    /**
+     * The Jauge energie produite.
+     */
     RoundCornerProgressBar jaugeEnergieProduite;
+    /**
+     * The Echelle logarithmique.
+     */
     GraphView echelleLogarithmique;
+    /**
+     * The Cache du graphe de le echelle logarithmique.
+     */
     FrameLayout cacheDuGrapheDeLeEchelleLogarithmique;
-    ThermometerView thermometreAlternateur, thermometreFrein;
-    ThermometerView.ThermometerBuilder thermometreAlternateurType, thermometreFreinType;
+    /**
+     * The Thermometre alternateur.
+     */
+    ThermometerView thermometreAlternateur, /**
+     * The Thermometre frein.
+     */
+    thermometreFrein;
+    /**
+     * The Thermometre alternateur type.
+     */
+    ThermometerView.ThermometerBuilder thermometreAlternateurType, /**
+     * The Thermometre frein type.
+     */
+    thermometreFreinType;
 
-    //Création valeurs à afficher
-    TextView vitesseRotation, tensionEnEntree, courantEnEntree, tensionEnSortie, courantEnSortie, puissanceFournie, energieProduite, temperatureAlternateur,temperatureFrein, nomJaugeCourante;
+    /**
+     * The Vitesse rotation.
+     */
+//Création valeurs à afficher
+    TextView vitesseRotation, /**
+     * The Tension en entree.
+     */
+    tensionEnEntree, /**
+     * The Courant en entree.
+     */
+    courantEnEntree, /**
+     * The Tension en sortie.
+     */
+    tensionEnSortie, /**
+     * The Courant en sortie.
+     */
+    courantEnSortie, /**
+     * The Puissance fournie.
+     */
+    puissanceFournie, /**
+     * The Energie produite.
+     */
+    energieProduite, /**
+     * The Temperature alternateur.
+     */
+    temperatureAlternateur, /**
+     * The Temperature frein.
+     */
+    temperatureFrein, /**
+     * The Nom jauge courante.
+     */
+    nomJaugeCourante;
 
-    //Création des valeurs moyennes et max à afficher
-    TextView valeurMoyenne, valeurMax, valeurEnergie;
+    /**
+     * The Valeur moyenne.
+     */
+//Création des valeurs moyennes et max à afficher
+    TextView valeurMoyenne, /**
+     * The Valeur max.
+     */
+    valeurMax, /**
+     * The Valeur energie.
+     */
+    valeurEnergie;
 
-    //Création des noms des jauges à afficher
-    String nomJaugeVitesseRotation,nomJaugeTensionEnEntree,nomJaugeCourantEnEntree,nomJaugeTensionEnSortie,nomJaugeCourantEnSortie,nomJaugeEnergieProduite,nomJaugePuissanceFournie,nomJaugeTemperatureAlternateur,nomJaugeTemperatureFrein;
+    /**
+     * The Nom jauge vitesse rotation.
+     */
+//Création des noms des jauges à afficher
+    String nomJaugeVitesseRotation, /**
+     * The Nom jauge tension en entree.
+     */
+    nomJaugeTensionEnEntree, /**
+     * The Nom jauge courant en entree.
+     */
+    nomJaugeCourantEnEntree, /**
+     * The Nom jauge tension en sortie.
+     */
+    nomJaugeTensionEnSortie, /**
+     * The Nom jauge courant en sortie.
+     */
+    nomJaugeCourantEnSortie, /**
+     * The Nom jauge energie produite.
+     */
+    nomJaugeEnergieProduite, /**
+     * The Nom jauge puissance fournie.
+     */
+    nomJaugePuissanceFournie, /**
+     * The Nom jauge temperature alternateur.
+     */
+    nomJaugeTemperatureAlternateur, /**
+     * The Nom jauge temperature frein.
+     */
+    nomJaugeTemperatureFrein;
 
-    //Création de l'indicateur Bluetooth et de du nom du périphérique connecté
+    /**
+     * The Logo bluetooth.
+     */
+//Création de l'indicateur Bluetooth et de du nom du périphérique connecté
     ImageView logoBluetooth;
+    /**
+     * The Nom peripherique bluetooth.
+     */
     TextView nomPeripheriqueBluetooth;
 
-    //Création des bouttons permettant de changer la jauge affiché
-    Button boutonVitesseRotation,boutonTensionEnEntree,boutonCourantEnEntree,boutonTensionEnSortie,boutonCourantEnSortie,boutonPuissanceFournie,boutonEnergieProduite,boutonTemperatureAlternateur,boutonTemperatureFrein,boutonRAZenergie;
+    /**
+     * The Bouton vitesse rotation.
+     */
+//Création des bouttons permettant de changer la jauge affiché
+    Button boutonVitesseRotation, /**
+     * The Bouton tension en entree.
+     */
+    boutonTensionEnEntree, /**
+     * The Bouton courant en entree.
+     */
+    boutonCourantEnEntree, /**
+     * The Bouton tension en sortie.
+     */
+    boutonTensionEnSortie, /**
+     * The Bouton courant en sortie.
+     */
+    boutonCourantEnSortie, /**
+     * The Bouton puissance fournie.
+     */
+    boutonPuissanceFournie, /**
+     * The Bouton energie produite.
+     */
+    boutonEnergieProduite, /**
+     * The Bouton temperature alternateur.
+     */
+    boutonTemperatureAlternateur, /**
+     * The Bouton temperature frein.
+     */
+    boutonTemperatureFrein, /**
+     * The Bouton ra zenergie.
+     */
+    boutonRAZenergie;
 
-    //Création du bouton permettant d'entrer dans l'activité réglage et test
-    Button boutonReglageJauges, boutonModeReglage;
+    /**
+     * The Bouton reglage jauges.
+     */
+//Création du bouton permettant d'entrer dans l'activité réglage et test
+    Button boutonReglageJauges, /**
+     * The Bouton mode reglage.
+     */
+    boutonModeReglage;
 
     //Nécessaire à la connexion Bluetooth
     private Bluetooth bluetooth;
     private BluetoothDevice device;
 
-    //indicateur permettant de savoir si le bluetooth a été deconnecté à cause d'un changement d'activité
+    /**
+     * estDeconnecteDuBluetoothCarChangementDActivite indique si l'application n'est pas connecté à l'éolienne à cause d'un changement d'actvité. Cela pemret de savoir s'il faut essayer de se reconnecter ou non.
+     */
+//indicateur permettant de savoir si le bluetooth a été deconnecté à cause d'un changement d'activité
     boolean estDeconnecteDuBluetoothCarChangementDActivite;
 
 
@@ -302,7 +458,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
+    /**
+     * Cette méthode permet de créer le thermomètre de l'alternateur en fonction des régalges contenu dans le modeProduction.
+     * C'est grâce à cela que le thermomètre peut être reconstruit lor du changement du minimum et du maximum.
+     */
     public void parametrerEtAfficherThermometreAlternateur(){
         thermometreAlternateurType = new ThermometerView.ThermometerBuilder(this.getApplicationContext());
         thermometreAlternateurType.setMinScaleValue((float) modeProduction.getTemperatureAlternateur().getValMinJauge());
@@ -319,6 +478,10 @@ public class MainActivity extends AppCompatActivity {
         layoutOfDynamicContent.addView(thermometreAlternateur, params);
     }
 
+    /**
+     * Cette fonction permet de créer le thermomètre du frein en fonction des régalges contenu dans le modeProduction.
+     * C'est grâce à cela que le thermomètre peut être reconstruit lor du changement du minimum et du maximum.
+     */
     public void parametrerEtAfficherThermometreFrein(){
         thermometreFreinType = new ThermometerView.ThermometerBuilder(this.getApplicationContext());
         thermometreFreinType.setMinScaleValue((float) modeProduction.getTemperatureFrein().getValMinJauge());
@@ -336,6 +499,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Cette méthode est appelé lorsque l'application reçoit une donnée envoyée par l'éolienne.
+     * La donnée est traitée en fonction de son premier caractère. C'est cela qui permet de savoir à quelle valeur elle correspond.
+     * En fonction de l'état dans lequel se trouve le mode production la valeur moyenne et maximale de la valeur en question est affichée.
+     * Dans n'importe lequel des états les valeurs sont affcihées dans des TextView et les jauges sont mises à jour.
+     *
+     * @param chaineRecuParBluetooth donnée reçue par bluetooth
+     */
     public void afficherValeur (String chaineRecuParBluetooth){
         String premierCaractere = (chaineRecuParBluetooth.substring(0,1));
         String valeurCourante = (chaineRecuParBluetooth.substring(1));
@@ -343,34 +514,34 @@ public class MainActivity extends AppCompatActivity {
             case "$" :
                 modeProduction.getVitesseRotation().setValCourante(Double.parseDouble(valeurCourante));
                 jaugeVitesseRotation.setValue(modeProduction.getVitesseRotation().getValCourante());
-                vitesseRotation.setText(BoiteAOutils.arrondirChiffreEnFonctionDuNombreDeChiffresSignificatifs(4,modeProduction.getVitesseRotation().getValCourante()));
+                vitesseRotation.setText(BoiteAOutils.arrondirNombreEnFonctionDuNombreDeChiffresSignificatifs(4,modeProduction.getVitesseRotation().getValCourante()));
                 break;
             case ":" :
                 modeProduction.getTensionEnEntree().setValCourante(Double.parseDouble(valeurCourante));
                 jaugeTensionEnEntree.setValue(modeProduction.getTensionEnEntree().getValCourante());
-                tensionEnEntree.setText(BoiteAOutils.arrondirChiffreEnFonctionDuNombreDeChiffresSignificatifs(3,modeProduction.getTensionEnEntree().getValCourante()));
+                tensionEnEntree.setText(BoiteAOutils.arrondirNombreEnFonctionDuNombreDeChiffresSignificatifs(3,modeProduction.getTensionEnEntree().getValCourante()));
 
                 break;
             case ";" :
                 modeProduction.getCourantEnEntree().setValCourante(Double.parseDouble(valeurCourante));
                 jaugeCourantEnEntree.setValue(modeProduction.getCourantEnEntree().getValCourante());
-                courantEnEntree.setText(BoiteAOutils.arrondirChiffreEnFonctionDuNombreDeChiffresSignificatifs(3,modeProduction.getCourantEnEntree().getValCourante()));
+                courantEnEntree.setText(BoiteAOutils.arrondirNombreEnFonctionDuNombreDeChiffresSignificatifs(3,modeProduction.getCourantEnEntree().getValCourante()));
                 break;
             case "[" :
                 modeProduction.getTensionEnSortie().setValCourante(Double.parseDouble(valeurCourante));
                 jaugeTensionEnSortie.setValue(modeProduction.getTensionEnSortie().getValCourante());
-                tensionEnSortie.setText(BoiteAOutils.arrondirChiffreEnFonctionDuNombreDeChiffresSignificatifs(3,modeProduction.getTensionEnSortie().getValCourante()));
+                tensionEnSortie.setText(BoiteAOutils.arrondirNombreEnFonctionDuNombreDeChiffresSignificatifs(3,modeProduction.getTensionEnSortie().getValCourante()));
 
                 break;
             case "]" :
                 modeProduction.getCourantEnSortie().setValCourante(Double.parseDouble(valeurCourante));
                 jaugeCourantEnSortie.setValue(modeProduction.getCourantEnSortie().getValCourante());
-                courantEnSortie.setText(BoiteAOutils.arrondirChiffreEnFonctionDuNombreDeChiffresSignificatifs(3,modeProduction.getCourantEnSortie().getValCourante()));
+                courantEnSortie.setText(BoiteAOutils.arrondirNombreEnFonctionDuNombreDeChiffresSignificatifs(3,modeProduction.getCourantEnSortie().getValCourante()));
                 break;
             case "%" :
                 modeProduction.getPuissanceFournie().setValCourante(Double.parseDouble(valeurCourante));
                 jaugePuissanceFournie.setValue(modeProduction.getPuissanceFournie().getValCourante());
-                puissanceFournie.setText(BoiteAOutils.arrondirChiffreEnFonctionDuNombreDeChiffresSignificatifs(3,modeProduction.getPuissanceFournie().getValCourante()));
+                puissanceFournie.setText(BoiteAOutils.arrondirNombreEnFonctionDuNombreDeChiffresSignificatifs(3,modeProduction.getPuissanceFournie().getValCourante()));
                 break;
             case "!" :
                 modeProduction.getEnergieProduite().setValCourante(Double.parseDouble(valeurCourante));
@@ -381,13 +552,13 @@ public class MainActivity extends AppCompatActivity {
                 modeProduction.getTemperatureAlternateur().setValCourante(Double.parseDouble(valeurCourante));
                 changerMinMaxDuThermometreAlternateurCarValeurCouranteTropBasseOuTropElevee();
                 thermometreAlternateur.setValueAndStartAnim((float) modeProduction.getTemperatureAlternateur().getValCourante());
-                temperatureAlternateur.setText(BoiteAOutils.arrondirChiffreEnFonctionDuNombreDeChiffresSignificatifs(3,modeProduction.getTemperatureAlternateur().getValCourante()));
+                temperatureAlternateur.setText(BoiteAOutils.arrondirNombreEnFonctionDuNombreDeChiffresSignificatifs(3,modeProduction.getTemperatureAlternateur().getValCourante()));
                 break;
             case ")" :
                 modeProduction.getTemperatureFrein().setValCourante(Double.parseDouble(valeurCourante));
                 changerMinMaxDuThermometreFreinCarValeurCouranteTropBasseOuTropElevee();
                 thermometreFrein.setValueAndStartAnim((float) modeProduction.getTemperatureFrein().getValCourante());
-                temperatureFrein.setText(BoiteAOutils.arrondirChiffreEnFonctionDuNombreDeChiffresSignificatifs(3,modeProduction.getTemperatureFrein().getValCourante()));
+                temperatureFrein.setText(BoiteAOutils.arrondirNombreEnFonctionDuNombreDeChiffresSignificatifs(3,modeProduction.getTemperatureFrein().getValCourante()));
                 break;
             default:
                 break;
@@ -426,6 +597,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Cette méthode permet de supprimer, lors d'un clic sur l'un des boutons de l'interface correspondant à une valeur, la jauge qui est affichée actuellement à l'écran.
+     * Elle traite l'état actuelle du modeProduction afin de savoir c'est quelle jauge qui est affichée.
+     */
     public void supprimerJaugeAfficheeActuellement(){
         switch (modeProduction.getEtatModeProduction()){
             case jaugeVitesseRotation:
@@ -483,6 +658,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Cette méthode permet d'afficher, lors d'un clic sur l'un des boutons de l'interface correspondant à une valeur, la jauge correspondante à la valeur selectionnée.
+     * Elle traite l'état récemment changé du modeProduction afin de savoir quelle jauge il faut afficher.
+     */
     public void afficherNouvelleJauge(){
         switch (modeProduction.getEtatModeProduction()){
             case jaugeVitesseRotation:
@@ -566,6 +745,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Cette méthode permet de mettre à jour le minimum et la maximum des jauges en fonctions des valeurs enregistrées dans le modeProduction.
+     */
     public void changerMinMaxDesJauges() {
         jaugeVitesseRotation.setMinValue(modeProduction.getVitesseRotation().getValMinJauge());
         jaugeVitesseRotation.setMaxValue(modeProduction.getVitesseRotation().getValMaxJauge());
@@ -589,6 +771,10 @@ public class MainActivity extends AppCompatActivity {
         changerEcartsEntreValeursDesJaugesCirculaires();
     }
 
+    /**
+     * Cette méthode permet de modifier les intevalles des petits et grands traits dans les jauges circulaires.
+     * Les intervalles sont calculées en fonction des valeurs enrgistrées dans le modeProduction pour le minimum et le maximum de l'élément.
+     */
     public void changerEcartsEntreValeursDesJaugesCirculaires(){
         jaugeVitesseRotation.setMajorTicks((modeProduction.getVitesseRotation().getValMaxJauge()- modeProduction.getVitesseRotation().getValMinJauge())/10);
         jaugeVitesseRotation.setMinorTicks((modeProduction.getVitesseRotation().getValMaxJauge()- modeProduction.getVitesseRotation().getValMinJauge())/10/4);
@@ -604,6 +790,10 @@ public class MainActivity extends AppCompatActivity {
         jaugePuissanceFournie.setMinorTicks((modeProduction.getPuissanceFournie().getValMaxJauge()- modeProduction.getPuissanceFournie  ().getValMinJauge())/10/4);
     }
 
+    /**
+     * Etant donné la petite taille des écrans des smartphones le thermomètres ne peuvant pas afficher une grande intervalle de valeurs entre le minimum et maximum.
+     * Cette fonction permet donc de mettre à jour le minimum et maximum en fonction de la valeur courante. Si la valeur courante est à moins de 5°C du minimum ou maximum, le minimum et maximum du thermomètre est mis à jour par pas de 5.
+     */
     public void changerMinMaxDuThermometreAlternateurCarValeurCouranteTropBasseOuTropElevee(){
         if(modeProduction.getTemperatureAlternateur().getValCourante()- modeProduction.getTemperatureAlternateur().getValMinJauge()<5){
             do {
@@ -622,6 +812,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Etant donné la petite taille des écrans des smartphones le thermomètres ne peuvant pas afficher une grande intervalle de valeurs entre le minimum et maximum.
+     * Cette fonction permet donc de mettre à jour le minimum et maximum en fonction de la valeur courante. Si la valeur courante est à moins de 5°C du minimum ou maximum, le minimum et maximum du thermomètre est mis à jour par pas de 5.
+     */
     public void changerMinMaxDuThermometreFreinCarValeurCouranteTropBasseOuTropElevee(){
         if(modeProduction.getTemperatureFrein().getValCourante()- modeProduction.getTemperatureFrein().getValMinJauge()<5){
             do {

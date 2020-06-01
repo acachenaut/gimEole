@@ -16,6 +16,9 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
 import java.util.List;
 
+/**
+ * Activité qui permet de demander les permissions qui sont inscrites dans le manifests.
+ */
 public class DemandeDesAutorisationsActivity extends AppCompatActivity {
 
     @Override
@@ -24,6 +27,9 @@ public class DemandeDesAutorisationsActivity extends AppCompatActivity {
         askPermissions();
     }
 
+    /**
+     * Ask permissions.
+     */
     void askPermissions(){
         Dexter.withActivity(this).withPermissions(
             Manifest.permission.BLUETOOTH,
